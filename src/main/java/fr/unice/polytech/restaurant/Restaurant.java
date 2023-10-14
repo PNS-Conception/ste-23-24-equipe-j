@@ -37,10 +37,20 @@ public class Restaurant {
     }
 
     /**
+     * Récupère le nombre de menu du restaurant
+     * @return Le nombre de menu
+     */
+    public int nombreMenu() {
+        return menus.size();
+    }
+
+    /**
      * Récupère les menus du restaurant
      * @return les menus sous forme de liste
      */
-    public List<Menu> getMenus() {
+    public List<Menu> getMenus() throws AucunMenuException {
+        if (nombreMenu() == 0)
+            throw new AucunMenuException();
         return menus.stream().toList();
     }
 
