@@ -6,4 +6,4 @@ Fonctionnalité: Ajouter un plat dans la commande en cours de création
     Et que je veux ajouter 1 quantité de plat de "tagliatelles au saumon" à 10€
     Quand j'ajoute 1 quantité sur le plat
     Alors 1 quantité de ce plat sera dans ma commande
-    Et le prix de la commande est à "10€"
+    Et le prix de la commande est à 10€
