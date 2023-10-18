@@ -42,6 +42,9 @@ public class RestaurantSystem {
 
         return oPTr.get();
     }
+    public boolean contientRestaurant(Restaurant restaurant){
+       return restaurants.stream().anyMatch(r->r.equals(restaurant));
+    }
 
     /**
      * Ajoute un restaurant

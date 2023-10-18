@@ -1,6 +1,12 @@
 package fr.unice.polytech.restaurant;
 
 import java.util.*;
+import fr.unice.polytech.utils.Position;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Classe Restaurant
@@ -11,6 +17,7 @@ public class Restaurant {
     private final Set<Menu> menus;
     private HashMap<Integer,Commande> commandes;
     private Coordinate coordonnees;
+    private Position position;
 
     // Constructor
 
@@ -24,6 +31,15 @@ public class Restaurant {
         menus = new HashSet<>();
         this.nomRestaurant = nomRestaurant;
     }
+    public Restaurant(String nomRestaurant, String position) {
+        if (nomRestaurant == null || nomRestaurant.isEmpty())
+            throw new IllegalArgumentException("Nom vide");
+        menus = new HashSet<>();
+        this.nomRestaurant = nomRestaurant;
+        this.position=new Position(position);
+
+    }
+
 
     public Restaurant(String nomRestaurant, Coordinate coordonnees) {
         this(nomRestaurant);
