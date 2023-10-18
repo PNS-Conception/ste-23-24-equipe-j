@@ -1,6 +1,7 @@
 package fr.unice.polytech.restaurant;
 
 
+import fr.unice.polytech.nourriture.Menu;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
 import io.cucumber.java.fr.Etantdonnéque;
@@ -14,30 +15,30 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 public class ObtenirMenuStepdefs {
-    RestaurantSystem restaurantSystem;
+    RestaurantManager restaurantManager;
     Restaurant restaurant;
 
     @Etantdonnéque("l'utilisateur à une liste de restaurant :")
     public void getRestaurants(List<String> listeRestaurant) {
-        restaurantSystem = new RestaurantSystem();
+        restaurantManager = new RestaurantManager();
 
         for (String nomRestaurant : listeRestaurant)
-            restaurantSystem.addRestaurant(new Restaurant(nomRestaurant));
+            restaurantManager.addRestaurant(new Restaurant(nomRestaurant));
 
-        assertEquals(listeRestaurant.size(), restaurantSystem.getRestaurants().size());
+        assertEquals(listeRestaurant.size(), restaurantManager.getRestaurants().size());
     }
 
     @Et("le restaurant {string} a ces menus :")
     public void ajoutMenus(String nomRestaurant, List<String> menus) {
-        Restaurant restaurantAjoutMenu = restaurantSystem.getRestaurant(nomRestaurant);
+        Restaurant restaurantAjoutMenu = restaurantManager.getRestaurantParNom(nomRestaurant);
 
         for (String menu : menus)
-            restaurantAjoutMenu.addMenu(new Menu(menu));
+            restaurantAjoutMenu.addMenu(new Menu(menu, 0));
     }
 
     @Quand("l'utilisateur choisi le restaurant de nom {string}")
     public void choisiRestaurant(String nomRestaurant) {
-        restaurant = restaurantSystem.getRestaurant(nomRestaurant);
+        restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         assertEquals(nomRestaurant, restaurant.getNomRestaurant());
     }
 
@@ -54,7 +55,7 @@ public class ObtenirMenuStepdefs {
         List<Menu> menusArg = new ArrayList<>();
 
         for (String nomMenu : menus)
-            menusArg.add(new Menu(nomMenu));
+            menusArg.add(new Menu(nomMenu, 0));
 
         menusRT.sort(Comparator.comparing(Menu::nomMenu));
         menusArg.sort(Comparator.comparing(Menu::nomMenu));
