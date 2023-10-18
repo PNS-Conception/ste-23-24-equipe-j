@@ -1,6 +1,7 @@
 package fr.unice.polytech.restaurant;
 
 import fr.unice.polytech.nourriture.Menu;
+import java.util.*;
 import fr.unice.polytech.utils.Position;
 
 import java.util.HashSet;
@@ -16,7 +17,8 @@ public class Restaurant {
     private final String nomRestaurant;
     private final Set<Menu> menus;
     private final Position position;
-
+    private HashMap<Integer,Commande> commandes;
+    private Coordinate coordonnees;
     // Constructeur
 
     /**
@@ -42,7 +44,26 @@ public class Restaurant {
     }
 
 
+    public Restaurant(String nomRestaurant, Coordinate coordonnees) {
+        this(nomRestaurant);
+        this.coordonnees = coordonnees;
+        this.commandes = new HashMap<>();
+    }
+
     // Accessor
+
+    public HashMap<Integer,Commande> getCommandes() {
+        return commandes;
+    }
+
+    public void addCommande(Commande commande) {
+        this.commandes.remove(commande.getId());
+        this.commandes.put(commande.getId(), commande);
+    }
+
+    public Coordinate getCoordonnees() {
+        return coordonnees;
+    }
 
     /**
      * Récupérer le nom du restaurant
@@ -95,4 +116,6 @@ public class Restaurant {
     public int hashCode(){
         return Objects.hash(nomRestaurant, position);
     }
+
+
 }
