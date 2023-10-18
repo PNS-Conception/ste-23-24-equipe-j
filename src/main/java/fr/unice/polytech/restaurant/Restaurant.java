@@ -1,5 +1,6 @@
 package fr.unice.polytech.restaurant;
 
+import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.utils.Position;
 
 import java.util.HashSet;
@@ -14,26 +15,29 @@ import java.util.Set;
 public class Restaurant {
     private final String nomRestaurant;
     private final Set<Menu> menus;
-    private Position position;
+    private final Position position;
 
-    // Constructor
+    // Constructeur
+
+    /**
+     * Constructeur pour les tests donnant une position par défaut
+     * @param nomRestaurant nom du restaurant
+     */
+    protected Restaurant(String nomRestaurant) {
+        this(nomRestaurant, new Position("Default"));
+    }
 
     /**
      * Constructeur par défaut
-     * @param nomRestaurant nom du Restaurant
+     * @param nomRestaurant nom du restaurant
+     * @param position la position du restaurant
      */
-    public Restaurant(String nomRestaurant) {
+    public Restaurant(String nomRestaurant, Position position) {
         if (nomRestaurant == null || nomRestaurant.isEmpty())
             throw new IllegalArgumentException("Nom vide");
         menus = new HashSet<>();
         this.nomRestaurant = nomRestaurant;
-    }
-    public Restaurant(String nomRestaurant, String position) {
-        if (nomRestaurant == null || nomRestaurant.isEmpty())
-            throw new IllegalArgumentException("Nom vide");
-        menus = new HashSet<>();
-        this.nomRestaurant = nomRestaurant;
-        this.position=new Position(position);
+        this.position= position;
 
     }
 
@@ -84,11 +88,11 @@ public class Restaurant {
         else if (o == null || o.getClass() != Restaurant.class)
             return false;
         Restaurant restaurant = (Restaurant) o;
-        return restaurant.getNomRestaurant().equals(getNomRestaurant());
+        return restaurant.getNomRestaurant().equals(getNomRestaurant()) && position.equals(restaurant.position);
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(nomRestaurant);
+        return Objects.hash(nomRestaurant, position);
     }
 }

@@ -27,12 +27,12 @@ public class AjouterPlatALaCommande {
     @Quand("j'ajoute {int} quantité sur le plat")
     public void ajoutPlatDansCommande(int quantite){
         sousCommande.ajout_plat(plat);
-        assertTrue(sousCommande.getPlats().containsKey(plat.getName()));
+        assertTrue(sousCommande.getPlats().containsKey(plat));
     }
 
     @Alors("{int} quantité de ce plat sera dans ma commande")
     public void getQuantitePlatDansLaCommande(int quantite){
-        int quantiteCommande = sousCommande.getPlats().get(plat.getName());
+        int quantiteCommande = sousCommande.getPlats().get(plat);
         assertEquals(quantite, quantiteCommande);
     }
 

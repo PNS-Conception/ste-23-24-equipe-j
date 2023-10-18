@@ -9,14 +9,14 @@ import java.util.Set;
  * Classe contenant tous les Restaurants
  * @author Equipe J
  */
-public class RestaurantSystem {
+public class RestaurantManager {
     private final Set<Restaurant> restaurants;
 
     // Constructeur
     /**
      * Constructeur par défaut
      */
-    public RestaurantSystem() {
+    public RestaurantManager() {
         restaurants = new HashSet<>();
     }
 
@@ -34,16 +34,14 @@ public class RestaurantSystem {
      * @param nomRestaurant nom du restaurant à récupérer
      * @return Le restaurant de nom "nomRestaurant"
      */
-    public Restaurant getRestaurant(String nomRestaurant){
-        Optional<Restaurant> oPTr = restaurants.stream().filter(r -> r.getNomRestaurant().equals(nomRestaurant)).findFirst();
+    public Restaurant getRestaurantParNom(String nomRestaurant){
+        Optional<Restaurant> oPTr = restaurants.stream()
+                .filter(r -> r.getNomRestaurant().equals(nomRestaurant)).findFirst();
 
         if (oPTr.isEmpty())
             throw new IllegalArgumentException("Il n'existe pas de restaurant de ce nom là");
 
         return oPTr.get();
-    }
-    public boolean contientRestaurant(Restaurant restaurant){
-       return restaurants.stream().anyMatch(r->r.equals(restaurant));
     }
 
     /**
