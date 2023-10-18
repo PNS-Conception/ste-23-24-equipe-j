@@ -1,5 +1,7 @@
 package fr.unice.polytech.restaurant;
 
+import fr.unice.polytech.utils.Position;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -12,6 +14,7 @@ import java.util.Set;
 public class Restaurant {
     private final String nomRestaurant;
     private final Set<Menu> menus;
+    private Position position;
 
     // Constructor
 
@@ -25,6 +28,15 @@ public class Restaurant {
         menus = new HashSet<>();
         this.nomRestaurant = nomRestaurant;
     }
+    public Restaurant(String nomRestaurant, String position) {
+        if (nomRestaurant == null || nomRestaurant.isEmpty())
+            throw new IllegalArgumentException("Nom vide");
+        menus = new HashSet<>();
+        this.nomRestaurant = nomRestaurant;
+        this.position=new Position(position);
+
+    }
+
 
     // Accessor
 
