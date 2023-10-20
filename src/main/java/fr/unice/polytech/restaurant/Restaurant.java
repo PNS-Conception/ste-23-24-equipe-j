@@ -65,6 +65,10 @@ public class Restaurant {
         return coordonnees;
     }
 
+    public String getNom() {
+        return nomRestaurant;
+    }
+
     /**
      * Récupérer le nom du restaurant
      * @return Le nom du restaurant
