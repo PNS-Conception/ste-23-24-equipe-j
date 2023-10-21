@@ -1,26 +1,37 @@
 package fr.unice.polytech.nourriture;
 
+import fr.unice.polytech.restaurant.Restaurant;
+
 import java.util.List;
 import java.util.Objects;
 
 /**
  * Classe Plat
- * @Author Equipe J
+ * @author Equipe J
  */
 public class Plat implements MenuPlat {
-    private String nom;
-    private double prix;
-    private List<String> aliments;
-    private List<String> alergenes;
+    private final String nom;
+    private final double prix;
+    private final List<String> aliments;
+    private final List<String> alergenes;
+    private Restaurant restaurant;
 
+    /**
+     * Constructeur par défaut de Plat
+     * @param nom le nom du plat
+     * @param prix le prix du plat
+     * @param aliments les aliments du plat
+     * @param alergenes les alergenes du plat
+     */
     public Plat(String nom, double prix, List<String> aliments, List<String> alergenes){
         this.nom = nom;
         this.prix = prix;
         this.aliments = aliments;
         this.alergenes = alergenes;
+        restaurant = null;
     }
 
-    // Accesseurs
+    // Accesseurs et setters
 
     @Override
     public String getNom() {
@@ -31,6 +42,16 @@ public class Plat implements MenuPlat {
     @Override
     public double getPrix() {
         return prix;
+    }
+
+    @Override
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    @Override
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
 

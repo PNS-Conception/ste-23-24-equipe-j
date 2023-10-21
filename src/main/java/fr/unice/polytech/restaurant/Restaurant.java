@@ -1,7 +1,6 @@
 package fr.unice.polytech.restaurant;
 
-import fr.unice.polytech.nourriture.Menu;
-import java.util.*;
+import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.utils.Position;
 
 import java.util.HashSet;
@@ -15,10 +14,8 @@ import java.util.Set;
  */
 public class Restaurant {
     private final String nomRestaurant;
-    private final Set<Menu> menus;
+    private final Set<MenuPlat> menus;
     private final Position position;
-    private HashMap<Integer,Commande> commandes;
-    private Coordinate coordonnees;
     // Constructeur
 
     /**
@@ -40,30 +37,9 @@ public class Restaurant {
         menus = new HashSet<>();
         this.nomRestaurant = nomRestaurant;
         this.position= position;
-
     }
 
-
-    public Restaurant(String nomRestaurant, Coordinate coordonnees) {
-        this(nomRestaurant);
-        this.coordonnees = coordonnees;
-        this.commandes = new HashMap<>();
-    }
-
-    // Accessor
-
-    public HashMap<Integer,Commande> getCommandes() {
-        return commandes;
-    }
-
-    public void addCommande(Commande commande) {
-        this.commandes.remove(commande.getId());
-        this.commandes.put(commande.getId(), commande);
-    }
-
-    public Coordinate getCoordonnees() {
-        return coordonnees;
-    }
+    // Accesseur
 
     /**
      * Récupérer le nom du restaurant
@@ -85,10 +61,18 @@ public class Restaurant {
      * Récupère les menus du restaurant
      * @return les menus sous forme de liste
      */
-    public List<Menu> getMenus() throws AucunMenuException {
+    public List<MenuPlat> getMenus() throws AucunMenuException {
         if (nombreMenu() == 0)
             throw new AucunMenuException();
         return menus.stream().toList();
+    }
+
+    /**
+     * Récupère la position du restaurant
+     * @return la position du restaurant
+     */
+    public Position getPosition() {
+        return position;
     }
 
     /**
@@ -96,7 +80,8 @@ public class Restaurant {
      * @param m menu à ajouter
      * @return <code>true</code> si le code a été bien ajouté sinon <code>false</code>
      */
-    public boolean addMenu(Menu m) {
+    public boolean addMenu(MenuPlat m) {
+        m.setRestaurant(this);
         return menus.add(m);
     }
 
@@ -116,6 +101,4 @@ public class Restaurant {
     public int hashCode(){
         return Objects.hash(nomRestaurant, position);
     }
-
-
 }
