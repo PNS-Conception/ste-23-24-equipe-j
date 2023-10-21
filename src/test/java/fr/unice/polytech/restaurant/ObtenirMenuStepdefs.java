@@ -2,6 +2,7 @@ package fr.unice.polytech.restaurant;
 
 
 import fr.unice.polytech.nourriture.Menu;
+import fr.unice.polytech.nourriture.MenuPlat;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
 import io.cucumber.java.fr.Etantdonnéque;
@@ -44,7 +45,7 @@ public class ObtenirMenuStepdefs {
 
     @Alors("l'utilisateur dois obtenir les menus :")
     public void getMenuRestaurant(List<String> menus) {
-        List<Menu> menusRT = null;
+        List<MenuPlat> menusRT = null;
 
         try {
             menusRT = new ArrayList<>(restaurant.getMenus());
@@ -57,8 +58,8 @@ public class ObtenirMenuStepdefs {
         for (String nomMenu : menus)
             menusArg.add(new Menu(nomMenu, 0));
 
-        menusRT.sort(Comparator.comparing(Menu::nomMenu));
-        menusArg.sort(Comparator.comparing(Menu::nomMenu));
+        menusRT.sort(Comparator.comparing(MenuPlat::getNom));
+        menusArg.sort(Comparator.comparing(MenuPlat::getNom));
 
         assertEquals(menusRT, menusArg);
     }

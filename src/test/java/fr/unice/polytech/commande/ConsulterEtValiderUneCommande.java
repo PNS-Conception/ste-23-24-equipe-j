@@ -1,63 +1,71 @@
-package fr.unice.polytech.restaurant;
+package fr.unice.polytech.commande;
 
+import fr.unice.polytech.livraison.CompteLivreur;
+import fr.unice.polytech.livraison.EtatLivraisonCommande;
+import fr.unice.polytech.livraison.SystemeLivraison;
+import fr.unice.polytech.restaurant.*;
+import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.nourriture.Menu;
 import io.cucumber.java.fr.*;
 
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 
 public class ConsulterEtValiderUneCommande {
-
-    EtatSousCommande statusSousCommande;
-    EtatLivraisonCommande statusLivraisonCommande;
     Restaurant restaurant;
+    CommandeManager commandeManager = new CommandeManager();
     SystemeLivraison systemeLivraison = new SystemeLivraison();
 
-    @Etantdonnéque("le restaurateur de position {int},{int} a la liste des commandes en attente :")
+    @Etantdonnéque("le restaurateur de position {int},{int} a la liste des commandes en attente avec les menus :")
     public void getCommandes(Integer latitude, Integer longitude, List<String> listeCommande) {
-        this.restaurant = new Restaurant("Chinois", new Coordinate(latitude, longitude));
+        restaurant = new Restaurant("Chinois", new Position(latitude, longitude));
 
-        for (String commande : listeCommande)
-            this.restaurant.addCommande(new Commande(commande));
+        for (String nomMenu : listeCommande) {
+            Menu menu = new Menu(nomMenu, 0);
+            restaurant.addMenu(menu);
 
-        assertEquals(listeCommande.size(), this.restaurant.getCommandes().size());
+            Commande commande = new Commande();
+            commande.ajoutMenuPlat(menu, 1);
+            commandeManager.ajoutCommande(commande);
+        }
+
+        assertEquals(listeCommande.size(), commandeManager.getCommandeRestaurant(restaurant).size());
     }
 
     @Etque("le livreur {string} {string} est disponible au coordonnées {int} {int}")
     public void leLivreurEstDisponibleAuCoordonnées(String prenom, String nom, int latitude, int longitude) {
-        this.systemeLivraison.addLivreur(new Livreur(prenom, nom, new Coordinate(latitude, longitude)));
+        Position position = new Position(latitude, longitude);
+        this.systemeLivraison.addLivreur(new CompteLivreur(prenom, nom, position));
     }
 
 
-    @Etque("la commande {string} d'ID {int} a le status {string}")
-    public void setCommande(String nomCommande, Integer ID, String status) {
-        HashMap<Integer,Commande> commandes = this.restaurant.getCommandes();
+    @Etque("la commande avec le menu d'ID {int} à le status {string}")
+    public void setCommande(Integer id, String status) {
+        Commande commandeVoulu = commandeManager.getCommandeParID(id);
+        EtatCommande etatCommande = EtatCommande.getEtatSousCommande(status);
 
-        Commande commandeVoulu = commandes.get(ID);
-        commandeVoulu.setStatusPreparation(status);
-        this.restaurant.addCommande(commandeVoulu);
-
-        assertEquals(nomCommande, commandeVoulu.getNomCommande());
-        assertEquals(status, this.restaurant.getCommandes().get(ID).getStatusPreparation());
+        commandeVoulu.setEtatCommande(etatCommande);
+        assertEquals(id.intValue(), commandeVoulu.getId());
+        assertEquals(etatCommande, commandeManager.getCommandeParID(id).getEtatCommande());
     }
 
-    @Quand("le restaurateur valide la commande {string} d'ID {int} avec le status {string}")
-    public void setStatus(String nomCommande, Integer ID, String status) {
-        HashMap<Integer,Commande> commandes = this.restaurant.getCommandes();
+    @Quand("le restaurateur valide la commande avec le menu d'ID {int} avec le status {string}")
+    public void setStatus(Integer id, String status) {
+        Commande commandeVoulu = commandeManager.getCommandeParID(id);
+        EtatLivraisonCommande etatLivraisonCommande = EtatLivraisonCommande.getEtatLivraisonCommande(status);
 
-        Commande commandeVoulu = commandes.get(ID);
-        commandeVoulu.setStatusLivraison(status);
-        this.restaurant.addCommande(commandeVoulu);
+        commandeVoulu.setEtatLivraisonCommande(etatLivraisonCommande);
 
-        assertEquals(status, this.restaurant.getCommandes().get(ID).getStatusLivraison());
+        assertEquals(etatLivraisonCommande, commandeManager.getCommandeParID(id).getEtatLivraisonCommande());
     }
 
-    @Alors("le livreur peut retirer la commande {string} d'ID {int}, ie la commande est attribué au livreur le plus proche : {string} {string}")
-    public void leLivreurPeutRetirerLaCommandeDIDIeLaCommandeEstAttribuéAuLivreurLePlusProche(String nomCommande, Integer ID, String prenomLivreur, String nomLivreur) {
-        Coordinate coordonees = this.restaurant.getCoordonnees();
-        Livreur livreur = this.systemeLivraison.getClosestLivreur(coordonees);
-        assertEquals(livreur.getPrenom(), prenomLivreur);
-        assertEquals(livreur.getNom(), nomLivreur);
+    @Alors("le livreur peut retirer la commande avec le menu d'ID {int}, ie la commande est attribué au livreur le plus proche : {string} {string}")
+    public void leLivreurPeutRetirerLaCommandeDIDIeLaCommandeEstAttribuéAuLivreurLePlusProche(Integer ID, String prenomLivreur, String nomLivreur) {
+        Position position = restaurant.getPosition();
+        CompteLivreur compteLivreur = this.systemeLivraison.getPlusProcheLivreur(position);
+
+        assertEquals(compteLivreur.getPrenom(), prenomLivreur);
+        assertEquals(compteLivreur.getNom(), nomLivreur);
     }
 }
