@@ -22,7 +22,7 @@ public class Restaurant {
      * Constructeur pour les tests donnant une position par défaut
      * @param nomRestaurant nom du restaurant
      */
-    protected Restaurant(String nomRestaurant) {
+    public Restaurant(String nomRestaurant) {
         this(nomRestaurant, new Position("Default"));
     }
 
@@ -40,10 +40,6 @@ public class Restaurant {
     }
 
     // Accesseur
-
-    public String getNom() {
-        return nomRestaurant;
-    }
 
     /**
      * Récupérer le nom du restaurant

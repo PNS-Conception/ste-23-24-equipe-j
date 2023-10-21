@@ -4,8 +4,14 @@ import fr.unice.polytech.livraison.EtatLivraisonCommande;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.Plat;
 import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utils.Date;
+import fr.unice.polytech.utils.Horaire;
+import fr.unice.polytech.utils.Position;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Classe d'une commande d'une seul personne
@@ -18,9 +24,13 @@ public class Commande {
     private Restaurant restaurant;
     private EtatCommande etatCommande;
     private EtatLivraisonCommande etatLivraisonCommande;
+    private CompteUtilisateur compteUtilisateur;
+    private Date dateCommande;
+    private Horaire horaireCommande;
+    private Position positionALivrer;
 
     /**
-     * Constructeur par défaut de Commande
+     * Constructeur pour les tests
      */
     public Commande(){
         id = -1;
@@ -28,6 +38,15 @@ public class Commande {
         menuPlats = new HashMap<>();
         etatCommande = EtatCommande.EN_ATTENTE;
         etatLivraisonCommande = EtatLivraisonCommande.NON_PRETE_POUR_LIVRAISON;
+        compteUtilisateur = null;
+    }
+
+    /**
+     * Constructeur par défaut de Commande
+     */
+    public Commande(CompteUtilisateur compteUtilisateur) {
+        this();
+        this.compteUtilisateur = compteUtilisateur;
     }
 
     // Accesseurs et setters
@@ -81,11 +100,50 @@ public class Commande {
     }
 
     /**
+     * Retourne le compte utilisateur qui a passé la commande
+     */
+    public CompteUtilisateur getCompteUtilisateur() {
+        return compteUtilisateur;
+    }
+
+    /**
+     * Retourne la date de quand la commande doit être livré
+     * @return la date de la commande
+     */
+    public Date getDateCommande() {
+        return dateCommande;
+    }
+
+    /**
+     * Retourne l'horaire de quand la commande doit être livré
+     * @return l'horaire de la commande
+     */
+    public Horaire getHoraireCommande() {
+        return horaireCommande;
+    }
+
+    /**
+     * Retourne la position où la commande doit être livré
+     * @return la position de la commande
+     */
+    public Position getPositionALivrer() {
+        return positionALivrer;
+    }
+
+    /**
      * Permet au Système de Commande de mettre un identifiant au commande
      * @param id l'identifiant de la commande
      */
     protected void setId(int id) {
         this.id = id;
+    }
+
+    /**
+     * Ajoute la position où la commande doit être livré
+     * @param positionALivrer position de la commande
+     */
+    public void setPosition(Position positionALivrer) {
+        this.positionALivrer = positionALivrer;
     }
 
     /**
@@ -102,6 +160,22 @@ public class Commande {
      */
     public void setEtatLivraisonCommande(EtatLivraisonCommande etatLivraisonCommande) {
         this.etatLivraisonCommande = etatLivraisonCommande;
+    }
+
+    /**
+     * Ajoute la date de quand la commande doit être livré
+     * @param dateCommande la date de la commande
+     */
+    public void setDateCommande(fr.unice.polytech.utils.Date dateCommande) {
+        this.dateCommande = dateCommande;
+    }
+
+    /**
+     * Ajoute l'horaire de quand la commande doit être livré
+     * @param horaireCommande l'horaire de la commande
+     */
+    public void setHoraireCommande(Horaire horaireCommande) {
+        this.horaireCommande = horaireCommande;
     }
 
     // Méthodes

@@ -41,6 +41,26 @@ public class CommandeManager {
     }
 
     /**
+     * Payer la commande
+     * @param commande la commande à payer
+     * @return <code>true</code> si la commande a été payée
+     */
+    public boolean payerCommande(Commande commande) {
+        commande.setEtatCommande(EtatCommande.EN_PREPARATION);
+        return true;
+    }
+
+    /**
+     * Récupère la liste des commandes en préparation du restaurant
+     * @return la liste des commandes en préparation du restaurant
+     */
+    public List<Commande> getCommandeEnPreparationRestaurant(Restaurant restaurant) {
+        return commandes.stream()
+                .filter(commande -> commande.getEtatCommande() == EtatCommande.EN_PREPARATION &&
+                        restaurant.equals(commande.getRestaurant())).toList();
+    }
+
+    /**
      * Récupère la liste des commandes du restaurant
      * @param restaurant le restaurant où on veut récupérer ses commandes
      * @return la liste des commandes du restaurant
