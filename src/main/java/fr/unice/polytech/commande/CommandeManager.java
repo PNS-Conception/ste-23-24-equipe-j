@@ -1,6 +1,7 @@
 package fr.unice.polytech.commande;
 
 import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
 import java.util.HashSet;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Set;
  * @author Equipe J
  */
 public class CommandeManager {
-    private Set<Commande> commandes;
+    private final Set<Commande> commandes;
     private int id;
 
     /**
@@ -23,12 +24,13 @@ public class CommandeManager {
     }
 
     /**
-     * Ajout d'une commande dans le set de Commande, en lui ajoutant un id
-     * @param commande la commande à ajouter
+     * Création d'une commande pour un utilisateur dans un restaurant
+     * @param compteUtilisateur le CompteUtilisateur qui passe la commande
      */
-    public void ajoutCommande(Commande commande) {
-        commande.setId(id++);
+    public Commande creerCommande(CompteUtilisateur compteUtilisateur) {
+        Commande commande = new Commande(compteUtilisateur, id++);
         commandes.add(commande);
+        return commande;
     }
 
     /**
