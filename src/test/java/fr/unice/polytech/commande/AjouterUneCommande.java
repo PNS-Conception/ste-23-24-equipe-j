@@ -1,5 +1,6 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.restaurant.AucunMenuException;
@@ -29,7 +30,7 @@ public class AjouterUneCommande {
 
     @Etque("{string} {string} crée une commande")
     public void créeUneCommande(String prenom, String nom) {
-        commande = new Commande(compteUtilisateur);
+        commande = commandeManager.creerCommande(null);
 
         assertEquals(prenom, compteUtilisateur.getPrenom());
         assertEquals(nom, compteUtilisateur.getNom());
@@ -81,7 +82,6 @@ public class AjouterUneCommande {
             }
         }
 
-        commandeManager.ajoutCommande(commande);
         assertEquals(prix * 100, (int) commande.getPrix() * 100);
     }
 
@@ -90,9 +90,9 @@ public class AjouterUneCommande {
         Date date = new Date(dateInput);
         Horaire horaire = new Horaire(heureInput);
         Position position = compteUtilisateur.getAdresseEnregistreesParNom(adresseInput);
-        commande.setDateCommande(date);
-        commande.setHoraireCommande(horaire);
-        commande.setPosition(position);
+        InformationLivraison infoLivraison= new InformationLivraison(date, horaire, position);
+
+        commande.setInformationLivraison(infoLivraison);
     }
 
     @Quand("l'utilisateur paye sa commande à {int}€")
