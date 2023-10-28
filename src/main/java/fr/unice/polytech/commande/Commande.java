@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author Equipe J
  */
 public class Commande {
-    private int id;
+    private final int id;
     private double prixCommande;
     private final Map<MenuPlat, Integer> menuPlats;
     private Restaurant restaurant;
@@ -31,6 +31,7 @@ public class Commande {
         prixCommande = 0;
         menuPlats = new HashMap<>();
         etatCommande = EtatCommande.EN_ATTENTE;
+        informationLivraison = new InformationLivraison();
         compteUtilisateur = null;
     }
 
