@@ -14,7 +14,7 @@ public class AjouterPlatALaCommande {
 
     @Etantdonnéque("une commande en cours de création avec un montant qui s'élève à {double}€")
     public void createCommande(double prix){
-        commande = new Commande();
+        commande = new Commande(0);
         assertEquals(prix, commande.getPrix(), 0);
     }
 

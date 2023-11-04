@@ -1,13 +1,10 @@
 package fr.unice.polytech.commande;
 
-import fr.unice.polytech.livraison.EtatLivraisonCommande;
+import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.Plat;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.Date;
-import fr.unice.polytech.utils.Horaire;
-import fr.unice.polytech.utils.Position;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -18,34 +15,31 @@ import java.util.Objects;
  * @author Equipe J
  */
 public class Commande {
-    private int id;
+    private final int id;
     private double prixCommande;
     private final Map<MenuPlat, Integer> menuPlats;
     private Restaurant restaurant;
     private EtatCommande etatCommande;
-    private EtatLivraisonCommande etatLivraisonCommande;
     private CompteUtilisateur compteUtilisateur;
-    private Date dateCommande;
-    private Horaire horaireCommande;
-    private Position positionALivrer;
+    private InformationLivraison informationLivraison;
 
     /**
      * Constructeur pour les tests
      */
-    public Commande(){
-        id = -1;
+    public Commande(int id){
+        this.id = id;
         prixCommande = 0;
         menuPlats = new HashMap<>();
         etatCommande = EtatCommande.EN_ATTENTE;
-        etatLivraisonCommande = EtatLivraisonCommande.NON_PRETE_POUR_LIVRAISON;
+        informationLivraison = new InformationLivraison();
         compteUtilisateur = null;
     }
 
     /**
      * Constructeur par défaut de Commande
      */
-    public Commande(CompteUtilisateur compteUtilisateur) {
-        this();
+    public Commande(CompteUtilisateur compteUtilisateur, int id) {
+        this(id);
         this.compteUtilisateur = compteUtilisateur;
     }
 
@@ -76,14 +70,6 @@ public class Commande {
     }
 
     /**
-     * Retourne l'état de livraison de la commande
-     * @return l'état de la commande
-     */
-    public EtatLivraisonCommande getEtatLivraisonCommande() {
-        return etatLivraisonCommande;
-    }
-
-    /**
      * Retourne les plats ou menus et les quantités de la commande
      * @return les plats ou menus et les quantités de la commande
      */
@@ -107,44 +93,13 @@ public class Commande {
     }
 
     /**
-     * Retourne la date de quand la commande doit être livré
-     * @return la date de la commande
+     * Retourne les informations de livraison de la commande
+     * @return les informations de livraison de la commande
      */
-    public Date getDateCommande() {
-        return dateCommande;
+    public InformationLivraison getInformationLivraison() {
+        return informationLivraison;
     }
 
-    /**
-     * Retourne l'horaire de quand la commande doit être livré
-     * @return l'horaire de la commande
-     */
-    public Horaire getHoraireCommande() {
-        return horaireCommande;
-    }
-
-    /**
-     * Retourne la position où la commande doit être livré
-     * @return la position de la commande
-     */
-    public Position getPositionALivrer() {
-        return positionALivrer;
-    }
-
-    /**
-     * Permet au Système de Commande de mettre un identifiant au commande
-     * @param id l'identifiant de la commande
-     */
-    protected void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     * Ajoute la position où la commande doit être livré
-     * @param positionALivrer position de la commande
-     */
-    public void setPosition(Position positionALivrer) {
-        this.positionALivrer = positionALivrer;
-    }
 
     /**
      * Change le statut de la commande quand elle est terminée pour le client ou restaurant
@@ -155,27 +110,11 @@ public class Commande {
     }
 
     /**
-     * Change le statut d'une livraison d'une commande quand elle doit être livré ou est livré
-     * @param etatLivraisonCommande le nouveau statut de la livraison de la commande
+     * Ajoute les informations de livraison de la commande
+     * @param informationLivraison les informations de livraison de la commande
      */
-    public void setEtatLivraisonCommande(EtatLivraisonCommande etatLivraisonCommande) {
-        this.etatLivraisonCommande = etatLivraisonCommande;
-    }
-
-    /**
-     * Ajoute la date de quand la commande doit être livré
-     * @param dateCommande la date de la commande
-     */
-    public void setDateCommande(fr.unice.polytech.utils.Date dateCommande) {
-        this.dateCommande = dateCommande;
-    }
-
-    /**
-     * Ajoute l'horaire de quand la commande doit être livré
-     * @param horaireCommande l'horaire de la commande
-     */
-    public void setHoraireCommande(Horaire horaireCommande) {
-        this.horaireCommande = horaireCommande;
+    public void setInformationLivraison(InformationLivraison informationLivraison) {
+        this.informationLivraison = informationLivraison;
     }
 
     // Méthodes

@@ -2,6 +2,7 @@ package fr.unice.polytech.commande;
 
 import fr.unice.polytech.livraison.CompteLivreur;
 import fr.unice.polytech.livraison.EtatLivraisonCommande;
+import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.livraison.SystemeLivraison;
 import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utils.Position;
@@ -25,9 +26,8 @@ public class ConsulterEtValiderUneCommande {
             Menu menu = new Menu(nomMenu, 0);
             restaurant.addMenu(menu);
 
-            Commande commande = new Commande();
+            Commande commande = commandeManager.creerCommande(null);
             commande.ajoutMenuPlat(menu, 1);
-            commandeManager.ajoutCommande(commande);
         }
 
         assertEquals(listeCommande.size(), commandeManager.getCommandeRestaurant(restaurant).size());
@@ -47,17 +47,18 @@ public class ConsulterEtValiderUneCommande {
 
         commandeVoulu.setEtatCommande(etatCommande);
         assertEquals(id.intValue(), commandeVoulu.getId());
-        assertEquals(etatCommande, commandeManager.getCommandeParID(id).getEtatCommande());
+        assertEquals(etatCommande, commandeVoulu.getEtatCommande());
     }
 
     @Quand("le restaurateur valide la commande avec le menu d'ID {int} avec le status {string}")
     public void setStatus(Integer id, String status) {
         Commande commandeVoulu = commandeManager.getCommandeParID(id);
+        InformationLivraison informationLivraison = commandeVoulu.getInformationLivraison();
         EtatLivraisonCommande etatLivraisonCommande = EtatLivraisonCommande.getEtatLivraisonCommande(status);
 
-        commandeVoulu.setEtatLivraisonCommande(etatLivraisonCommande);
+        informationLivraison.setEtatLivraisonCommande(etatLivraisonCommande);
 
-        assertEquals(etatLivraisonCommande, commandeManager.getCommandeParID(id).getEtatLivraisonCommande());
+        assertEquals(etatLivraisonCommande, informationLivraison.getEtatLivraisonCommande());
     }
 
     @Alors("le livreur peut retirer la commande avec le menu d'ID {int}, ie la commande est attribué au livreur le plus proche : {string} {string}")
