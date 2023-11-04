@@ -20,7 +20,7 @@ public class AjouterUneCommande {
     private final CommandeManager commandeManager = new CommandeManager();
 
     private CompteUtilisateur compteUtilisateur;
-    private Commande commande;
+    private CommandeIndividuelle commande;
     private Restaurant restaurant;
 
     @Etantdonnéque("l'utilisateur {string} {string} est loggé")

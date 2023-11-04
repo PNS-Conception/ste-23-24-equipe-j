@@ -3,6 +3,7 @@ package fr.unice.polytech.commande;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.Set;
  */
 public class CommandeManager {
     private final Set<Commande> commandes;
+    private final Set<Integer> idCommandesGroupees;
     private int id;
 
     /**
@@ -20,6 +22,7 @@ public class CommandeManager {
      */
     public CommandeManager() {
         commandes = new HashSet<>();
+        idCommandesGroupees = new HashSet<>();
         id = 0;
     }
 
@@ -27,10 +30,38 @@ public class CommandeManager {
      * Création d'une commande pour un utilisateur dans un restaurant
      * @param compteUtilisateur le CompteUtilisateur qui passe la commande
      */
-    public Commande creerCommande(CompteUtilisateur compteUtilisateur) {
-        Commande commande = new Commande(compteUtilisateur, id++);
+    public CommandeIndividuelle creerCommande(CompteUtilisateur compteUtilisateur) {
+        CommandeIndividuelle commande = new CommandeIndividuelle(compteUtilisateur, id++);
         commandes.add(commande);
         return commande;
+    }
+
+    /**
+     * Création d'une commande groupée
+     * @param id l'id de la commande groupée
+     * @return la commande groupée
+     */
+    public CommandeGroupee creerCommandeGroupee(int id) {
+        if (idCommandesGroupees.contains(id))
+            throw new IllegalArgumentException("L'id de la commande groupe existe déjà");
+
+        idCommandesGroupees.add(id);
+        CommandeGroupee commandeGroupee = new CommandeGroupee(id);
+        commandes.add(commandeGroupee);
+
+        return commandeGroupee;
+    }
+
+    /**
+     * Récupère toutes les commandes individuelles
+     * @return la liste des commandes individuelles
+     */
+    private List<CommandeIndividuelle> getCommandesIndividuelles() {
+        List<CommandeIndividuelle> commandesIndividuelles = new ArrayList<>();
+        for (Commande commande : commandes)
+            commandesIndividuelles.addAll(commande.getCommandes());
+
+        return commandesIndividuelles;
     }
 
     /**
@@ -38,17 +69,18 @@ public class CommandeManager {
      * @param id l'id de la commande
      * @return la commande si l'id existe sinon <code>null</code>
      */
-    public Commande getCommandeParID(int id) {
-        return commandes.stream().filter(commande -> commande.getId() == id).findFirst().orElse(null);
+    public CommandeIndividuelle getCommandeParID(int id) {
+        List<CommandeIndividuelle> commandesIndividuelles = getCommandesIndividuelles();
+        return commandesIndividuelles.stream().filter(commande -> commande.getId() == id).findFirst().orElse(null);
     }
 
     /**
      * Payer la commande
-     * @param commande la commande à payer
+     * @param commandeIndividuelle la commande à payer
      * @return <code>true</code> si la commande a été payée
      */
-    public boolean payerCommande(Commande commande) {
-        commande.setEtatCommande(EtatCommande.EN_PREPARATION);
+    public boolean payerCommande(CommandeIndividuelle commandeIndividuelle) {
+        commandeIndividuelle.setEtatCommande(EtatCommande.EN_PREPARATION);
         return true;
     }
 
@@ -56,8 +88,9 @@ public class CommandeManager {
      * Récupère la liste des commandes en préparation du restaurant
      * @return la liste des commandes en préparation du restaurant
      */
-    public List<Commande> getCommandeEnPreparationRestaurant(Restaurant restaurant) {
-        return commandes.stream()
+    public List<CommandeIndividuelle> getCommandeEnPreparationRestaurant(Restaurant restaurant) {
+        List<CommandeIndividuelle> commandeIndividuelles = getCommandesIndividuelles();
+        return commandeIndividuelles.stream()
                 .filter(commande -> commande.getEtatCommande() == EtatCommande.EN_PREPARATION &&
                         restaurant.equals(commande.getRestaurant())).toList();
     }
@@ -67,7 +100,8 @@ public class CommandeManager {
      * @param restaurant le restaurant où on veut récupérer ses commandes
      * @return la liste des commandes du restaurant
      */
-    public List<Commande> getCommandeRestaurant(Restaurant restaurant) {
-        return commandes.stream().filter(commande -> restaurant.equals(commande.getRestaurant())).toList();
+    public List<CommandeIndividuelle> getCommandeRestaurant(Restaurant restaurant) {
+        List<CommandeIndividuelle> commandeIndividuelles = getCommandesIndividuelles();
+        return commandeIndividuelles.stream().filter(commande -> restaurant.equals(commande.getRestaurant())).toList();
     }
 }

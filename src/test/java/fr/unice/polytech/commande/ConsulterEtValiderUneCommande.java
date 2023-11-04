@@ -26,7 +26,7 @@ public class ConsulterEtValiderUneCommande {
             Menu menu = new Menu(nomMenu, 0);
             restaurant.addMenu(menu);
 
-            Commande commande = commandeManager.creerCommande(null);
+            CommandeIndividuelle commande = commandeManager.creerCommande(null);
             commande.ajoutMenuPlat(menu, 1);
         }
 
@@ -42,7 +42,7 @@ public class ConsulterEtValiderUneCommande {
 
     @Etque("la commande avec le menu d'ID {int} à le status {string}")
     public void setCommande(Integer id, String status) {
-        Commande commandeVoulu = commandeManager.getCommandeParID(id);
+        CommandeIndividuelle commandeVoulu = commandeManager.getCommandeParID(id);
         EtatCommande etatCommande = EtatCommande.getEtatSousCommande(status);
 
         commandeVoulu.setEtatCommande(etatCommande);

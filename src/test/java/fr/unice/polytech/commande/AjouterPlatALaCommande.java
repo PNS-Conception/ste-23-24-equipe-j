@@ -9,12 +9,12 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class AjouterPlatALaCommande {
-    Commande commande;
+    CommandeIndividuelle commande;
     Plat plat;
 
     @Etantdonnéque("une commande en cours de création avec un montant qui s'élève à {double}€")
     public void createCommande(double prix){
-        commande = new Commande(0);
+        commande = new CommandeIndividuelle(0);
         assertEquals(prix, commande.getPrix(), 0);
     }
 
