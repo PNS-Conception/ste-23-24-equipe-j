@@ -1,9 +1,8 @@
 package fr.unice.polytech.commande;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import fr.unice.polytech.utilisateur.CompteUtilisateur;
+
+import java.util.*;
 
 /**
  * Classe d'une commande de plusieurs personnes
@@ -22,6 +21,19 @@ public class CommandeGroupee extends Commande{
     }
 
     /**
+     * Récupère la commande d'un utilisateur
+     * @param compteUtilisateur l'utilisateur de la commande
+     * @return la commande de l'utilisateur
+     */
+    public Optional<CommandeIndividuelle> getCommandeUtilisateur(CompteUtilisateur compteUtilisateur) {
+        for (CommandeIndividuelle commandeIndividuelle : commandes) {
+            if (commandeIndividuelle.getCompteUtilisateur().equals(compteUtilisateur))
+                return Optional.of(commandeIndividuelle);
+        }
+        return Optional.empty();
+    }
+
+    /**
      * Ajoute une commande individuelle à la commande groupée
      * @param commandeIndividuelle la commande individuelle à ajouter
      */
@@ -33,7 +45,7 @@ public class CommandeGroupee extends Commande{
      * Supprime une commande individuelle de la commande groupée
      * @param commandeIndividuelle la commande individuelle à supprimer
      */
-    public void supprimerCommandeIndividuelle(CommandeIndividuelle commandeIndividuelle) {
+    protected void supprimerCommandeIndividuelle(CommandeIndividuelle commandeIndividuelle) {
         commandes.remove(commandeIndividuelle);
     }
 
