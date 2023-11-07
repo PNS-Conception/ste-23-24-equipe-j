@@ -3,10 +3,7 @@ package fr.unice.polytech.commande;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Le gestionnaire de commande contenant toutes les commandes
@@ -53,6 +50,22 @@ public class CommandeManager {
     }
 
     /**
+     * Supprime une commande individuelle dans une commande groupée
+     * @param idGroupe l'identifiant de la commande groupée
+     * @param compteUtilisateurCommande l'utilisateur de la commande
+     */
+    public void supprimerCommandeIndividuelleGroupee(int idGroupe, CompteUtilisateur compteUtilisateurCommande) {
+        CommandeGroupee commandeGroupee = getCommandeGroupeeParID(idGroupe);
+        Optional<CommandeIndividuelle> optCommande = commandeGroupee.getCommandeUtilisateur(compteUtilisateurCommande);
+
+        if (optCommande.isPresent()) {
+            CommandeIndividuelle commande = optCommande.get();
+            commandeGroupee.supprimerCommandeIndividuelle(commande);
+            commandes.remove(commande);
+        }
+    }
+
+    /**
      * Récupère toutes les commandes individuelles
      * @return la liste des commandes individuelles
      */
@@ -72,6 +85,22 @@ public class CommandeManager {
     public CommandeIndividuelle getCommandeParID(int id) {
         List<CommandeIndividuelle> commandesIndividuelles = getCommandesIndividuelles();
         return commandesIndividuelles.stream().filter(commande -> commande.getId() == id).findFirst().orElse(null);
+    }
+
+    /**
+     * Récupère la commande groupée par un id
+     * @param id l'id de la commande groupée
+     * @return la commande groupée si l'id existe sinon <code>null</code>
+     */
+    public CommandeGroupee getCommandeGroupeeParID(int id) {
+        CommandeGroupee commandeGroupee = (CommandeGroupee) commandes.stream()
+                .filter(commande -> commande.getId() == id && commande.estGroupee())
+                .findFirst().orElse(null);
+
+        if (commandeGroupee == null)
+            throw new IllegalArgumentException("Pas d'id pour cette commande groupé");
+
+        return commandeGroupee;
     }
 
     /**
