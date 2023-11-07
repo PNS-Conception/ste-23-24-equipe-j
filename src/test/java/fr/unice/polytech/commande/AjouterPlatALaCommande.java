@@ -1,6 +1,7 @@
 package fr.unice.polytech.commande;
 
 import fr.unice.polytech.nourriture.Plat;
+import fr.unice.polytech.restaurant.CapaciteDepasseException;
 import io.cucumber.java.fr.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +20,7 @@ public class AjouterPlatALaCommande {
     }
 
     @Quand("l'utilisateur ajoute {int} quantité de plat de {string} à {double}€")
-    public void ajoutPlatDansCommande(int quantite, String nomPlat, double prix){
+    public void ajoutPlatDansCommande(int quantite, String nomPlat, double prix) throws CapaciteDepasseException {
         List<String> aliments = new ArrayList<>(Arrays.asList("Tagliatelles", "Saumon", "Crème Fraiche"));
         List<String> alergene =  new ArrayList<>();
         plat = new Plat(nomPlat, prix, aliments, alergene);

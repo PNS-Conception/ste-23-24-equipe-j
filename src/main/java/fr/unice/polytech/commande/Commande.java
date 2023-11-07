@@ -3,8 +3,10 @@ package fr.unice.polytech.commande;
 import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.Plat;
+import fr.unice.polytech.restaurant.CapaciteDepasseException;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utils.HoraireDate;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -126,7 +128,7 @@ public class Commande {
      * @throws IllegalArgumentException si la quantite est négative ou
      * si le plat ou menu n'est pas du même restaurant que la commande
      */
-    public void ajoutMenuPlat(MenuPlat menuPlat, int quantite){
+    public void ajoutMenuPlat(MenuPlat menuPlat, int quantite) throws CapaciteDepasseException {
         if (quantite < 0) {
             throw new IllegalArgumentException("La quantité doit être positive");
         }
@@ -143,6 +145,8 @@ public class Commande {
         else {
             menuPlats.put(menuPlat, quantite);
         }
+        HoraireDate horaireDate = new HoraireDate(this.informationLivraison.getDateLivraison(), this.informationLivraison.getHeureLivraison());
+        this.restaurant.increaseReservation(horaireDate, quantite);
         prixCommande += menuPlat.getPrix();
     }
 

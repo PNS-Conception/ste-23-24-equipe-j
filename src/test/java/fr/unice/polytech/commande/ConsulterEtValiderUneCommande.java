@@ -19,7 +19,7 @@ public class ConsulterEtValiderUneCommande {
     SystemeLivraison systemeLivraison = new SystemeLivraison();
 
     @Etantdonnéque("le restaurateur de position {int},{int} a la liste des commandes en attente avec les menus :")
-    public void getCommandes(Integer latitude, Integer longitude, List<String> listeCommande) {
+    public void getCommandes(Integer latitude, Integer longitude, List<String> listeCommande) throws CapaciteDepasseException {
         restaurant = new Restaurant("Chinois", new Position(latitude, longitude));
 
         for (String nomMenu : listeCommande) {

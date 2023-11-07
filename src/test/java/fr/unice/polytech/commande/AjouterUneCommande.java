@@ -4,6 +4,7 @@ import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.restaurant.AucunMenuException;
+import fr.unice.polytech.restaurant.CapaciteDepasseException;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.restaurant.RestaurantManager;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
@@ -30,7 +31,7 @@ public class AjouterUneCommande {
 
     @Etque("{string} {string} crée une commande")
     public void créeUneCommande(String prenom, String nom) {
-        commande = commandeManager.creerCommande(null);
+        commande = commandeManager.creerCommande(compteUtilisateur);
 
         assertEquals(prenom, compteUtilisateur.getPrenom());
         assertEquals(nom, compteUtilisateur.getNom());
@@ -77,7 +78,11 @@ public class AjouterUneCommande {
 
         for (MenuPlat menu : restaurant.getMenus()) {
             if (menu.getNom().equals(nomMenu)) {
-                commande.ajoutMenuPlat(menu,1);
+                try {
+                    commande.ajoutMenuPlat(menu,1);
+                } catch (CapaciteDepasseException e) {
+                    throw new RuntimeException(e);
+                }
                 break;
             }
         }

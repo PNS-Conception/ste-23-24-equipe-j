@@ -78,7 +78,7 @@ public class Position implements Comparable<Position>{
         else {
             index = 4;
         }
-        return index * 10*(8+7) + Math.abs(this.latitude) *10*8 + Math.abs(this.longitude);
+        return index * 10**(8+7) + Math.abs(this.latitude) *10*8 + Math.abs(this.longitude);
     }*/
 
     // Equals et HashCode
