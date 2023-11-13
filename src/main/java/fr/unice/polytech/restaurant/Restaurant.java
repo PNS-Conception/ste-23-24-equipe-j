@@ -58,7 +58,7 @@ public class Restaurant {
     public void increaseReservation(HoraireDate horaire, int capacite) throws CapaciteDepasseException {
         if (horaire == null)
             throw new IllegalArgumentException("Horaire null");
-        if (capacite >= CapaciteMaximale || capacite <= 0)
+        if (capacite > CapaciteMaximale || capacite < 0)
             throw new CapaciteDepasseException();
         if (capaciteParHoraire.containsKey(horaire)) {
             int capaciteRestante = capaciteParHoraire.get(horaire) + capacite;

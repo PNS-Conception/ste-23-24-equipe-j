@@ -1,5 +1,7 @@
 package fr.unice.polytech.utils;
 
+import java.util.Objects;
+
 /**
  * Classe représentant un horaire à laquelle la livraison de la commande doit avoir lieu
  * @author Equipe J
@@ -39,5 +41,24 @@ public class Horaire {
      */
     public int getMinute() {
         return minute;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        else if (o == null || o.getClass() != Horaire.class)
+            return false;
+        Horaire horaire = (Horaire) o;
+        return heure == horaire.heure && minute == horaire.minute;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(heure, minute);
+    }
+
+    @Override
+    public String toString() {
+        return heure + ":" + minute;
     }
 }

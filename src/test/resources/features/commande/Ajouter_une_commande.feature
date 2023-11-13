@@ -22,6 +22,6 @@
       Et que l'utilisateur choisit le menu "Chine" à 5 €
       Et que l'utilisateur choisit la livraison le "2019-12-12" à "12:00" à l'adresse pré-enregistré "1 rue de la paix"
 
-      Scénario:  Normal
+    Scénario:  Normal
       Quand l'utilisateur paye sa commande à 5€
       Alors la commande est ajouté à la liste des commandes "EN_PREPARATION" et elle est envoyé au restaurant "RestaurantTech"

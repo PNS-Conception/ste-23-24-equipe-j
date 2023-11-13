@@ -3,10 +3,14 @@ package fr.unice.polytech.restaurant;
 
 import fr.unice.polytech.commande.Commande;
 import fr.unice.polytech.commande.CommandeManager;
+import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utils.Date;
+import fr.unice.polytech.utils.Horaire;
 import fr.unice.polytech.utils.HoraireDate;
+import fr.unice.polytech.utils.Position;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Etantdonnéque;
 import io.cucumber.java.fr.Etque;
@@ -32,13 +36,7 @@ public class ActualisationCapaciteRestaurant {
         compteUtilisateur = new CompteUtilisateur(nom, prenom);
     }
 
-    @Etque("{string} {string} crée une commande")
-    public void créeUneCommande(String prenom, String nom) {
-        commande = commandeManager.creerCommande(compteUtilisateur);
 
-        assertEquals(prenom, compteUtilisateur.getPrenom());
-        assertEquals(nom, compteUtilisateur.getNom());
-    }
 
     @Etque("L'utilisateur peut accéder aux restaurants suivant :")
     public void lUtilisateurPeutAccéderAuxRestaurantsSuivant(List<String> restaurants) {
@@ -67,7 +65,7 @@ public class ActualisationCapaciteRestaurant {
     public void leRestaurantAUneCapacitéDe(String nomRestaurant, int capaciteRestaurant, String dateInput, String horaireInput) throws CapaciteDepasseException {
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         HoraireDate horaireDate = new HoraireDate(dateInput, horaireInput);
-        restaurant.increaseReservation(horaireDate, restaurant.getCapaciteMaximale() - capaciteRestaurant);
+        restaurant.increaseReservation(horaireDate, capaciteRestaurant);
         assertEquals(capaciteRestaurant, restaurant.getCapacity(horaireDate));
     }
 
@@ -89,7 +87,7 @@ public class ActualisationCapaciteRestaurant {
                 break;
             }
         }
-        assertEquals(prix * 100, (int) commande.getPrix() * 100);
+        assertEquals((int) prix * 100, (int) commande.getPrix() * 100);
     }
 
 
@@ -106,5 +104,17 @@ public class ActualisationCapaciteRestaurant {
     }
 
 
+    @Quand("l'utilisateur crée une commande pour le {string} à {string} avec comme point de livraison {string}")
+    public void lUtilisateurCréeUneCommandePourLeÀAvecCommePointDeLivraison(String dateInput, String horaireInput, String positionInput) {
+        commande = commandeManager.creerCommande(compteUtilisateur);
+        Date date = new Date(dateInput);
+        Horaire horaire = new Horaire(horaireInput);
+        Position position = new Position(positionInput);
+        InformationLivraison informationLivraison = new InformationLivraison(date, horaire, position);
+        commande.setInformationLivraison(informationLivraison);
 
+        assertEquals(date, commande.getInformationLivraison().getDateLivraison());
+        assertEquals(horaire, commande.getInformationLivraison().getHeureLivraison());
+        assertEquals(position, commande.getInformationLivraison().getLieuxLivraison());
+    }
 }

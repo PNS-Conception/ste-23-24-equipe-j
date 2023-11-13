@@ -8,6 +8,7 @@ import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.HoraireDate;
 
+import java.net.SocketOption;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Objects;
@@ -145,9 +146,9 @@ public class Commande {
         else {
             menuPlats.put(menuPlat, quantite);
         }
+        prixCommande += menuPlat.getPrix();
         HoraireDate horaireDate = new HoraireDate(this.informationLivraison.getDateLivraison(), this.informationLivraison.getHeureLivraison());
         this.restaurant.increaseReservation(horaireDate, quantite);
-        prixCommande += menuPlat.getPrix();
     }
 
     // A revoir si on ajoute une quantite à supprimer d'un plat

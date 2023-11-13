@@ -2,6 +2,7 @@ package fr.unice.polytech.utils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * Classe contenant la date de livraison d'une commande
@@ -51,5 +52,31 @@ public class Date {
      */
     public int getAnnee() {
         return annee;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        else if (o == null || o.getClass() != Date.class)
+            return false;
+
+        Date date = (Date) o;
+        return date.jour == this.jour && date.mois == this.mois && date.annee == this.annee;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(jour, mois, annee);
+    }
+
+    @Override
+    public String toString() {
+        return "Date{" +
+                "jour=" + jour +
+                ", mois=" + mois +
+                ", annee=" + annee +
+                '}';
     }
 }

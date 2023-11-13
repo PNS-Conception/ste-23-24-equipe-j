@@ -3,7 +3,6 @@ Fonctionnalité: Modification de la capacité d'un restaurant quand l'utilisateu
 
   Contexte:
     Etant donné que l'utilisateur "Antoine" "Dupont" est connecté
-    Et que "Antoine" "Dupont" crée une commande
     Et que L'utilisateur peut accéder aux restaurants suivant :
       | Chinois |
       | RoastBeef |
@@ -20,14 +19,16 @@ Fonctionnalité: Modification de la capacité d'un restaurant quand l'utilisateu
 
 
   Scénario:  Normal
+    Quand l'utilisateur crée une commande pour le "2019-12-12" à "12:00" avec comme point de livraison "SophiaTech"
     Quand l'utilisateur choisit le restaurant "AfriqueDuSud"
     Quand l'utilisateur choisit le menu "Tricheur" à 5,00 €
     Alors la capacité du restaurant "AfriqueDuSud" est de 9 le "2019-12-12" à "12:00"
 
   Scénario:  erreur
+    Quand l'utilisateur crée une commande pour le "2019-12-12" à "12:00" avec comme point de livraison "SophiaTech"
     Quand l'utilisateur choisit le restaurant "SophiaRestaurantTech"
     Quand l'utilisateur choisit le menu "Londres" à 15,00 €
-    Alors une "CapacitéDépasséException" doit être déclenché
+    Alors une "CapaciteDepasseException" doit être déclenché
 
 
 
