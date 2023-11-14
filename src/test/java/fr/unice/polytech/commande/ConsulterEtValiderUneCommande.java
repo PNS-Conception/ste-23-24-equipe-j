@@ -18,7 +18,7 @@ public class ConsulterEtValiderUneCommande {
     Restaurant restaurant;
     CommandeManager commandeManager = new CommandeManager();
     SystemeLivraison systemeLivraison = new SystemeLivraison();
-    CompteUtilisateur compteUtilisateur = new CompteUtilisateur("nom","prenom");
+    CompteUtilisateur compteUtilisateur = new CompteUtilisateur("nom","prenom", "ETUDIANT");
 
     @Etantdonnéque("le restaurateur de position {int},{int} a la liste des commandes en attente avec les menus :")
     public void getCommandes(Integer latitude, Integer longitude, List<String> listeCommande) throws UtilisateurNonAuthentifieException {

@@ -16,6 +16,7 @@ public class CompteUtilisateur {
     private int solde; // en centimes pour éviter les erreurs d'arrondi
     private List<Position> adresseEnregistrees;
     private boolean authentifie;
+    private StatusUtilisateur statusUtilisateur;
 
 
     // Constructeur
@@ -24,12 +25,13 @@ public class CompteUtilisateur {
      * @param nom nom de l'utilisateur
      * @param prenom prénom de l'utilisateur
      */
-    public CompteUtilisateur(String nom, String prenom) {
+    public CompteUtilisateur(String nom, String prenom, String status) {
         this.nom = nom;
         this.prenom = prenom;
         solde = 0;
         adresseEnregistrees = new ArrayList<>();
         authentifie = true;
+        statusUtilisateur = StatusUtilisateur.getStatutUtilisateur(status);
     }
 
     // Accesseurs
@@ -64,6 +66,10 @@ public class CompteUtilisateur {
      */
     public boolean isAuthentifie() {
         return authentifie;
+    }
+
+    public StatusUtilisateur getStatusUtilisateur() {
+        return statusUtilisateur;
     }
 
     public List<Position> getAdresseEnregistrees() {

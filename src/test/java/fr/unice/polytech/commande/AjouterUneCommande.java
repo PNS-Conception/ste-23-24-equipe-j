@@ -25,7 +25,7 @@ public class AjouterUneCommande {
 
     @Etantdonnéque("l'utilisateur {string} {string} est connecté")
     public void lUtilisateurEstConnecté(String prenom, String nom) {
-        compteUtilisateur = new CompteUtilisateur(nom, prenom);
+        compteUtilisateur = new CompteUtilisateur(nom, prenom, "ETUDIANT");
     }
 
     @Etque("{string} {string} crée une commande")
