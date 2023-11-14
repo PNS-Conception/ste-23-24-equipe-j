@@ -2,7 +2,7 @@
   Fonctionnalité: Passer une commande
 
     Contexte:
-      Etant donné que l'utilisateur "Antoine" "Dupont" est loggé
+      Etant donné que l'utilisateur "Antoine" "Dupont" est connecté
       Et que "Antoine" "Dupont" crée une commande
       Et que L'utilisateur peut accéder aux restaurants suivant :
         | Chinois |

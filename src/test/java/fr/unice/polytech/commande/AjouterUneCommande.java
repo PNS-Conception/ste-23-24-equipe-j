@@ -6,6 +6,7 @@ import fr.unice.polytech.restaurant.AucunMenuException;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.restaurant.RestaurantManager;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utilisateur.UtilisateurNonAuthentifieException;
 import fr.unice.polytech.utils.*;
 import fr.unice.polytech.utils.Date;
 import io.cucumber.java.fr.*;
@@ -22,8 +23,8 @@ public class AjouterUneCommande {
     private Commande commande;
     private Restaurant restaurant;
 
-    @Etantdonnéque("l'utilisateur {string} {string} est loggé")
-    public void lUtilisateurEstLoggé(String prenom, String nom) {
+    @Etantdonnéque("l'utilisateur {string} {string} est connecté")
+    public void lUtilisateurEstConnecté(String prenom, String nom) {
         compteUtilisateur = new CompteUtilisateur(nom, prenom);
     }
 
@@ -72,7 +73,7 @@ public class AjouterUneCommande {
     }
 
     @Etque("l'utilisateur choisit le menu {string} à {int} €")
-    public void ilChoisitLeMenuÀ€(String nomMenu, int prix) throws AucunMenuException {
+    public void ilChoisitLeMenuÀ€(String nomMenu, int prix) throws AucunMenuException, UtilisateurNonAuthentifieException {
 
         for (MenuPlat menu : restaurant.getMenus()) {
             if (menu.getNom().equals(nomMenu)) {

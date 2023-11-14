@@ -4,6 +4,8 @@ import fr.unice.polytech.livraison.CompteLivreur;
 import fr.unice.polytech.livraison.EtatLivraisonCommande;
 import fr.unice.polytech.livraison.SystemeLivraison;
 import fr.unice.polytech.restaurant.*;
+import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utilisateur.UtilisateurNonAuthentifieException;
 import fr.unice.polytech.utils.Position;
 import fr.unice.polytech.nourriture.Menu;
 import io.cucumber.java.fr.*;
@@ -16,16 +18,17 @@ public class ConsulterEtValiderUneCommande {
     Restaurant restaurant;
     CommandeManager commandeManager = new CommandeManager();
     SystemeLivraison systemeLivraison = new SystemeLivraison();
+    CompteUtilisateur compteUtilisateur = new CompteUtilisateur("nom","prenom");
 
     @Etantdonnéque("le restaurateur de position {int},{int} a la liste des commandes en attente avec les menus :")
-    public void getCommandes(Integer latitude, Integer longitude, List<String> listeCommande) {
+    public void getCommandes(Integer latitude, Integer longitude, List<String> listeCommande) throws UtilisateurNonAuthentifieException {
         restaurant = new Restaurant("Chinois", new Position(latitude, longitude));
 
         for (String nomMenu : listeCommande) {
             Menu menu = new Menu(nomMenu, 0);
             restaurant.addMenu(menu);
 
-            Commande commande = new Commande();
+            Commande commande = new Commande(compteUtilisateur);
             commande.ajoutMenuPlat(menu, 1);
             commandeManager.ajoutCommande(commande);
         }

@@ -15,6 +15,8 @@ public class CompteUtilisateur {
     private final String prenom;
     private int solde; // en centimes pour éviter les erreurs d'arrondi
     private List<Position> adresseEnregistrees;
+    private boolean authentifie;
+
 
     // Constructeur
     /**
@@ -27,6 +29,7 @@ public class CompteUtilisateur {
         this.prenom = prenom;
         solde = 0;
         adresseEnregistrees = new ArrayList<>();
+        authentifie = true;
     }
 
     // Accesseurs
@@ -53,6 +56,14 @@ public class CompteUtilisateur {
      */
     public int getSolde() {
         return this.solde;
+    }
+
+    /**
+     * Récupère si l'utilisateur est authentifié ou non
+     * @return Le boolean du compte de l'utilisateur
+     */
+    public boolean isAuthentifie() {
+        return authentifie;
     }
 
     public List<Position> getAdresseEnregistrees() {

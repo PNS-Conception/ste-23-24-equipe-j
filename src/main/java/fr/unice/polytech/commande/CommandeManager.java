@@ -1,6 +1,7 @@
 package fr.unice.polytech.commande;
 
 import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.utilisateur.UtilisateurNonAuthentifieException;
 
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +27,10 @@ public class CommandeManager {
      * Ajout d'une commande dans le set de Commande, en lui ajoutant un id
      * @param commande la commande à ajouter
      */
-    public void ajoutCommande(Commande commande) {
+    public void ajoutCommande(Commande commande) throws UtilisateurNonAuthentifieException {
+        if (!commande.getCompteUtilisateur().isAuthentifie()){
+            throw new UtilisateurNonAuthentifieException();
+        }
         commande.setId(id++);
         commandes.add(commande);
     }
