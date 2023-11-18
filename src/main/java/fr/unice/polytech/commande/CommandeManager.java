@@ -1,9 +1,10 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.livraison.EtatLivraisonCommande;
+import fr.unice.polytech.observer.EventListenerSystem;
 import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,17 +13,17 @@ import java.util.Set;
  * Le gestionnaire de commande contenant toutes les commandes
  * @author Equipe J
  */
-public class CommandeManager {
+public class CommandeManager implements EventListenerSystem {
     private final Set<Commande> commandes;
     private int id;
-    private final EventManager eventManager;
+    public static final EventManager eventManager = new EventManager();
 
     /**
      * Constructeur par défaut
      */
     public CommandeManager() {
         commandes = new HashSet<>();
-        eventManager = new EventManager();
+        eventManager.subscribe(this, EtatLivraisonCommande.LIVREE.toString());
         id = 0;
     }
 
@@ -72,5 +73,11 @@ public class CommandeManager {
      */
     public List<Commande> getCommandeRestaurant(Restaurant restaurant) {
         return commandes.stream().filter(commande -> restaurant.equals(commande.getRestaurant())).toList();
+    }
+
+
+    @Override
+    public void notify(Commande commande) {
+        commandes.remove(commande);
     }
 }

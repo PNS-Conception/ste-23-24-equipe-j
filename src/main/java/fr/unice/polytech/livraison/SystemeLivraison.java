@@ -1,6 +1,10 @@
 package fr.unice.polytech.livraison;
 
 
+import fr.unice.polytech.commande.Commande;
+import fr.unice.polytech.commande.CommandeManager;
+import fr.unice.polytech.commande.EtatCommande;
+import fr.unice.polytech.observer.EventListenerSystem;
 import fr.unice.polytech.utils.Position;
 
 import java.util.HashMap;
@@ -10,8 +14,9 @@ import java.util.Map;
  * Système de livraison des commandes
  * @author Equipe J
  */
-public class SystemeLivraison {
+public class SystemeLivraison implements EventListenerSystem {
     private final Map<Position, CompteLivreur> livreursDisponibles;
+    private final Map<Commande, CompteLivreur> livreursEnLivraison;
 
     // Constructeur
     /**
@@ -19,6 +24,9 @@ public class SystemeLivraison {
      */
     public SystemeLivraison() {
         this.livreursDisponibles = new HashMap<>();
+        this.livreursEnLivraison = new HashMap<>();
+        CommandeManager.eventManager.subscribe(this, EtatCommande.PRETE.toString(),
+                EtatLivraisonCommande.LIVREE.toString());
     }
 
     /**
@@ -58,5 +66,23 @@ public class SystemeLivraison {
         }
 
         return livreursDisponibles.get(meilleurPosition);
+    }
+
+    @Override
+    public void notify(Commande commande) {
+        if (commande.getInformationLivraison().getEtatLivraisonCommande() == EtatLivraisonCommande.LIVREE) {
+            CompteLivreur compteLivreur = livreursEnLivraison.get(commande);
+
+            livreursEnLivraison.remove(commande);
+            livreursDisponibles.put(compteLivreur.getPosition(), compteLivreur);
+        }
+        else {
+            CompteLivreur compteLivreur = getPlusProcheLivreur(commande.getRestaurant().getPosition());
+
+            if (compteLivreur != null) {
+                livreursDisponibles.remove(compteLivreur.getPosition());
+                livreursEnLivraison.put(commande, compteLivreur);
+            }
+        }
     }
 }
