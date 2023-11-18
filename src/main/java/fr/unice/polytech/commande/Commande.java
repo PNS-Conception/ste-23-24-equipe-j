@@ -109,6 +109,7 @@ public class Commande {
      * @param etatCommande le nouveau statut de la commande
      */
     public void setEtatCommande(EtatCommande etatCommande) {
+        eventManager.notify(this, etatCommande.toString());
         this.etatCommande = etatCommande;
     }
 
@@ -117,7 +118,6 @@ public class Commande {
      * @param informationLivraison les informations de livraison de la commande
      */
     public void setInformationLivraison(InformationLivraison informationLivraison) {
-        eventManager.notify(this, informationLivraison.getEtatLivraisonCommande().toString());
         this.informationLivraison = informationLivraison;
     }
 
