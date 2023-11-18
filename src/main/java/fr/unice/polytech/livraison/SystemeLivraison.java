@@ -1,14 +1,13 @@
 package fr.unice.polytech.livraison;
 
-
 import fr.unice.polytech.commande.Commande;
-import fr.unice.polytech.commande.CommandeManager;
 import fr.unice.polytech.commande.EtatCommande;
 import fr.unice.polytech.observer.EventListenerSystem;
 import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.utils.Position;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static fr.unice.polytech.livraison.EtatLivraisonCommande.EN_LIVRAISON;
@@ -80,6 +79,14 @@ public class SystemeLivraison implements EventListenerSystem {
         return livreursEnLivraison.get(commande);
     }
 
+    /**
+     * Récupère la liste des livreurs disponibles
+     * @return la liste des livreurs disponibles
+     */
+    public List<CompteLivreur> getLivreursDisponibles() {
+        return List.of(livreursDisponibles.values().toArray(new CompteLivreur[0]));
+    }
+
     @Override
     public void notify(Commande commande) {
         if (commande.getInformationLivraison().getEtatLivraisonCommande() == EtatLivraisonCommande.LIVREE) {
@@ -89,7 +96,7 @@ public class SystemeLivraison implements EventListenerSystem {
             livreursDisponibles.put(compteLivreur.getPosition(), compteLivreur);
         }
         else {
-            CompteLivreur compteLivreur = getPlusProcheLivreur(commande.getRestaurant().getPosition());
+            CompteLivreur compteLivreur = getPlusProcheLivreur(new Position(0, 0));
 
             if (compteLivreur != null) {
                 commande.getInformationLivraison().setEtatLivraisonCommande(EN_LIVRAISON);
