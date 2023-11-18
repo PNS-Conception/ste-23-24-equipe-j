@@ -3,13 +3,14 @@ package fr.unice.polytech.utilisateur;
 import fr.unice.polytech.utils.Position;
 
 import java.util.ArrayList;
+import fr.unice.polytech.observer.EventListener;
 import java.util.List;
 
 /**
  * Classe représentant un compte utilisateur
  * @author Equipe J
  */
-public class CompteUtilisateur {
+public class CompteUtilisateur implements EventListener {
 
     private final String nom;
     private final String prenom;
@@ -71,5 +72,10 @@ public class CompteUtilisateur {
     // Méthodes
     public void ajouterAdresse(Position adresse) {
         adresseEnregistrees.add(adresse);
+    }
+
+    @Override
+    public void notify(String message) {
+        System.out.println(message);
     }
 }
