@@ -16,13 +16,14 @@ import java.util.Set;
 public class CommandeManager implements EventListenerSystem {
     private final Set<Commande> commandes;
     private int id;
-    public static final EventManager eventManager = new EventManager();
+    public final EventManager eventManager;
 
     /**
      * Constructeur par défaut
      */
     public CommandeManager() {
         commandes = new HashSet<>();
+        eventManager = new EventManager();
         eventManager.subscribe(this, EtatLivraisonCommande.LIVREE.toString());
         id = 0;
     }

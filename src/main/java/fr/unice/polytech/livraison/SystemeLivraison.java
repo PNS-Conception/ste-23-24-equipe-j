@@ -5,6 +5,7 @@ import fr.unice.polytech.commande.Commande;
 import fr.unice.polytech.commande.CommandeManager;
 import fr.unice.polytech.commande.EtatCommande;
 import fr.unice.polytech.observer.EventListenerSystem;
+import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.utils.Position;
 
 import java.util.HashMap;
@@ -24,10 +25,10 @@ public class SystemeLivraison implements EventListenerSystem {
     /**
      * Constructeur par défaut
      */
-    public SystemeLivraison() {
+    public SystemeLivraison(EventManager eventManager) {
         this.livreursDisponibles = new HashMap<>();
         this.livreursEnLivraison = new HashMap<>();
-        CommandeManager.eventManager.subscribe(this, EtatCommande.PRETE.toString(),
+        eventManager.subscribe(this, EtatCommande.PRETE.toString(),
                 EtatLivraisonCommande.LIVREE.toString());
     }
 
@@ -68,6 +69,15 @@ public class SystemeLivraison implements EventListenerSystem {
         }
 
         return livreursDisponibles.get(meilleurPosition);
+    }
+
+    /**
+     * Récupère le livreur en livraison pour une commande
+     * @param commande la commande que livre le livreur
+     * @return le livreur qui livre la commande
+     */
+    public CompteLivreur getLivreurEnLivraison(Commande commande) {
+        return livreursEnLivraison.get(commande);
     }
 
     @Override

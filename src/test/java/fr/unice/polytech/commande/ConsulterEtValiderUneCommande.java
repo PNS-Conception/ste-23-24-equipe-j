@@ -16,10 +16,11 @@ import static org.junit.Assert.assertEquals;
 public class ConsulterEtValiderUneCommande {
     Restaurant restaurant;
     CommandeManager commandeManager = new CommandeManager();
-    SystemeLivraison systemeLivraison = new SystemeLivraison();
+    SystemeLivraison systemeLivraison;
 
     @Etantdonnéque("le restaurateur de position {int},{int} a la liste des commandes en attente avec les menus :")
     public void getCommandes(Integer latitude, Integer longitude, List<String> listeCommande) {
+        systemeLivraison = new SystemeLivraison(commandeManager.eventManager);
         restaurant = new Restaurant("Chinois", new Position(latitude, longitude));
 
         for (String nomMenu : listeCommande) {
@@ -64,9 +65,9 @@ public class ConsulterEtValiderUneCommande {
     @Alors("le livreur peut retirer la commande avec le menu d'ID {int}, ie la commande est attribué au livreur le plus proche : {string} {string}")
     public void leLivreurPeutRetirerLaCommandeDIDIeLaCommandeEstAttribuéAuLivreurLePlusProche(Integer ID, String prenomLivreur, String nomLivreur) {
         Position position = restaurant.getPosition();
-        CompteLivreur compteLivreur = this.systemeLivraison.getPlusProcheLivreur(position);
+        CompteLivreur compteLivreur = systemeLivraison.getLivreurEnLivraison(commandeManager.getCommandeParID(ID));
 
-        assertEquals(compteLivreur.getPrenom(), prenomLivreur);
-        assertEquals(compteLivreur.getNom(), nomLivreur);
+        assertEquals(prenomLivreur, compteLivreur.getPrenom());
+        assertEquals(nomLivreur, compteLivreur.getNom());
     }
 }

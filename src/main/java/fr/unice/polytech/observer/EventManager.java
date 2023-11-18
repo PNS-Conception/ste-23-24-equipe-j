@@ -3,6 +3,7 @@ package fr.unice.polytech.observer;
 import fr.unice.polytech.commande.Commande;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,9 @@ public class EventManager {
                 listenerSystemes.get(event).add(listener);
             }
             else {
-                listenerSystemes.put(event, List.of(listener));
+                List<EventListenerSystem> nouvelleListe = new ArrayList<>();
+                nouvelleListe.add(listener);
+                listenerSystemes.put(event, nouvelleListe);
             }
         }
     }
@@ -45,8 +48,10 @@ public class EventManager {
     public void notify(Commande commande, String message) {
         CompteUtilisateur compteUtilisateur = commande.getCompteUtilisateur();
 
-        for (EventListenerSystem eventListenerSystem : listenerSystemes.get(message))
-            eventListenerSystem.notify(commande);
+        if (listenerSystemes.containsKey(message)) {
+            for (EventListenerSystem eventListenerSystem : listenerSystemes.get(message))
+                eventListenerSystem.notify(commande);
+        }
 
         if (compteUtilisateur != null) {
             compteUtilisateur.notify(message);
