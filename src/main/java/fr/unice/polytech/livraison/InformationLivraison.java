@@ -1,5 +1,7 @@
 package fr.unice.polytech.livraison;
 
+import fr.unice.polytech.commande.Commande;
+import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.utils.Date;
 import fr.unice.polytech.utils.Horaire;
 import fr.unice.polytech.utils.Position;
@@ -13,12 +15,13 @@ public class InformationLivraison {
     private final Horaire heureLivraison;
     private EtatLivraisonCommande etatLivraisonCommande;
     private final Position lieuxLivraison;
+    private Commande commande;
 
     /**
      * Constructeur pour ajouter l'état de livraison uniquement
      */
-    public InformationLivraison() {
-        this(null, null, null);
+    public InformationLivraison(Commande commande) {
+        this(null, null, null, commande);
     }
 
     /**
@@ -32,6 +35,18 @@ public class InformationLivraison {
         this.heureLivraison = heureLivraison;
         this.lieuxLivraison = lieuxLivraison;
         this.etatLivraisonCommande = EtatLivraisonCommande.NON_PRETE_POUR_LIVRAISON;
+    }
+
+    /**
+     * Constructeur avec observer
+     * @param dateLivraison la date de livraison de la commande
+     * @param heureLivraison l'heure de livraison de la commande
+     * @param lieuxLivraison le lieux de livraison de la commande
+     * @param commande la commmande
+     */
+    public InformationLivraison(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison, Commande commande) {
+        this(dateLivraison, heureLivraison, lieuxLivraison);
+        this.commande = commande;
     }
 
     /**
@@ -71,6 +86,7 @@ public class InformationLivraison {
      * @param etatLivraisonCommande le nouveau statut de la livraison de la commande
      */
     public void setEtatLivraisonCommande(EtatLivraisonCommande etatLivraisonCommande) {
+        commande.eventManager.notify(commande, etatLivraisonCommande.toString());
         this.etatLivraisonCommande = etatLivraisonCommande;
     }
 }

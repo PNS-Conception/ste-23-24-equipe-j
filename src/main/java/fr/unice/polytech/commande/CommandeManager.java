@@ -1,5 +1,6 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
@@ -14,12 +15,14 @@ import java.util.Set;
 public class CommandeManager {
     private final Set<Commande> commandes;
     private int id;
+    private final EventManager eventManager;
 
     /**
      * Constructeur par défaut
      */
     public CommandeManager() {
         commandes = new HashSet<>();
+        eventManager = new EventManager();
         id = 0;
     }
 
@@ -28,7 +31,7 @@ public class CommandeManager {
      * @param compteUtilisateur le CompteUtilisateur qui passe la commande
      */
     public Commande creerCommande(CompteUtilisateur compteUtilisateur) {
-        Commande commande = new Commande(compteUtilisateur, id++);
+        Commande commande = new Commande(compteUtilisateur, id++, eventManager);
         commandes.add(commande);
         return commande;
     }

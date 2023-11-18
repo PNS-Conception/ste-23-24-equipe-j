@@ -3,6 +3,7 @@ package fr.unice.polytech.commande;
 import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.Plat;
+import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
@@ -22,6 +23,7 @@ public class Commande {
     private EtatCommande etatCommande;
     private CompteUtilisateur compteUtilisateur;
     private InformationLivraison informationLivraison;
+    public EventManager eventManager;
 
     /**
      * Constructeur pour les tests
@@ -31,16 +33,17 @@ public class Commande {
         prixCommande = 0;
         menuPlats = new HashMap<>();
         etatCommande = EtatCommande.EN_ATTENTE;
-        informationLivraison = new InformationLivraison();
+        informationLivraison = new InformationLivraison(this);
         compteUtilisateur = null;
     }
 
     /**
      * Constructeur par défaut de Commande
      */
-    public Commande(CompteUtilisateur compteUtilisateur, int id) {
+    public Commande(CompteUtilisateur compteUtilisateur, int id, EventManager eventManager) {
         this(id);
         this.compteUtilisateur = compteUtilisateur;
+        this.eventManager = eventManager;
     }
 
     // Accesseurs et setters
@@ -114,6 +117,7 @@ public class Commande {
      * @param informationLivraison les informations de livraison de la commande
      */
     public void setInformationLivraison(InformationLivraison informationLivraison) {
+        eventManager.notify(this, informationLivraison.getEtatLivraisonCommande().toString());
         this.informationLivraison = informationLivraison;
     }
 
