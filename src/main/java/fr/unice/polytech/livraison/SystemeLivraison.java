@@ -10,6 +10,8 @@ import fr.unice.polytech.utils.Position;
 import java.util.HashMap;
 import java.util.Map;
 
+import static fr.unice.polytech.livraison.EtatLivraisonCommande.EN_LIVRAISON;
+
 /**
  * Système de livraison des commandes
  * @author Equipe J
@@ -80,8 +82,10 @@ public class SystemeLivraison implements EventListenerSystem {
             CompteLivreur compteLivreur = getPlusProcheLivreur(commande.getRestaurant().getPosition());
 
             if (compteLivreur != null) {
+                commande.getInformationLivraison().setEtatLivraisonCommande(EN_LIVRAISON);
                 livreursDisponibles.remove(compteLivreur.getPosition());
                 livreursEnLivraison.put(commande, compteLivreur);
+                compteLivreur.notify(EN_LIVRAISON.toString());
             }
         }
     }
