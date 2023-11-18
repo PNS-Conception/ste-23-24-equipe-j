@@ -21,6 +21,9 @@ public class EventManager {
      * @param message le message à lui envoyer
      */
     public void notify(Commande commande, String message) {
-        commande.getCompteUtilisateur().notify(message);
+        CompteUtilisateur compteUtilisateur = commande.getCompteUtilisateur();
+        if (compteUtilisateur != null) {
+            compteUtilisateur.notify(message);
+        }
     }
 }
