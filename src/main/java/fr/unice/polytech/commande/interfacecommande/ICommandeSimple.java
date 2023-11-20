@@ -19,7 +19,7 @@ public interface ICommandeSimple {
      * @param typeMenuPlat le type du menu <code>menu</code> ou du plat <code>plat</code>
      * @throws RestaurantNonValideException si le restaurant du menu ou du plat n'est pas le même que celui de la commande
      */
-    void ajoutMenuPlat(Menu menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException;
+    void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException;
 
     /**
      * Supprime un menu ou un plat de la commande

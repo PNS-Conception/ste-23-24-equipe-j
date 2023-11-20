@@ -1,7 +1,6 @@
 package fr.unice.polytech.commande;
 
 import fr.unice.polytech.commande.interfacecommande.IPayable;
-import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.RestaurantNonValideException;
@@ -31,7 +30,7 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
     }
 
     @Override
-    public void ajoutMenuPlat(Menu menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException {
+    public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException {
         super.ajoutMenuPlat(menuPlat, typeMenuPlat);
         paiementCommande.ajoutPrix(menuPlat.getPrix());
     }
@@ -44,5 +43,21 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
             paiementCommande.retraitPrix(menuPlat.getPrix());
 
         return estSupprimer;
+    }
+
+    @Override
+    public void payerCommande() {
+        if (paiementCommande.payerCommande())
+            setEtatCommande(EtatCommande.EN_PREPARATION);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

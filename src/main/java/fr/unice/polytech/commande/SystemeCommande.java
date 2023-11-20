@@ -53,7 +53,7 @@ public class SystemeCommande {
     public List<Commande> getCommandeEnPreparationRestaurant(Restaurant restaurant) {
         List<Commande> commandesRestaurant = new ArrayList<>();
 
-        for (Commande commande : commandes.values()) {
+        for (CommandeAvecID commande : commandes.values()) {
             if (commande.getEtatCommande().equals(EtatCommande.EN_PREPARATION)) {
                 Optional<Restaurant> restaurantCommande = ((CommandeSimpleAvecID) commande).getRestaurant();
 
@@ -73,7 +73,7 @@ public class SystemeCommande {
     public List<Commande> getCommandesRestaurant(Restaurant restaurant) {
         List<Commande> commandesRestaurant = new ArrayList<>();
 
-        for (Commande commande : commandes.values()) {
+        for (CommandeAvecID commande : commandes.values()) {
             Optional<Restaurant> restaurantCommande = ((CommandeSimpleAvecID) commande).getRestaurant();
 
             if (restaurantCommande.isPresent() && restaurantCommande.get().equals(restaurant))

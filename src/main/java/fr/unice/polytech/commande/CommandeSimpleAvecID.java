@@ -1,7 +1,6 @@
 package fr.unice.polytech.commande;
 
 import fr.unice.polytech.commande.interfacecommande.ICommandeSimple;
-import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.Restaurant;
@@ -46,7 +45,7 @@ public abstract class CommandeSimpleAvecID extends CommandeAvecID implements ICo
     }
 
     @Override
-    public void ajoutMenuPlat(Menu menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException {
+    public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException {
         if (restaurant == null)
             restaurant = menuPlat.getRestaurant();
         else if (!restaurant.equals(menuPlat.getRestaurant()))
@@ -69,5 +68,15 @@ public abstract class CommandeSimpleAvecID extends CommandeAvecID implements ICo
         }
 
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

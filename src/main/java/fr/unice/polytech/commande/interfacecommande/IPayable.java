@@ -10,4 +10,9 @@ public interface IPayable {
      * @return le prix de la commande
      */
     double getPrix();
+
+    /**
+     * Permet de payer la commande
+     */
+    void payerCommande();
 }

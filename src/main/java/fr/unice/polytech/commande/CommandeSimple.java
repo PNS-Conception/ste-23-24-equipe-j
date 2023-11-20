@@ -33,4 +33,14 @@ public class CommandeSimple extends CommandeSimplePayable implements ILivrable {
     public void setInformationLivraison(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
         informationLivraison = new InformationLivraison(dateLivraison, heureLivraison, lieuxLivraison);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
