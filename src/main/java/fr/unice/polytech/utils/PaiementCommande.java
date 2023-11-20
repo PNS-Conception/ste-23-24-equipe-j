@@ -37,4 +37,12 @@ public class PaiementCommande {
     public void retraitPrix(double prix) {
         this.prix -= prix;
     }
+
+    /**
+     * Permet de payer la commande
+     * @return <code>true</code> si la commande est payée, <code>false</code> sinon
+     */
+    public boolean payerCommande() {
+        return PaiementService.payerCommande(prix);
+    }
 }
