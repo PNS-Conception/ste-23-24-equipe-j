@@ -6,19 +6,7 @@ import fr.unice.polytech.utilisateur.CompteUtilisateur;
  * Classe abstraite des commandes
  * @author Equipe J
  */
-public abstract class Commande {
-    protected final CompteUtilisateur createur;
-    protected EtatCommande etatCommande;
-
-    // Constructeur
-    /**
-     * Constructeur par défaut
-     * @param createur le createur de la commande
-     */
-    protected Commande(CompteUtilisateur createur) {
-        this.createur = createur;
-        etatCommande = EtatCommande.EN_ATTENTE;
-    }
+public interface Commande {
 
     // Getters et setters
 
@@ -26,17 +14,13 @@ public abstract class Commande {
      * Retourne le créateur de la commande
      * @return le créateur de la commande
      */
-    public CompteUtilisateur getCreateur() {
-        return createur;
-    }
+    public CompteUtilisateur getCreateur();
 
     /**
      * Retourne l'état de suivi d'une commande
      * @return l'état de la commande
      */
-    public EtatCommande getEtatCommande() {
-        return etatCommande;
-    }
+    public EtatCommande getEtatCommande() ;
 
     /**
      * Modifie l'état de suivi d'une commande

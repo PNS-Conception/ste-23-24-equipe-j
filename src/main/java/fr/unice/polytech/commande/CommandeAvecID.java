@@ -8,8 +8,10 @@ import java.util.Objects;
  * Classe abstraite d'une commande général avec un ID
  * @author Equipe J
  */
-public abstract class CommandeAvecID  extends Commande {
+public abstract class CommandeAvecID  implements Commande {
     private final long idCommande;
+    protected final CompteUtilisateur createur;
+    protected EtatCommande etatCommande;
 
     // Constructeur
 
@@ -19,8 +21,8 @@ public abstract class CommandeAvecID  extends Commande {
      * @param createurCommande le créateur de la commande
      */
     protected CommandeAvecID(long idCommande, CompteUtilisateur createurCommande) {
-        super(createurCommande);
         this.idCommande = idCommande;
+        createur = createurCommande;
     }
 
     // Getters et setters
@@ -31,6 +33,16 @@ public abstract class CommandeAvecID  extends Commande {
      */
     public long getIdCommande() {
         return idCommande;
+    }
+
+    @Override
+    public CompteUtilisateur getCreateur() {
+        return createur;
+    }
+
+    @Override
+    public EtatCommande getEtatCommande() {
+        return etatCommande;
     }
 
     @Override
