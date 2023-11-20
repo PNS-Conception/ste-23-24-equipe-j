@@ -1,5 +1,6 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
 import java.util.Objects;
@@ -8,7 +9,7 @@ import java.util.Objects;
  * Classe abstraite d'une commande général avec un ID
  * @author Equipe J
  */
-public abstract class CommandeAvecID  implements Commande {
+public abstract class CommandeAvecID  implements ICommande {
     private final long idCommande;
     protected final CompteUtilisateur createur;
     protected EtatCommande etatCommande;
@@ -41,8 +42,8 @@ public abstract class CommandeAvecID  implements Commande {
     }
 
     @Override
-    public EtatCommande getEtatCommande() {
-        return etatCommande;
+    public void setEtatCommande(EtatCommande etatCommande) {
+        this.etatCommande = etatCommande;
     }
 
     @Override

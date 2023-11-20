@@ -29,9 +29,20 @@ public abstract class CommandeSimpleAvecID extends CommandeAvecID implements ICo
         menuPlats = new HashMap<>();
     }
 
+
+    @Override
+    public EtatCommande getEtatCommande() {
+        return etatCommande;
+    }
+
     @Override
     public void setEtatCommande(EtatCommande etatCommande) {
         this.etatCommande = etatCommande;
+    }
+
+    @Override
+    public boolean estCommandeSimple() {
+        return true;
     }
 
     @Override
