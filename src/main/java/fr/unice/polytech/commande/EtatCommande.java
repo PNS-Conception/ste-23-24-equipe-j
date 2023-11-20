@@ -1,7 +1,8 @@
 package fr.unice.polytech.commande;
 
 /**
- * Enum de l'état d'une sous commande dans le restaurant
+ * Enum des états de suivi d'une commande
+ * @author Equipe J
  */
 public enum EtatCommande {
 
