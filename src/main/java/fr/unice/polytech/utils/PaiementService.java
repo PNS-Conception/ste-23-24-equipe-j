@@ -5,6 +5,10 @@ package fr.unice.polytech.utils;
  * @author Equipe J
  */
 public class PaiementService {
+    private PaiementService() {
+        throw new IllegalArgumentException("Utility class");
+    }
+
     public static boolean payerCommande(double prix) {
         return prix >= 0;
     }

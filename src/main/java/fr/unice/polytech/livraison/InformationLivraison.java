@@ -9,10 +9,10 @@ import fr.unice.polytech.utils.Position;
  * @author Equipe J
  */
 public class InformationLivraison {
-    private final Date dateLivraison;
-    private final Horaire heureLivraison;
+    private Date dateLivraison;
+    private Horaire heureLivraison;
     private EtatLivraisonCommande etatLivraisonCommande;
-    private final Position lieuxLivraison;
+    private Position lieuxLivraison;
 
     /**
      * Constructeur pour ajouter l'état de livraison uniquement
@@ -72,5 +72,16 @@ public class InformationLivraison {
      */
     public void setEtatLivraisonCommande(EtatLivraisonCommande etatLivraisonCommande) {
         this.etatLivraisonCommande = etatLivraisonCommande;
+    }
+
+    public void setInformationLivraison(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
+        if (dateLivraison == null)
+            this.dateLivraison = dateLivraison;
+
+        if (heureLivraison == null)
+            this.heureLivraison = heureLivraison;
+
+        if (lieuxLivraison == null)
+            this.lieuxLivraison = lieuxLivraison;
     }
 }
