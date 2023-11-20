@@ -75,13 +75,13 @@ public class InformationLivraison {
     }
 
     public void setInformationLivraison(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
-        if (dateLivraison == null)
+        if (this.dateLivraison == null)
             this.dateLivraison = dateLivraison;
 
-        if (heureLivraison == null)
+        if (this.heureLivraison == null)
             this.heureLivraison = heureLivraison;
 
-        if (lieuxLivraison == null)
+        if (this.lieuxLivraison == null)
             this.lieuxLivraison = lieuxLivraison;
     }
 }

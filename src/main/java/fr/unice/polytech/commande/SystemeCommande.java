@@ -75,7 +75,7 @@ public class SystemeCommande {
      * @param idCommande l'id de la commande
      * @return la commande si l'id existe sinon <code>null</code>
      */
-    public ICommande getCommandeParId(int idCommande) {
+    public CommandeAvecID getCommandeParId(int idCommande) {
         return commandes.get(idCommande);
     }
 

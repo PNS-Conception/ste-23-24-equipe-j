@@ -24,6 +24,7 @@ public abstract class CommandeAvecID  implements ICommande {
     protected CommandeAvecID(long idCommande, CompteUtilisateur createurCommande) {
         this.idCommande = idCommande;
         createur = createurCommande;
+        etatCommande = EtatCommande.EN_ATTENTE;
     }
 
     // Getters et setters
