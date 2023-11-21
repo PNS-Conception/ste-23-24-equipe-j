@@ -5,6 +5,7 @@ import fr.unice.polytech.livraison.EtatLivraisonCommande;
 import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.livraison.SystemeLivraison;
 import fr.unice.polytech.restaurant.*;
+import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.Position;
 import fr.unice.polytech.nourriture.Menu;
 import io.cucumber.java.fr.*;
@@ -26,7 +27,7 @@ public class ConsulterEtValiderUneCommande {
             Menu menu = new Menu(nomMenu, 0);
             restaurant.addMenu(menu);
 
-            Commande commande = commandeManager.creerCommande(null);
+            Commande commande = commandeManager.creerCommande(Commande.DEFAULT_COMPTE_UTILISATEUR);
             commande.ajoutMenuPlat(menu, 1);
         }
 
@@ -41,11 +42,11 @@ public class ConsulterEtValiderUneCommande {
 
 
     @Etque("la commande avec le menu d'ID {int} à le status {string}")
-    public void setCommande(Integer id, String status) {
+    public void setCommande(Integer id, String status) throws PasswordException, TokenException {
         Commande commandeVoulu = commandeManager.getCommandeParID(id);
         EtatCommande etatCommande = EtatCommande.getEtatSousCommande(status);
 
-        commandeVoulu.setEtatCommande(etatCommande);
+        commandeVoulu.setEtatCommande(etatCommande, Commande.DEFAULT_COMPTE_UTILISATEUR.createToken(CompteUtilisateur.DEFAULT_PASSWORD));
         assertEquals(id.intValue(), commandeVoulu.getId());
         assertEquals(etatCommande, commandeVoulu.getEtatCommande());
     }
