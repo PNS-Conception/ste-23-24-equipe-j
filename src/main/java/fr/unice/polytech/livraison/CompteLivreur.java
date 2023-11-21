@@ -1,14 +1,15 @@
 package fr.unice.polytech.livraison;
+import fr.unice.polytech.observer.EventListener;
 import fr.unice.polytech.utils.Position;
 
 /**
  * Compte du livreur contant son nom, prénom et sa position actuelle
  * @author Equipe J
  */
-public class CompteLivreur {
+public class CompteLivreur implements EventListener {
     private Position position ;
-    private String nom;
-    private String prenom;
+    private final String nom;
+    private final String prenom;
 
     // Constructeurs
     /**
@@ -67,5 +68,10 @@ public class CompteLivreur {
         if (position == null)
             throw new IllegalArgumentException("La position ne peut pas être nulle");
         this.position = position;
+    }
+
+    @Override
+    public void notify(String message) {
+        System.out.println(message);
     }
 }

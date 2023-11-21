@@ -1,5 +1,7 @@
 package fr.unice.polytech.livraison;
 
+import fr.unice.polytech.commande.interfacecommande.ICommande;
+import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.utils.Date;
 import fr.unice.polytech.utils.Horaire;
 import fr.unice.polytech.utils.Position;
@@ -9,16 +11,17 @@ import fr.unice.polytech.utils.Position;
  * @author Equipe J
  */
 public class InformationLivraison {
-    private final Date dateLivraison;
-    private final Horaire heureLivraison;
+    private Date dateLivraison;
+    private Horaire heureLivraison;
     private EtatLivraisonCommande etatLivraisonCommande;
-    private final Position lieuxLivraison;
+    private Position lieuxLivraison;
+    private ICommande commande;
 
     /**
      * Constructeur pour ajouter l'état de livraison uniquement
      */
-    public InformationLivraison() {
-        this(null, null, null);
+    public InformationLivraison(ICommande commande) {
+        this(null, null, null, commande);
     }
 
     /**
@@ -32,6 +35,18 @@ public class InformationLivraison {
         this.heureLivraison = heureLivraison;
         this.lieuxLivraison = lieuxLivraison;
         this.etatLivraisonCommande = EtatLivraisonCommande.NON_PRETE_POUR_LIVRAISON;
+    }
+
+    /**
+     * Constructeur avec observer
+     * @param dateLivraison la date de livraison de la commande
+     * @param heureLivraison l'heure de livraison de la commande
+     * @param lieuxLivraison le lieux de livraison de la commande
+     * @param commande la commmande
+     */
+    public InformationLivraison(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison, ICommande commande) {
+        this(dateLivraison, heureLivraison, lieuxLivraison);
+        this.commande = commande;
     }
 
     /**
@@ -71,6 +86,18 @@ public class InformationLivraison {
      * @param etatLivraisonCommande le nouveau statut de la livraison de la commande
      */
     public void setEtatLivraisonCommande(EtatLivraisonCommande etatLivraisonCommande) {
+        EventManager.notify(commande, etatLivraisonCommande.toString());
         this.etatLivraisonCommande = etatLivraisonCommande;
+    }
+
+    public void setInformationLivraison(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
+        if (this.dateLivraison == null)
+            this.dateLivraison = dateLivraison;
+
+        if (this.heureLivraison == null)
+            this.heureLivraison = heureLivraison;
+
+        if (this.lieuxLivraison == null)
+            this.lieuxLivraison = lieuxLivraison;
     }
 }

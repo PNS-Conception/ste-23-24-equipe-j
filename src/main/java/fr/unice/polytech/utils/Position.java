@@ -66,21 +66,6 @@ public class Position implements Comparable<Position>{
     }
 
 
-    // Demander pourquoi ce hashcode
-    /*private int generateHashCode() {
-        int index;
-        if (this.latitude< 0 && this.longitude < 0)
-            index = 1;
-        else if (this.latitude< 0 && this.longitude > 0)
-            index = 2;
-        else if (this.latitude> 0 && this.longitude < 0)
-            index = 3;
-        else {
-            index = 4;
-        }
-        return index * 10**(8+7) + Math.abs(this.latitude) *10*8 + Math.abs(this.longitude);
-    }*/
-
     // Equals et HashCode
     @Override
     public boolean equals(Object o) {

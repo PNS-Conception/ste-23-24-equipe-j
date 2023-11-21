@@ -11,6 +11,7 @@ import fr.unice.polytech.utils.Token;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import fr.unice.polytech.observer.EventListener;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,7 +19,7 @@ import java.util.Objects;
  * Classe représentant un compte utilisateur
  * @author Equipe J
  */
-public class CompteUtilisateur {
+public class CompteUtilisateur implements EventListener {
     public static final String DEFAULT_PASSWORD = "0000";
     private final String statisticUserPassword = "0000";
     private final String nom;
@@ -121,5 +122,10 @@ public class CompteUtilisateur {
     // Méthodes
     public void ajouterAdresse(Position adresse) {
         adresseEnregistrees.add(adresse);
+    }
+
+    @Override
+    public void notify(String message) {
+        System.out.println(message);
     }
 }
