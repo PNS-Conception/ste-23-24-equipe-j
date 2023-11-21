@@ -1,11 +1,14 @@
 package fr.unice.polytech.restaurant;
 
 
-import fr.unice.polytech.commande.Commande;
-import fr.unice.polytech.commande.CommandeManager;
+import fr.unice.polytech.builder.TypeCommandeSimple;
+import fr.unice.polytech.commande.CommandeAvecID;
+import fr.unice.polytech.commande.CommandeSimple;
+import fr.unice.polytech.commande.SystemeCommande;
 import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
+import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.Date;
 import fr.unice.polytech.utils.Horaire;
@@ -24,10 +27,10 @@ import static org.junit.Assert.*;
 public class ActualisationCapaciteRestaurant {
 
     private final RestaurantManager restaurantManager = new RestaurantManager();
-    private final CommandeManager commandeManager = new CommandeManager();
+    private final SystemeCommande commandeManager = new SystemeCommande();
 
     private CompteUtilisateur compteUtilisateur;
-    private Commande commande;
+    private CommandeSimple commande;
     private Restaurant restaurant;
     private Exception exception;
 
@@ -76,11 +79,11 @@ public class ActualisationCapaciteRestaurant {
     }
 
     @Quand("l'utilisateur choisit le menu {string} à {double} €")
-    public void ilChoisitLeMenuÀ€(String nomMenu, double prix) throws AucunMenuException {
+    public void ilChoisitLeMenuÀ€(String nomMenu, double prix) throws AucunMenuException, RestaurantNonValideException {
         for (MenuPlat menu : restaurant.getMenus()) {
             if (menu.getNom().equals(nomMenu)) {
                 try {
-                    commande.ajoutMenuPlat(menu,1);
+                    commande.ajoutMenuPlat(menu, TypeMenuPlat.MENU);
                 } catch (CapaciteDepasseException e) {
                     this.exception = e;
                 }
@@ -106,12 +109,11 @@ public class ActualisationCapaciteRestaurant {
 
     @Quand("l'utilisateur crée une commande pour le {string} à {string} avec comme point de livraison {string}")
     public void lUtilisateurCréeUneCommandePourLeÀAvecCommePointDeLivraison(String dateInput, String horaireInput, String positionInput) {
-        commande = commandeManager.creerCommande(compteUtilisateur);
+        commande = (CommandeSimple) commandeManager.creerCommandeSimpleMultipleGroupe(compteUtilisateur, TypeCommandeSimple.SIMPLE);
         Date date = new Date(dateInput);
         Horaire horaire = new Horaire(horaireInput);
         Position position = new Position(positionInput);
-        InformationLivraison informationLivraison = new InformationLivraison(date, horaire, position);
-        commande.setInformationLivraison(informationLivraison);
+        commande.setInformationLivraison(date,horaire, position);
 
         assertEquals(date, commande.getInformationLivraison().getDateLivraison());
         assertEquals(horaire, commande.getInformationLivraison().getHeureLivraison());

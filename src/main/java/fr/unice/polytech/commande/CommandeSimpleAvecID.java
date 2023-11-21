@@ -3,9 +3,13 @@ package fr.unice.polytech.commande;
 import fr.unice.polytech.commande.interfacecommande.ICommandeSimple;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
+import fr.unice.polytech.restaurant.CapaciteDepasseException;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.restaurant.RestaurantNonValideException;
+import fr.unice.polytech.restaurant.TokenException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utils.HoraireDate;
+import fr.unice.polytech.utils.Token;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +55,7 @@ public abstract class CommandeSimpleAvecID extends CommandeAvecID implements ICo
     }
 
     @Override
-    public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException {
+    public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException, CapaciteDepasseException {
         if (restaurant == null)
             restaurant = menuPlat.getRestaurant();
         else if (!restaurant.equals(menuPlat.getRestaurant()))
@@ -75,6 +79,8 @@ public abstract class CommandeSimpleAvecID extends CommandeAvecID implements ICo
 
         return false;
     }
+
+    public abstract void payerCommande(Token token) throws TokenException;
 
     @Override
     public boolean equals(Object o) {

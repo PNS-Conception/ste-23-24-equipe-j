@@ -22,7 +22,7 @@ public class ConsulterEtValiderUneCommande {
     SystemeLivraison systemeLivraison;
 
     @Etantdonnéque("le restaurateur de position {int},{int} a la liste des commandes en attente avec les menus :")
-    public void getCommandes(Integer latitude, Integer longitude, List<String> listeCommande) throws RestaurantNonValideException {
+    public void getCommandes(Integer latitude, Integer longitude, List<String> listeCommande) throws RestaurantNonValideException, CapaciteDepasseException {
         systemeLivraison = new SystemeLivraison();
         restaurant = new Restaurant("Chinois", new Position(latitude, longitude));
 

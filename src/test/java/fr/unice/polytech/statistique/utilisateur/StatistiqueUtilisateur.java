@@ -1,9 +1,11 @@
 package fr.unice.polytech.statistique.utilisateur;
 
-import fr.unice.polytech.commande.Commande;
-import fr.unice.polytech.commande.CommandeManager;
+import fr.unice.polytech.builder.TypeCommandeSimple;
+import fr.unice.polytech.commande.CommandeSimple;
+import fr.unice.polytech.commande.SystemeCommande;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
+import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import io.cucumber.java.fr.Alors;
@@ -19,7 +21,7 @@ public class StatistiqueUtilisateur {
 
     private CompteUtilisateur compteUtilisateur;
     private final RestaurantManager restaurantManager = new RestaurantManager();
-    private final CommandeManager commandeManager = new CommandeManager();
+    private final SystemeCommande commandeManager = new SystemeCommande();
 
     @Etantdonnéque("L'utilisateur peut accéder aux restaurants suivant :")
     public void lUtilisateurPeutAccéderAuxRestaurantsSuivant(List<String> restaurants) {
@@ -89,22 +91,26 @@ public class StatistiqueUtilisateur {
     }
 
     @Alors("{string} {string} effectue une commande dans le restaurant {string}.")
-    public void ilEffectueUneCommandeDansCeRestaurant(String prenom, String nom, String nomRestaurant) throws AucunMenuException, PasswordException, TokenException {
-        Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
-        Commande commande = commandeManager.creerCommande(compteUtilisateur);
+    public void ilEffectueUneCommandeDansCeRestaurant(String prenom, String nom, String nomRestaurant) throws AucunMenuException, PasswordException, TokenException, RestaurantNonValideException {
+        if (Objects.equals(compteUtilisateur.getNom(), nom) && Objects.equals(compteUtilisateur.getPrenom(), prenom)) {
+            Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
+            SystemeCommande systemeCommande = new SystemeCommande();
+            CommandeSimple commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(compteUtilisateur, TypeCommandeSimple.SIMPLE);
 
-        List<MenuPlat> listMenus = restaurant.getMenus();
-        if (listMenus.size()!=0) {
-            try {
-                commande.ajoutMenuPlat(listMenus.get(0),1);
-                assertEquals(1, commande.getMenuPlats().size());
-            } catch (CapaciteDepasseException e) {
-                assert false : "Impossible d'ajouter une commande";
+            List<MenuPlat> listMenus = restaurant.getMenus();
+            if (listMenus.size()!=0) {
+                try {
+                    commande.ajoutMenuPlat(listMenus.get(0), TypeMenuPlat.MENU);
+                    assertEquals(1, commande.getMenuPlats().size());
+                } catch (CapaciteDepasseException e) {
+                    assert false : "Impossible d'ajouter une commande";
+                }
+            } else {
+                assert false : "Le restaurant n'a pas de menu";
             }
+            commande.payerCommande(this.compteUtilisateur.createToken(CompteUtilisateur.DEFAULT_PASSWORD));
         } else {
-            assert false : "Le restaurant n'a pas de menu";
+            assert false : "L'utilisateur n'est pas le bon";
         }
-        commandeManager.payerCommande(commande, this.compteUtilisateur.createToken(CompteUtilisateur.DEFAULT_PASSWORD));
-
     }
 }

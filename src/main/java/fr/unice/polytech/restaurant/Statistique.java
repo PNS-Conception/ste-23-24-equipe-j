@@ -1,6 +1,7 @@
 package fr.unice.polytech.restaurant;
 
-import fr.unice.polytech.commande.Commande;
+import fr.unice.polytech.commande.CommandeAvecID;
+import fr.unice.polytech.commande.CommandeSimpleAvecID;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
 import java.util.HashMap;
@@ -17,10 +18,10 @@ public class Statistique {
         nbCommandeRestaurant = new HashMap<>();
     }
 
-    public boolean updateUserStat(Commande commande, String password) {
+    public boolean updateUserStat(CommandeAvecID commande, String password) {
         if (password.equals(UserPassword)) {
-            Restaurant restaurant = commande.getRestaurant();
-            CompteUtilisateur compteUtilisateur = commande.getCompteUtilisateur();
+            Restaurant restaurant = ((CommandeSimpleAvecID) commande).getRestaurant().orElse(null);
+            CompteUtilisateur compteUtilisateur = commande.getCreateur();
             if (nbCommandeRestaurant.containsKey(restaurant)) {
                 nbCommandeRestaurant.put(restaurant, nbCommandeRestaurant.get(restaurant) + 1);
             } else {

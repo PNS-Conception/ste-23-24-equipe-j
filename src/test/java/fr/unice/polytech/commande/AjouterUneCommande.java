@@ -102,7 +102,7 @@ public class AjouterUneCommande {
 
     @Quand("l'utilisateur paye sa commande à {int}€")
     public void lUtilisateurConfirmeSaCommandeEtQuIlPayeLes€(int prix) throws PasswordException, TokenException {
-        commande.payerCommande(commande, this.compteUtilisateur.createToken(CompteUtilisateur.DEFAULT_PASSWORD));
+        commande.payerCommande(this.compteUtilisateur.createToken(CompteUtilisateur.DEFAULT_PASSWORD));
         assertEquals(prix, (int) commande.getPrix());
     }
 

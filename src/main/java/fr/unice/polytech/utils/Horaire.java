@@ -27,6 +27,11 @@ public class Horaire {
         }
     }
 
+    public Horaire(int heure, int minute) {
+        this.heure = heure;
+        this.minute = minute;
+    }
+
     /**
      * Retourne l'heure à laquelle la livraison de la commande doit avoir lieu
      * @return l'heure

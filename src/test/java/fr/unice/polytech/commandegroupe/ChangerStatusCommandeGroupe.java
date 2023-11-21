@@ -6,6 +6,8 @@ import fr.unice.polytech.commande.CommandeGroupe;
 import fr.unice.polytech.commande.EtatCommande;
 import fr.unice.polytech.commande.SystemeCommande;
 import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutable;
+import fr.unice.polytech.restaurant.PasswordException;
+import fr.unice.polytech.restaurant.TokenException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import io.cucumber.java.fr.*;
 
@@ -16,16 +18,18 @@ public class ChangerStatusCommandeGroupe {
     CommandeGroupe commandeGroupe;
     ICommandeAjoutable commande;
     String erreurMessage;
+    CompteUtilisateur compteUtilisateur;
 
     @Etantdonnéque("la commande groupé possède {int} commande")
     public void lacommandegroupepossedecommandes(int nombreCommande){
         systemeCommande = new SystemeCommande();
+        this.compteUtilisateur = new CompteUtilisateur("test", "test");
         commandeGroupe = (CommandeGroupe) systemeCommande.creerCommandeSimpleMultipleGroupe(
-                new CompteUtilisateur("test", "test"), TypeCommandeSimple.GROUPEE);
+                this.compteUtilisateur, TypeCommandeSimple.GROUPEE);
 
         for (int i = 0; i < nombreCommande; i++) {
             ICommandeAjoutable commandeAjoutable = systemeCommande.creerCommandeAjoutable(
-                    new CompteUtilisateur("test" + i, "test"),
+                    this.compteUtilisateur,
                     TypeCommandeAjoutable.SIMPLE, (int) commandeGroupe.getIdCommande());
 
             commandeGroupe.ajouterCommande(commandeAjoutable);
@@ -36,8 +40,8 @@ public class ChangerStatusCommandeGroupe {
     }
 
     @Quand("l'utilisateur paye la commande")
-    public void lUtilisateurPayeLaCommande() {
-        commande.payerCommande();
+    public void lUtilisateurPayeLaCommande() throws PasswordException, TokenException {
+        commande.payerCommande(this.compteUtilisateur.createToken(CompteUtilisateur.DEFAULT_PASSWORD));
     }
 
 

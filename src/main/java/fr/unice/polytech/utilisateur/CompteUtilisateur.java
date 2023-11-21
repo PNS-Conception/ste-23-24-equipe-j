@@ -1,6 +1,6 @@
 package fr.unice.polytech.utilisateur;
 
-import fr.unice.polytech.commande.Commande;
+import fr.unice.polytech.commande.CommandeAvecID;
 import fr.unice.polytech.restaurant.PasswordException;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.restaurant.Statistique;
@@ -29,7 +29,7 @@ public class CompteUtilisateur implements EventListener {
     private List<Position> adresseEnregistrees;
     private final Statistique statistique = new Statistique();
 
-    private ArrayList<Commande> historiqueCommandes;
+    private ArrayList<CommandeAvecID> historiqueCommandes;
 
     private ArrayList<Token> tokens;
 
@@ -74,11 +74,11 @@ public class CompteUtilisateur implements EventListener {
         return this.solde;
     }
 
-    public ArrayList<Commande> getHistoriqueCommandes() {
+    public ArrayList<CommandeAvecID> getHistoriqueCommandes() {
         return this.historiqueCommandes;
     }
 
-    public void ajouterCommande(Commande commande, Token token) throws TokenException {
+    public void ajouterCommande(CommandeAvecID commande, Token token) throws TokenException {
         if (tokens.contains(token)) {
             tokens.remove(token);
             this.historiqueCommandes.add(commande);

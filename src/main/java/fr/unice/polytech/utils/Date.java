@@ -30,6 +30,12 @@ public class Date {
         jour = date.getDayOfMonth();
     }
 
+    public Date(int jour, int mois, int annee) {
+        this.jour = jour;
+        this.mois = mois;
+        this.annee = annee;
+    }
+
     /**
      * Retourne le jour de la date
      * @return le jour de la date

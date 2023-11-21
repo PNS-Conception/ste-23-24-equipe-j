@@ -1,9 +1,10 @@
 package fr.unice.polytech.historique;
 
-import fr.unice.polytech.commande.Commande;
-import fr.unice.polytech.commande.CommandeManager;
+import fr.unice.polytech.builder.TypeCommandeSimple;
+import fr.unice.polytech.commande.*;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
+import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.Position;
@@ -23,10 +24,8 @@ import static org.junit.Assert.*;
 public class Historique {
 
     private CompteUtilisateur compteUtilisateur;
-    private ArrayList<Commande> historiqueCommandes;
+    private ArrayList<CommandeAvecID> historiqueCommandes;
     private final RestaurantManager restaurantManager = new RestaurantManager();
-    private final CommandeManager commandeManager = new CommandeManager();
-
 
     @Etantdonnéque("l'utilisateur {string} {string} est connecté")
     public void lUtilisateurEstLoggé(String prenom, String nom) {
@@ -60,14 +59,15 @@ public class Historique {
     }
 
     @Etque("{string} {string} effectue une commande dans le restaurant {string}")
-    public void effectueUneCommandeDansLeRestaurant(String prenom, String nom, String nomRestaurant) throws AucunMenuException, PasswordException, TokenException {
+    public void effectueUneCommandeDansLeRestaurant(String prenom, String nom, String nomRestaurant) throws AucunMenuException, PasswordException, TokenException, RestaurantNonValideException {
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
-        Commande commande = commandeManager.creerCommande(compteUtilisateur);
+        SystemeCommande systemeCommande = new SystemeCommande();
+        CommandeSimple commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(compteUtilisateur, TypeCommandeSimple.SIMPLE);
 
         List<MenuPlat> listMenus = restaurant.getMenus();
         if (listMenus.size()!=0) {
             try {
-                commande.ajoutMenuPlat(listMenus.get(0),1);
+                commande.ajoutMenuPlat(listMenus.get(0), TypeMenuPlat.MENU);
                 assertEquals(1, commande.getMenuPlats().size());
             } catch (CapaciteDepasseException e) {
                 assert false : "Impossible d'ajouter une commande";
@@ -75,7 +75,7 @@ public class Historique {
         } else {
             assert false : "Le restaurant n'a pas de menu";
         }
-        commandeManager.payerCommande(commande, this.compteUtilisateur.createToken(CompteUtilisateur.DEFAULT_PASSWORD));
+        commande.payerCommande(this.compteUtilisateur.createToken(CompteUtilisateur.DEFAULT_PASSWORD));
     }
 
 

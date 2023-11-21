@@ -3,9 +3,13 @@ package fr.unice.polytech.commande;
 import fr.unice.polytech.commande.interfacecommande.IPayable;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
+import fr.unice.polytech.restaurant.CapaciteDepasseException;
 import fr.unice.polytech.restaurant.RestaurantNonValideException;
+import fr.unice.polytech.restaurant.TokenException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utils.HoraireDate;
 import fr.unice.polytech.utils.PaiementCommande;
+import fr.unice.polytech.utils.Token;
 
 /**
  * Classe abstraite d'une commande seule payable avec un ID
@@ -30,9 +34,10 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
     }
 
     @Override
-    public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException {
+    public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException, CapaciteDepasseException {
         super.ajoutMenuPlat(menuPlat, typeMenuPlat);
         paiementCommande.ajoutPrix(menuPlat.getPrix());
+        this.restaurant.increaseReservation(this.horaireDateLivraison, 1);
     }
 
     @Override
@@ -46,9 +51,11 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
     }
 
     @Override
-    public void payerCommande() {
+    public void payerCommande(Token token) throws TokenException {
+        this.createur.ajouterCommande(this, token);
         if (paiementCommande.payerCommande())
             setEtatCommande(EtatCommande.EN_PREPARATION);
+
     }
 
     @Override

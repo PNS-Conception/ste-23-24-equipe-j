@@ -3,6 +3,7 @@ package fr.unice.polytech.commande;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.Plat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
+import fr.unice.polytech.restaurant.CapaciteDepasseException;
 import fr.unice.polytech.restaurant.RestaurantNonValideException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import io.cucumber.java.fr.*;
@@ -22,7 +23,7 @@ public class SupprimerPlatCommande {
     }
 
     @Et("avec {int} plat {string} et que ce plat coûte {int}€")
-    public void avecPlatEtQueCePlatCoûte€(int nombrePlat, String nomPlat, int prixPlat) throws RestaurantNonValideException {
+    public void avecPlatEtQueCePlatCoûte€(int nombrePlat, String nomPlat, int prixPlat) throws RestaurantNonValideException, CapaciteDepasseException {
         plat = new Plat(nomPlat, prixPlat, null, null);
 
         for (int i = 0; i < nombrePlat; i++)
