@@ -1,7 +1,9 @@
 package fr.unice.polytech.commande;
 
 import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.restaurant.TokenException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utils.Token;
 
 import java.util.HashSet;
 import java.util.List;
@@ -47,8 +49,8 @@ public class CommandeManager {
      * @param commande la commande à payer
      * @return <code>true</code> si la commande a été payée
      */
-    public boolean payerCommande(Commande commande) {
-        commande.setEtatCommande(EtatCommande.EN_PREPARATION);
+    public boolean payerCommande(Commande commande, Token token) throws TokenException {
+        commande.setEtatCommande(EtatCommande.EN_PREPARATION, token);
         return true;
     }
 

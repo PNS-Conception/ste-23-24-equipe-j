@@ -3,10 +3,7 @@ package fr.unice.polytech.commande;
 import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
-import fr.unice.polytech.restaurant.AucunMenuException;
-import fr.unice.polytech.restaurant.CapaciteDepasseException;
-import fr.unice.polytech.restaurant.Restaurant;
-import fr.unice.polytech.restaurant.RestaurantManager;
+import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.*;
 import fr.unice.polytech.utils.Date;
@@ -101,8 +98,8 @@ public class AjouterUneCommande {
     }
 
     @Quand("l'utilisateur paye sa commande à {int}€")
-    public void lUtilisateurConfirmeSaCommandeEtQuIlPayeLes€(int prix) {
-        commandeManager.payerCommande(commande);
+    public void lUtilisateurConfirmeSaCommandeEtQuIlPayeLes€(int prix) throws PasswordException, TokenException {
+        commandeManager.payerCommande(commande, this.compteUtilisateur.createToken(CompteUtilisateur.DEFAULT_PASSWORD));
         assertEquals(prix, (int) commande.getPrix());
     }
 

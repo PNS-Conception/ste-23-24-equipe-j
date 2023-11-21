@@ -5,8 +5,10 @@ import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.Plat;
 import fr.unice.polytech.restaurant.CapaciteDepasseException;
 import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.restaurant.TokenException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.HoraireDate;
+import fr.unice.polytech.utils.Token;
 
 import java.net.SocketOption;
 import java.util.Map;
@@ -108,7 +110,8 @@ public class Commande {
      * Change le statut de la commande quand elle est terminée pour le client ou restaurant
      * @param etatCommande le nouveau statut de la commande
      */
-    public void setEtatCommande(EtatCommande etatCommande) {
+    public void setEtatCommande(EtatCommande etatCommande, Token token) throws TokenException {
+        this.compteUtilisateur.ajouterCommande(this, token);
         this.etatCommande = etatCommande;
     }
 
