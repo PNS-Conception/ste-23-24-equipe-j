@@ -1,20 +1,31 @@
 package fr.unice.polytech.utilisateur;
 
+import fr.unice.polytech.commande.Commande;
+import fr.unice.polytech.restaurant.PasswordException;
+import fr.unice.polytech.restaurant.TokenException;
 import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.Token;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Classe représentant un compte utilisateur
  * @author Equipe J
  */
 public class CompteUtilisateur {
-
+    public static final String DEFAULT_PASSWORD = "0000";
     private final String nom;
     private final String prenom;
+    private String password = DEFAULT_PASSWORD;
     private int solde; // en centimes pour éviter les erreurs d'arrondi
     private List<Position> adresseEnregistrees;
+
+    private ArrayList<Commande> historiqueCommandes;
+
+    private ArrayList<Token> tokens;
 
     // Constructeur
     /**
@@ -53,6 +64,29 @@ public class CompteUtilisateur {
      */
     public int getSolde() {
         return this.solde;
+    }
+
+    public ArrayList<Commande> getHistoriqueCommandes() {
+        return this.historiqueCommandes;
+    }
+
+    public void ajouterCommande(Commande commande, Token token) throws TokenException {
+        if (tokens.contains(token)) {
+            tokens.remove(token);
+            this.historiqueCommandes.add(commande);
+        } else {
+            throw new TokenException();
+        }
+    }
+
+    public Token createToken(String mdp) throws PasswordException {
+        if (Objects.equals(mdp, this.password)) {
+            Token token = new Token(this);
+            tokens.add(token);
+            return token;
+        } else {
+            throw new PasswordException();
+        }
     }
 
     public List<Position> getAdresseEnregistrees() {
