@@ -1,7 +1,9 @@
 package fr.unice.polytech.livraison;
 
-import fr.unice.polytech.commande.Commande;
+import fr.unice.polytech.commande.CommandeAvecID;
 import fr.unice.polytech.commande.EtatCommande;
+import fr.unice.polytech.commande.interfacecommande.ICommande;
+import fr.unice.polytech.commande.interfacecommande.ILivrable;
 import fr.unice.polytech.observer.EventListenerSystem;
 import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.utils.Position;
@@ -18,7 +20,7 @@ import static fr.unice.polytech.livraison.EtatLivraisonCommande.EN_LIVRAISON;
  */
 public class SystemeLivraison implements EventListenerSystem {
     private final Map<Position, CompteLivreur> livreursDisponibles;
-    private final Map<Commande, CompteLivreur> livreursEnLivraison;
+    private final Map<CommandeAvecID, CompteLivreur> livreursEnLivraison;
 
     // Constructeur
     /**
@@ -75,7 +77,7 @@ public class SystemeLivraison implements EventListenerSystem {
      * @param commande la commande que livre le livreur
      * @return le livreur qui livre la commande
      */
-    public CompteLivreur getLivreurEnLivraison(Commande commande) {
+    public CompteLivreur getLivreurEnLivraison(ICommande commande) {
         return livreursEnLivraison.get(commande);
     }
 
@@ -88,21 +90,24 @@ public class SystemeLivraison implements EventListenerSystem {
     }
 
     @Override
-    public void update(Commande commande) {
-        if (commande.getInformationLivraison().getEtatLivraisonCommande() == EtatLivraisonCommande.LIVREE) {
-            CompteLivreur compteLivreur = livreursEnLivraison.get(commande);
+    public void update(ICommande commande) {
+        if (commande.estLivrable()) {
+            ILivrable commandeLivrable = (ILivrable) commande;
 
-            livreursEnLivraison.remove(commande);
-            livreursDisponibles.put(compteLivreur.getPosition(), compteLivreur);
-        }
-        else {
-            CompteLivreur compteLivreur = getPlusProcheLivreur(new Position(0, 0));
+            if (commandeLivrable.getInformationLivraison().getEtatLivraisonCommande() == EtatLivraisonCommande.LIVREE) {
+                CompteLivreur compteLivreur = livreursEnLivraison.get(commande);
 
-            if (compteLivreur != null) {
-                commande.getInformationLivraison().setEtatLivraisonCommande(EN_LIVRAISON);
-                livreursDisponibles.remove(compteLivreur.getPosition());
-                livreursEnLivraison.put(commande, compteLivreur);
-                compteLivreur.notify(EN_LIVRAISON.toString());
+                livreursEnLivraison.remove(commande);
+                livreursDisponibles.put(compteLivreur.getPosition(), compteLivreur);
+            } else {
+                CompteLivreur compteLivreur = getPlusProcheLivreur(new Position(0, 0));
+
+                if (compteLivreur != null) {
+                    commandeLivrable.getInformationLivraison().setEtatLivraisonCommande(EN_LIVRAISON);
+                    livreursDisponibles.remove(compteLivreur.getPosition());
+                    livreursEnLivraison.put((CommandeAvecID) commande, compteLivreur);
+                    compteLivreur.notify(EN_LIVRAISON.toString());
+                }
             }
         }
     }

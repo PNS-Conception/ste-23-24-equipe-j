@@ -1,6 +1,6 @@
 package fr.unice.polytech.observer;
 
-import fr.unice.polytech.commande.Commande;
+import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
 import java.util.ArrayList;
@@ -48,8 +48,8 @@ public class EventManager {
      * @param commande la commande que l'utilisateur a passé
      * @param message le message à lui envoyer
      */
-    public static void notify(Commande commande, String message) {
-        CompteUtilisateur compteUtilisateur = commande.getCompteUtilisateur();
+    public static void notify(ICommande commande, String message) {
+        CompteUtilisateur compteUtilisateur = commande.getCreateur();
 
         if (listenerSystemes != null && (listenerSystemes.containsKey(message))) {
                 for (EventListenerSystem eventListenerSystem : listenerSystemes.get(message))

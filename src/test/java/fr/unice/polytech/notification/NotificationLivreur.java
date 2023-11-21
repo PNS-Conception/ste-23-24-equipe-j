@@ -1,11 +1,11 @@
 package fr.unice.polytech.notification;
 
-import fr.unice.polytech.commande.Commande;
-import fr.unice.polytech.commande.CommandeManager;
+import fr.unice.polytech.builder.TypeCommandeSimple;
+import fr.unice.polytech.commande.CommandeGroupe;
+import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.commande.EtatCommande;
-import fr.unice.polytech.livraison.CompteLivreur;
-import fr.unice.polytech.livraison.EtatLivraisonCommande;
-import fr.unice.polytech.livraison.SystemeLivraison;
+import fr.unice.polytech.commande.SystemeCommande;
+import fr.unice.polytech.livraison.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.Position;
 import io.cucumber.java.fr.*;
@@ -18,16 +18,16 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class NotificationLivreur {
-    CommandeManager commandeManager;
+    SystemeCommande systemeCommande;
     SystemeLivraison systemeLivraison;
     Map<String, CompteLivreur> livreurs;
     Map<CompteLivreur, Integer> nombreNotifications;
-    Commande commande;
+    CommandeSimple commande;
 
 
     @Etantdonné("les livreurs {string} {string} et {string} {string}")
     public void lesLivreursEt(String nom1, String prenom1, String nom2, String prenom2) {
-        commandeManager = new CommandeManager();
+        systemeCommande = new SystemeCommande();
         systemeLivraison = new SystemeLivraison();
         livreurs = new HashMap<>();
         nombreNotifications = new HashMap<>();
@@ -53,7 +53,9 @@ public class NotificationLivreur {
     @Etque("{string} {string} n'est pas disponible")
     public void nEstPasDisponible(String nom, String prenom) {
         CompteLivreur livreur = livreurs.get(nom + prenom);
-        Commande commandeLivreur = commandeManager.creerCommande(new CompteUtilisateur("nom", "prenom"));
+        CommandeSimple commandeLivreur = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(
+                new CompteUtilisateur("nom", "prenom"), TypeCommandeSimple.SIMPLE);
+
         commandeLivreur.setEtatCommande(EtatCommande.PRETE);
         List<CompteLivreur> listeLivreurs = systemeLivraison.getLivreursDisponibles();
 
@@ -62,7 +64,9 @@ public class NotificationLivreur {
 
     @Quand("la commande change de status à {string}")
     public void laCommandeChangeDeStatusÀ(String status) {
-        commande = commandeManager.creerCommande(new CompteUtilisateur("nom", "prenom"));
+        commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(
+                new CompteUtilisateur("nom", "prenom"), TypeCommandeSimple.SIMPLE);
+
         commande.setEtatCommande(EtatCommande.getEtatSousCommande(status));
     }
 

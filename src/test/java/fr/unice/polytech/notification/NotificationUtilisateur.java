@@ -1,8 +1,9 @@
 package fr.unice.polytech.notification;
 
-import fr.unice.polytech.commande.Commande;
-import fr.unice.polytech.commande.CommandeManager;
+import fr.unice.polytech.builder.TypeCommandeSimple;
+import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.commande.EtatCommande;
+import fr.unice.polytech.commande.SystemeCommande;
 import fr.unice.polytech.livraison.EtatLivraisonCommande;
 import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
@@ -19,17 +20,17 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class NotificationUtilisateur {
-    CommandeManager commandeManager;
+    SystemeCommande systemeCommande;
     Map<String, CompteUtilisateur> utilisateurs;
     Map<CompteUtilisateur, Integer> nombreNotifications;
-    Commande commande;
+    CommandeSimple commande;
     EtatCommande etatCommande;
     EtatLivraisonCommande etatLivraisonCommande;
 
 
     @Etantdonné("les utilisateurs {string} {string} et {string} {string}")
     public void utilisateursEt(String nom1, String prenom1, String nom2, String prenom2) {
-        commandeManager = new CommandeManager();
+        systemeCommande = new SystemeCommande();
         utilisateurs = new HashMap<>();
         nombreNotifications = new HashMap<>();
         CompteUtilisateur compteUtilisateur1 = spy(new CompteUtilisateur(nom1, prenom1));
@@ -44,7 +45,8 @@ public class NotificationUtilisateur {
     @Etque("{string} {string} effectue une commande")
     public void effectueUneCommande(String nom, String prenom) {
         CompteUtilisateur compteUtilisateur = utilisateurs.get(nom + prenom);
-        commande = commandeManager.creerCommande(compteUtilisateur);
+        commande = (CommandeSimple) systemeCommande
+                .creerCommandeSimpleMultipleGroupe(compteUtilisateur, TypeCommandeSimple.SIMPLE);
     }
 
     @Quand("la commande change de status {string}")
