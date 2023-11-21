@@ -26,7 +26,7 @@ public class CompteUtilisateur {
     private String password = DEFAULT_PASSWORD;
     private int solde; // en centimes pour éviter les erreurs d'arrondi
     private List<Position> adresseEnregistrees;
-    private final Statistique statistique;
+    private final Statistique statistique = new Statistique();
 
     private ArrayList<Commande> historiqueCommandes;
 
@@ -39,7 +39,8 @@ public class CompteUtilisateur {
      * @param prenom prénom de l'utilisateur
      */
     public CompteUtilisateur(String nom, String prenom) {
-        this.statistique = null;
+        this.tokens = new ArrayList<>();
+        this.historiqueCommandes = new ArrayList<>();
         this.nom = nom;
         this.prenom = prenom;
         solde = 0;

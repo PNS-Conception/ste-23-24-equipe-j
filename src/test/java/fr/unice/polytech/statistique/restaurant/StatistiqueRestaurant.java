@@ -1,19 +1,17 @@
-package fr.unice.polytech.restaurant;
+package fr.unice.polytech.statistique.restaurant;
 
 import fr.unice.polytech.commande.Commande;
 import fr.unice.polytech.commande.CommandeManager;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
+import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Etantdonnéque;
 import io.cucumber.java.fr.Etque;
 import io.cucumber.java.fr.Quand;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -59,7 +57,12 @@ public class StatistiqueRestaurant {
     public void leRestaurantNAJamaisEffectuéDeCommande(String nomRestaurant) {
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         try {
-            assertEquals(0, (int) compteUtilisateur.getStatResto().get(restaurant));
+            HashMap<Restaurant, Integer> statResto = compteUtilisateur.getStatResto();
+            if (statResto.containsKey(restaurant)) {
+                assertEquals(0, (int) statResto.get(restaurant));
+            } else {
+                assert true : "Le restaurant à la bonne statistique (0)";
+            }
         } catch (PasswordException e) {
             throw new RuntimeException(e);
         }
@@ -70,7 +73,12 @@ public class StatistiqueRestaurant {
         if (Objects.equals(compteUtilisateur.getNom(), nom) && Objects.equals(compteUtilisateur.getPrenom(), prenom)) {
             Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
             try {
-                assertEquals(tailleStatistique, (int) compteUtilisateur.getStatResto().get(restaurant));
+                HashMap<Restaurant, Integer> statResto = compteUtilisateur.getStatResto();
+                if (statResto.containsKey(restaurant)) {
+                    assertEquals(tailleStatistique, (int) statResto.get(restaurant));
+                } else {
+                    assertEquals(tailleStatistique, 0);
+                }
             } catch (PasswordException e) {
                 throw new RuntimeException(e);
             }
