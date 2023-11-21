@@ -1,19 +1,17 @@
-package fr.unice.polytech.restaurant;
+package fr.unice.polytech.statistique.utilisateur;
 
 import fr.unice.polytech.commande.Commande;
 import fr.unice.polytech.commande.CommandeManager;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
+import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Etantdonnéque;
 import io.cucumber.java.fr.Etque;
 import io.cucumber.java.fr.Quand;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -55,7 +53,18 @@ public class StatistiqueUtilisateur {
     @Etque("{string} {string} n'a jamais effectué de commande")
     public void nAJamaisEffectuéDeCommande(String prenom, String name) {
         if (Objects.equals(compteUtilisateur.getNom(), name) && Objects.equals(compteUtilisateur.getPrenom(), prenom)) {
-            assertEquals(0, compteUtilisateur.getHistoriqueCommandes().size());
+            try {
+                assertEquals(0, compteUtilisateur.getHistoriqueCommandes().size());
+                HashMap<CompteUtilisateur, Integer> statUser = null;
+                statUser = compteUtilisateur.getStatUser();
+                if (statUser.containsKey(compteUtilisateur)) {
+                    assertEquals(0, (int) statUser.get(compteUtilisateur));
+                } else {
+                    assert true : "L'utilisateur à la bonne statistique (0)";
+                }
+            } catch (PasswordException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             assert false : "L'utilisateur n'est pas le bon";
         }
@@ -65,7 +74,12 @@ public class StatistiqueUtilisateur {
     public void accèdeÀSaPageDeStatistiqueIlObtientUneValeur(String prenom, String name, int tailleStatistique) {
         if (Objects.equals(compteUtilisateur.getNom(), name) && Objects.equals(compteUtilisateur.getPrenom(), prenom)) {
             try {
-                assertEquals(tailleStatistique, (int) compteUtilisateur.getStatUser().get(compteUtilisateur));
+                HashMap<CompteUtilisateur, Integer> statUser = compteUtilisateur.getStatUser();
+                if (statUser.containsKey(compteUtilisateur)) {
+                    assertEquals(tailleStatistique, (int) statUser.get(compteUtilisateur));
+                } else {
+                    assertEquals(tailleStatistique, 0);
+                }
             } catch (PasswordException e) {
                 throw new RuntimeException(e);
             }
