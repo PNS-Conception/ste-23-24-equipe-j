@@ -8,7 +8,7 @@ import fr.unice.polytech.utilisateur.CompteUtilisateur;
  * @author Equipe J
  */
 public class CommandeSimpleAjoutable extends CommandeSimplePayable implements ICommandeAjoutable {
-    private ACommandeGroupe commandeGroupe;
+    private final ACommandeGroupe commandeGroupe;
 
     /**
      * Constructeur par défaut

@@ -36,4 +36,6 @@ public interface ICommande {
      * @return <code>true</code> si la commande est une commande simple, <code>false</code> sinon
      */
     boolean estCommandeSimple();
+
+    boolean estLivrable();
 }

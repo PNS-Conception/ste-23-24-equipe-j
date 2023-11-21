@@ -19,19 +19,20 @@ import static org.junit.Assert.assertEquals;
 public class ConsulterEtValiderUneCommande {
     Restaurant restaurant;
     SystemeCommande systemeCommande = new SystemeCommande();
-    SystemeLivraison systemeLivraison = new SystemeLivraison();
+    SystemeLivraison systemeLivraison;
 
     @Etantdonnéque("le restaurateur de position {int},{int} a la liste des commandes en attente avec les menus :")
     public void getCommandes(Integer latitude, Integer longitude, List<String> listeCommande) throws RestaurantNonValideException {
+        systemeLivraison = new SystemeLivraison();
         restaurant = new Restaurant("Chinois", new Position(latitude, longitude));
 
         for (String nomMenu : listeCommande) {
             Menu menu = new Menu(nomMenu, 0);
             restaurant.addMenu(menu);
 
-            CommandeSimple commande = (CommandeSimple) systemeCommande.
-                    creerCommandeSimpleMultipleGroupe(
+            CommandeSimple commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(
                             new CompteUtilisateur("nom", "prenom"), TypeCommandeSimple.SIMPLE);
+
             commande.ajoutMenuPlat(menu, TypeMenuPlat.MENU);
         }
 
@@ -69,9 +70,9 @@ public class ConsulterEtValiderUneCommande {
     @Alors("le livreur peut retirer la commande avec le menu d'ID {int}, ie la commande est attribué au livreur le plus proche : {string} {string}")
     public void leLivreurPeutRetirerLaCommandeDIDIeLaCommandeEstAttribuéAuLivreurLePlusProche(Integer ID, String prenomLivreur, String nomLivreur) {
         Position position = restaurant.getPosition();
-        CompteLivreur compteLivreur = this.systemeLivraison.getPlusProcheLivreur(position);
+        CompteLivreur compteLivreur = systemeLivraison.getLivreurEnLivraison(systemeCommande.getCommandeParId(ID));
 
-        assertEquals(compteLivreur.getPrenom(), prenomLivreur);
-        assertEquals(compteLivreur.getNom(), nomLivreur);
+        assertEquals(prenomLivreur, compteLivreur.getPrenom());
+        assertEquals(nomLivreur, compteLivreur.getNom());
     }
 }

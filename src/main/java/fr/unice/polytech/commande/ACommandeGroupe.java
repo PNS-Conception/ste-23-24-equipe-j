@@ -3,12 +3,11 @@ package fr.unice.polytech.commande;
 import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutable;
 import fr.unice.polytech.commande.interfacecommande.ILivrable;
 import fr.unice.polytech.livraison.InformationLivraison;
+import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.CalculEtatCommande;
+import fr.unice.polytech.utils.*;
 import fr.unice.polytech.utils.Date;
-import fr.unice.polytech.utils.Horaire;
-import fr.unice.polytech.utils.Position;
 
 import java.util.*;
 
@@ -23,7 +22,7 @@ public abstract class ACommandeGroupe extends CommandeAvecID implements ILivrabl
     protected ACommandeGroupe(long idCommande, CompteUtilisateur createurCommande) {
         super(idCommande, createurCommande);
         commandes = new HashSet<>();
-        informationLivraison = new InformationLivraison();
+        informationLivraison = new InformationLivraison(this);
     }
 
     /**
@@ -69,7 +68,10 @@ public abstract class ACommandeGroupe extends CommandeAvecID implements ILivrabl
      * Met à jour l'état de la commande groupe quand une commande est ajoutée ou supprimée
      */
     protected void updateStatusCommande() {
-        this.etatCommande = CalculEtatCommande.calculEtatCommande(commandes);
+        EtatCommande newEtatCommande = CalculEtatCommande.calculEtatCommande(commandes);
+
+        if (this.etatCommande != newEtatCommande)
+            super.setEtatCommande(newEtatCommande);
     }
 
     @Override
@@ -79,8 +81,10 @@ public abstract class ACommandeGroupe extends CommandeAvecID implements ILivrabl
 
     @Override
     public void setEtatCommande(EtatCommande etatCommande) {
-        if (etatCommande == EtatCommande.ANNULE)
+        if (etatCommande == EtatCommande.ANNULE) {
             this.etatCommande = etatCommande;
+            EventManager.notify(this, etatCommande.toString());
+        }
         else
             throw new IllegalArgumentException("Impossible de changer l'état d'une commande de groupe");
     }
@@ -88,6 +92,11 @@ public abstract class ACommandeGroupe extends CommandeAvecID implements ILivrabl
     @Override
     public boolean estCommandeSimple() {
         return false;
+    }
+
+    @Override
+    public boolean estLivrable() {
+        return true;
     }
 
     @Override

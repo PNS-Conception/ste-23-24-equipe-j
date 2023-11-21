@@ -19,7 +19,13 @@ public class CommandeSimple extends CommandeSimplePayable implements ILivrable {
      */
     public CommandeSimple(long idCommande, CompteUtilisateur createurCommande) {
         super(idCommande, createurCommande);
-        informationLivraison = new InformationLivraison();
+        informationLivraison = new InformationLivraison(this);
+    }
+
+
+    @Override
+    public boolean estLivrable() {
+        return true;
     }
 
 
@@ -31,7 +37,7 @@ public class CommandeSimple extends CommandeSimplePayable implements ILivrable {
 
     @Override
     public void setInformationLivraison(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
-        informationLivraison = new InformationLivraison(dateLivraison, heureLivraison, lieuxLivraison);
+        informationLivraison.setInformationLivraison(dateLivraison, heureLivraison, lieuxLivraison);
     }
 
     @Override

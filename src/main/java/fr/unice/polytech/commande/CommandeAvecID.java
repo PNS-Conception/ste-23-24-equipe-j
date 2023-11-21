@@ -1,6 +1,7 @@
 package fr.unice.polytech.commande;
 
 import fr.unice.polytech.commande.interfacecommande.ICommande;
+import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
 import java.util.Objects;
@@ -44,7 +45,13 @@ public abstract class CommandeAvecID  implements ICommande {
 
     @Override
     public void setEtatCommande(EtatCommande etatCommande) {
+        EventManager.notify(this, etatCommande.toString());
         this.etatCommande = etatCommande;
+    }
+
+    @Override
+    public boolean estLivrable() {
+        return false;
     }
 
     @Override
