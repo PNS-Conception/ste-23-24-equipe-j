@@ -23,6 +23,6 @@ Fonctionnalité: Accès à l'historique
     Et que le restaurant "AfriqueDuSud" propose les menus suivant :
       | Tricheur | 5,00 |
       | Voleur | 3,00 |
-    Et que "Antoine" "Griezmann" effectue une commande dans le restaurant "Argentine"
+    Et que "Antoine" "Griezmann" effectue une commande dans le restaurant "AfriqueDuSud"
     Quand "Antoine" "Griezmann" veut accéder à l'historique
     Alors il obtient une liste de taille 1

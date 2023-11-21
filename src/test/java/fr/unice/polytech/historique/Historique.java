@@ -1,9 +1,10 @@
-package fr.unice.polytech.restaurant;
+package fr.unice.polytech.historique;
 
 import fr.unice.polytech.commande.Commande;
 import fr.unice.polytech.commande.CommandeManager;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
+import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.Position;
 import io.cucumber.java.fr.Alors;
