@@ -13,13 +13,13 @@ import java.util.Map;
  * @author Equipe J
  */
 public class EventManager {
-    private final Map<String, List<EventListenerSystem>> listenerSystemes;
+    private static Map<String, List<EventListenerSystem>> listenerSystemes;
 
     /**
      * Constructeur par défaut
      */
-    public EventManager() {
-        listenerSystemes = new HashMap<>();
+    private EventManager() {
+        throw new IllegalStateException("Utility class");
     }
 
     /**
@@ -27,7 +27,10 @@ public class EventManager {
      * @param listener les élements du systèmes à notifier
      * @param eventType les types de status de commande auquel le système doit être notifié
      */
-    public void subscribe(EventListenerSystem listener, String... eventType) {
+    public static void subscribe(EventListenerSystem listener, String... eventType) {
+        if (listenerSystemes == null)
+            listenerSystemes = new HashMap<>();
+
         for (String event : eventType) {
             if (listenerSystemes.containsKey(event)) {
                 listenerSystemes.get(event).add(listener);
@@ -45,12 +48,12 @@ public class EventManager {
      * @param commande la commande que l'utilisateur a passé
      * @param message le message à lui envoyer
      */
-    public void notify(Commande commande, String message) {
+    public static void notify(Commande commande, String message) {
         CompteUtilisateur compteUtilisateur = commande.getCompteUtilisateur();
 
-        if (listenerSystemes.containsKey(message)) {
-            for (EventListenerSystem eventListenerSystem : listenerSystemes.get(message))
-                eventListenerSystem.notify(commande);
+        if (listenerSystemes != null && (listenerSystemes.containsKey(message))) {
+                for (EventListenerSystem eventListenerSystem : listenerSystemes.get(message))
+                    eventListenerSystem.update(commande);
         }
 
         if (compteUtilisateur != null) {
