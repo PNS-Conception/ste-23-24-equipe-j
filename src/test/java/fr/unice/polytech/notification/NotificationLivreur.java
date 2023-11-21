@@ -28,7 +28,7 @@ public class NotificationLivreur {
     @Etantdonné("les livreurs {string} {string} et {string} {string}")
     public void lesLivreursEt(String nom1, String prenom1, String nom2, String prenom2) {
         commandeManager = new CommandeManager();
-        systemeLivraison = new SystemeLivraison(commandeManager.eventManager);
+        systemeLivraison = new SystemeLivraison();
         livreurs = new HashMap<>();
         nombreNotifications = new HashMap<>();
         CompteLivreur livreur1 = spy(new CompteLivreur(nom1, prenom1, new Position(0, 0)));

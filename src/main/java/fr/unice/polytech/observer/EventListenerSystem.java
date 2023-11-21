@@ -8,8 +8,8 @@ import fr.unice.polytech.commande.Commande;
  */
 public interface EventListenerSystem {
     /**
-     * Notifie un élément du système
+     * Met à jour un élément du système
      * @param commande la commande qui a changé de status
      */
-    public void notify(Commande commande);
+    public void update(Commande commande);
 }

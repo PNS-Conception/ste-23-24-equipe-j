@@ -86,7 +86,7 @@ public class InformationLivraison {
      * @param etatLivraisonCommande le nouveau statut de la livraison de la commande
      */
     public void setEtatLivraisonCommande(EtatLivraisonCommande etatLivraisonCommande) {
-        commande.eventManager.notify(commande, etatLivraisonCommande.toString());
+        EventManager.notify(commande, etatLivraisonCommande.toString());
         this.etatLivraisonCommande = etatLivraisonCommande;
     }
 }

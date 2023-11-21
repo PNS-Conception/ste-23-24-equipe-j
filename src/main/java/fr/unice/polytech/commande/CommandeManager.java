@@ -16,15 +16,13 @@ import java.util.Set;
 public class CommandeManager implements EventListenerSystem {
     private final Set<Commande> commandes;
     private int id;
-    public final EventManager eventManager;
 
     /**
      * Constructeur par défaut
      */
     public CommandeManager() {
         commandes = new HashSet<>();
-        eventManager = new EventManager();
-        eventManager.subscribe(this, EtatLivraisonCommande.LIVREE.toString());
+        EventManager.subscribe(this, EtatLivraisonCommande.LIVREE.toString());
         id = 0;
     }
 
@@ -33,7 +31,7 @@ public class CommandeManager implements EventListenerSystem {
      * @param compteUtilisateur le CompteUtilisateur qui passe la commande
      */
     public Commande creerCommande(CompteUtilisateur compteUtilisateur) {
-        Commande commande = new Commande(compteUtilisateur, id++, eventManager);
+        Commande commande = new Commande(compteUtilisateur, id++);
         commandes.add(commande);
         return commande;
     }
@@ -78,7 +76,7 @@ public class CommandeManager implements EventListenerSystem {
 
 
     @Override
-    public void notify(Commande commande) {
+    public void update(Commande commande) {
         commandes.remove(commande);
     }
 }

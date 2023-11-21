@@ -23,7 +23,6 @@ public class Commande {
     private EtatCommande etatCommande;
     private CompteUtilisateur compteUtilisateur;
     private InformationLivraison informationLivraison;
-    public EventManager eventManager;
 
     /**
      * Constructeur pour les tests
@@ -40,10 +39,9 @@ public class Commande {
     /**
      * Constructeur par défaut de Commande
      */
-    public Commande(CompteUtilisateur compteUtilisateur, int id, EventManager eventManager) {
+    public Commande(CompteUtilisateur compteUtilisateur, int id) {
         this(id);
         this.compteUtilisateur = compteUtilisateur;
-        this.eventManager = eventManager;
     }
 
     // Accesseurs et setters
@@ -109,7 +107,7 @@ public class Commande {
      * @param etatCommande le nouveau statut de la commande
      */
     public void setEtatCommande(EtatCommande etatCommande) {
-        eventManager.notify(this, etatCommande.toString());
+        EventManager.notify(this, etatCommande.toString());
         this.etatCommande = etatCommande;
     }
 

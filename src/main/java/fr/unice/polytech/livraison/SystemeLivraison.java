@@ -24,10 +24,10 @@ public class SystemeLivraison implements EventListenerSystem {
     /**
      * Constructeur par défaut
      */
-    public SystemeLivraison(EventManager eventManager) {
+    public SystemeLivraison() {
         this.livreursDisponibles = new HashMap<>();
         this.livreursEnLivraison = new HashMap<>();
-        eventManager.subscribe(this, EtatCommande.PRETE.toString(),
+        EventManager.subscribe(this, EtatCommande.PRETE.toString(),
                 EtatLivraisonCommande.LIVREE.toString());
     }
 
@@ -88,7 +88,7 @@ public class SystemeLivraison implements EventListenerSystem {
     }
 
     @Override
-    public void notify(Commande commande) {
+    public void update(Commande commande) {
         if (commande.getInformationLivraison().getEtatLivraisonCommande() == EtatLivraisonCommande.LIVREE) {
             CompteLivreur compteLivreur = livreursEnLivraison.get(commande);
 

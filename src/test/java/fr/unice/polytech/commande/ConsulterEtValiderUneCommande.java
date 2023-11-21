@@ -20,7 +20,7 @@ public class ConsulterEtValiderUneCommande {
 
     @Etantdonnéque("le restaurateur de position {int},{int} a la liste des commandes en attente avec les menus :")
     public void getCommandes(Integer latitude, Integer longitude, List<String> listeCommande) {
-        systemeLivraison = new SystemeLivraison(commandeManager.eventManager);
+        systemeLivraison = new SystemeLivraison();
         restaurant = new Restaurant("Chinois", new Position(latitude, longitude));
 
         for (String nomMenu : listeCommande) {
