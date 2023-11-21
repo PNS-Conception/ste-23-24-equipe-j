@@ -1,11 +1,8 @@
 package fr.unice.polytech.commande;
 
-import fr.unice.polytech.livraison.InformationLivraison;
-import fr.unice.polytech.nourriture.Menu;
-import fr.unice.polytech.nourriture.MenuPlat;
-import fr.unice.polytech.restaurant.AucunMenuException;
-import fr.unice.polytech.restaurant.Restaurant;
-import fr.unice.polytech.restaurant.RestaurantManager;
+import fr.unice.polytech.builder.TypeCommandeSimple;
+import fr.unice.polytech.nourriture.*;
+import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.*;
 import fr.unice.polytech.utils.Date;
@@ -17,10 +14,10 @@ import static org.junit.Assert.*;
 
 public class AjouterUneCommande {
     private final RestaurantManager restaurantManager = new RestaurantManager();
-    private final CommandeManager commandeManager = new CommandeManager();
+    private final SystemeCommande systemeCommande = new SystemeCommande();
 
     private CompteUtilisateur compteUtilisateur;
-    private Commande commande;
+    private CommandeSimple commande;
     private Restaurant restaurant;
 
     @Etantdonnéque("l'utilisateur {string} {string} est loggé")
@@ -30,7 +27,8 @@ public class AjouterUneCommande {
 
     @Etque("{string} {string} crée une commande")
     public void créeUneCommande(String prenom, String nom) {
-        commande = commandeManager.creerCommande(null);
+        commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(new CompteUtilisateur(nom, prenom),
+                TypeCommandeSimple.SIMPLE);
 
         assertEquals(prenom, compteUtilisateur.getPrenom());
         assertEquals(nom, compteUtilisateur.getNom());
@@ -73,11 +71,11 @@ public class AjouterUneCommande {
     }
 
     @Etque("l'utilisateur choisit le menu {string} à {int} €")
-    public void ilChoisitLeMenuÀ€(String nomMenu, int prix) throws AucunMenuException {
+    public void ilChoisitLeMenuÀ€(String nomMenu, int prix) throws AucunMenuException, RestaurantNonValideException {
 
         for (MenuPlat menu : restaurant.getMenus()) {
             if (menu.getNom().equals(nomMenu)) {
-                commande.ajoutMenuPlat(menu,1);
+                commande.ajoutMenuPlat(menu,TypeMenuPlat.MENU);
                 break;
             }
         }
@@ -90,14 +88,13 @@ public class AjouterUneCommande {
         Date date = new Date(dateInput);
         Horaire horaire = new Horaire(heureInput);
         Position position = compteUtilisateur.getAdresseEnregistreesParNom(adresseInput);
-        InformationLivraison infoLivraison= new InformationLivraison(date, horaire, position);
 
-        commande.setInformationLivraison(infoLivraison);
+        commande.setInformationLivraison(date, horaire, position);
     }
 
     @Quand("l'utilisateur paye sa commande à {int}€")
     public void lUtilisateurConfirmeSaCommandeEtQuIlPayeLes€(int prix) {
-        commandeManager.payerCommande(commande);
+        commande.payerCommande();
         assertEquals(prix, (int) commande.getPrix());
     }
 
@@ -105,6 +102,6 @@ public class AjouterUneCommande {
     public void laCommandeEstAjoutéÀLaListeDesCommandesEnPréparationEtElleEstEnvoyéAuRestaurant(String etatCommande, String nomRestaurant) {
         assertEquals(EtatCommande.getEtatSousCommande(etatCommande), commande.getEtatCommande());
         assertEquals(restaurant.getNomRestaurant(), nomRestaurant);
-        assertTrue(commandeManager.getCommandeEnPreparationRestaurant(restaurant).contains(commande));
+        assertTrue(systemeCommande.getCommandeEnPreparationRestaurant(restaurant).contains(commande));
     }
 }

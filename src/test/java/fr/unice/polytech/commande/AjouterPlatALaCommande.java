@@ -1,6 +1,8 @@
 package fr.unice.polytech.commande;
 
 import fr.unice.polytech.nourriture.Plat;
+import fr.unice.polytech.nourriture.TypeMenuPlat;
+import fr.unice.polytech.restaurant.RestaurantNonValideException;
 import io.cucumber.java.fr.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,22 +11,23 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class AjouterPlatALaCommande {
-    Commande commande;
+    CommandeSimple commande;
     Plat plat;
 
     @Etantdonnéque("une commande en cours de création avec un montant qui s'élève à {double}€")
     public void createCommande(double prix){
-        commande = new Commande(0);
+        commande = new CommandeSimple(0, null);
         assertEquals(prix, commande.getPrix(), 0);
     }
 
     @Quand("l'utilisateur ajoute {int} quantité de plat de {string} à {double}€")
-    public void ajoutPlatDansCommande(int quantite, String nomPlat, double prix){
+    public void ajoutPlatDansCommande(int quantite, String nomPlat, double prix) throws RestaurantNonValideException {
         List<String> aliments = new ArrayList<>(Arrays.asList("Tagliatelles", "Saumon", "Crème Fraiche"));
         List<String> alergene =  new ArrayList<>();
         plat = new Plat(nomPlat, prix, aliments, alergene);
 
-        commande.ajoutMenuPlat(plat, quantite);
+        for (int i = 0; i < quantite; i++)
+            commande.ajoutMenuPlat(plat, TypeMenuPlat.PLAT);
 
         int nombrePlatAjouter = commande.getMenuPlats().get(plat);
         assertEquals(quantite, nombrePlatAjouter);
