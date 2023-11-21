@@ -2,12 +2,15 @@ package fr.unice.polytech.utilisateur;
 
 import fr.unice.polytech.commande.Commande;
 import fr.unice.polytech.restaurant.PasswordException;
+import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.restaurant.Statistique;
 import fr.unice.polytech.restaurant.TokenException;
 import fr.unice.polytech.utils.Position;
 import fr.unice.polytech.utils.Token;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,11 +20,13 @@ import java.util.Objects;
  */
 public class CompteUtilisateur {
     public static final String DEFAULT_PASSWORD = "0000";
+    private final String statisticUserPassword = "0000";
     private final String nom;
     private final String prenom;
     private String password = DEFAULT_PASSWORD;
     private int solde; // en centimes pour éviter les erreurs d'arrondi
     private List<Position> adresseEnregistrees;
+    private final Statistique statistique;
 
     private ArrayList<Commande> historiqueCommandes;
 
@@ -34,6 +39,7 @@ public class CompteUtilisateur {
      * @param prenom prénom de l'utilisateur
      */
     public CompteUtilisateur(String nom, String prenom) {
+        this.statistique = null;
         this.nom = nom;
         this.prenom = prenom;
         solde = 0;
@@ -74,6 +80,7 @@ public class CompteUtilisateur {
         if (tokens.contains(token)) {
             tokens.remove(token);
             this.historiqueCommandes.add(commande);
+            this.statistique.updateUserStat(commande, this.statisticUserPassword);
         } else {
             throw new TokenException();
         }
@@ -87,6 +94,14 @@ public class CompteUtilisateur {
         } else {
             throw new PasswordException();
         }
+    }
+
+    public HashMap<CompteUtilisateur,Integer> getStatUser() throws PasswordException {
+        return this.statistique.getUserStat(this.statisticUserPassword);
+    }
+
+    public HashMap<Restaurant,Integer> getStatResto() throws PasswordException {
+        return this.statistique.getRestaurantStat(this.statisticUserPassword);
     }
 
     public List<Position> getAdresseEnregistrees() {

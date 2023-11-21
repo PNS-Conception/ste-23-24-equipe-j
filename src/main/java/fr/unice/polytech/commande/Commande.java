@@ -20,6 +20,8 @@ import java.util.Objects;
  * @author Equipe J
  */
 public class Commande {
+
+    public static final CompteUtilisateur DEFAULT_COMPTE_UTILISATEUR = new CompteUtilisateur("nom","prenom");
     private final int id;
     private double prixCommande;
     private final Map<MenuPlat, Integer> menuPlats;

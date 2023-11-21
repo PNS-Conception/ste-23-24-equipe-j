@@ -49,9 +49,13 @@ public class CommandeManager {
      * @param commande la commande à payer
      * @return <code>true</code> si la commande a été payée
      */
-    public boolean payerCommande(Commande commande, Token token) throws TokenException {
-        commande.setEtatCommande(EtatCommande.EN_PREPARATION, token);
-        return true;
+    public boolean payerCommande(Commande commande, Token token) {
+        try {
+            commande.setEtatCommande(EtatCommande.EN_PREPARATION, token);
+            return true;
+        } catch (TokenException e) {
+            return false;
+        }
     }
 
     /**
