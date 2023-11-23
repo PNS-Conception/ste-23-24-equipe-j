@@ -31,7 +31,7 @@ public class AjouterUneCommande {
 
     @Etque("{string} {string} crée une commande")
     public void créeUneCommande(String prenom, String nom) {
-        commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(new CompteUtilisateur(nom, prenom),
+        commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(compteUtilisateur,
                 TypeCommandeSimple.SIMPLE);
 
         assertEquals(prenom, compteUtilisateur.getPrenom());
@@ -102,7 +102,8 @@ public class AjouterUneCommande {
 
     @Quand("l'utilisateur paye sa commande à {int}€")
     public void lUtilisateurConfirmeSaCommandeEtQuIlPayeLes€(int prix) throws PasswordException, TokenException {
-        commande.payerCommande(this.compteUtilisateur.createToken(CompteUtilisateur.DEFAULT_PASSWORD));
+        Token token = compteUtilisateur.createToken(CompteUtilisateur.DEFAULT_PASSWORD);
+        commande.payerCommande(token);
         assertEquals(prix, (int) commande.getPrix());
     }
 

@@ -2,6 +2,10 @@ package fr.unice.polytech.commande;
 
 import fr.unice.polytech.commande.interfacecommande.ILivrable;
 import fr.unice.polytech.livraison.InformationLivraison;
+import fr.unice.polytech.nourriture.MenuPlat;
+import fr.unice.polytech.nourriture.TypeMenuPlat;
+import fr.unice.polytech.restaurant.CapaciteDepasseException;
+import fr.unice.polytech.restaurant.RestaurantNonValideException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.*;
 
@@ -38,6 +42,13 @@ public class CommandeSimple extends CommandeSimplePayable implements ILivrable {
     @Override
     public void setInformationLivraison(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
         informationLivraison.setInformationLivraison(dateLivraison, heureLivraison, lieuxLivraison);
+    }
+
+    @Override
+    public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException, CapaciteDepasseException {
+        super.ajoutMenuPlat(menuPlat, typeMenuPlat);
+        HoraireDate horaireDate = new HoraireDate(informationLivraison.getDateLivraison(),informationLivraison.getHeureLivraison());
+        super.restaurant.increaseReservation(horaireDate, 1);
     }
 
     @Override

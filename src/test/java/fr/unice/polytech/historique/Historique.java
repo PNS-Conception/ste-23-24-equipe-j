@@ -80,15 +80,15 @@ public class Historique {
 
 
 
-    @Etque("L'utilisateur peut accéder aux restaurants suivant :")
-    public void lUtilisateurPeutAccéderAuxRestaurantsSuivant(List<String> restaurants) {
+    @Etque("L'utilisateur peut accéder aux restaurants suivant:")
+    public void lUtilisateurPeutAccéderAuxRestaurantsSuivantHistorique(List<String> restaurants) {
         for (String restaurant : restaurants) {
             restaurantManager.addRestaurant(new Restaurant(restaurant));
         }
     }
 
-    @Etque("le restaurant {string} propose les menus suivant :")
-    public void leRestaurantProposeLesMenusSuivant(String nomRestaurant, Map<String, Double> menus) {
+    @Etque("les menus proposés par le restaurant {string} sont les suivant :")
+    public void leRestaurantProposeLesMenusSuivantHistorique(String nomRestaurant, Map<String, Double> menus) {
 
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         for (Map.Entry<String, Double> menu : menus.entrySet()) {

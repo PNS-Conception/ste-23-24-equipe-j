@@ -1,13 +1,19 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.Plat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.CapaciteDepasseException;
+import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.restaurant.RestaurantNonValideException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utils.Date;
+import fr.unice.polytech.utils.Horaire;
+import fr.unice.polytech.utils.Position;
 import io.cucumber.java.fr.*;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -25,9 +31,25 @@ public class SupprimerPlatCommande {
     @Et("avec {int} plat {string} et que ce plat coûte {int}€")
     public void avecPlatEtQueCePlatCoûte€(int nombrePlat, String nomPlat, int prixPlat) throws RestaurantNonValideException, CapaciteDepasseException {
         plat = new Plat(nomPlat, prixPlat, null, null);
+        Restaurant restaurant =
+                new Restaurant("Restaurant");
+        restaurant.addMenu(plat);
 
-        for (int i = 0; i < nombrePlat; i++)
+
+        for (int i = 0; i < nombrePlat; i++) {
+            LocalDateTime now = LocalDateTime.now();
+            int year = now.getYear();
+            int month = now.getMonthValue();
+            int day = now.getDayOfMonth();
+            int hour = now.getHour();
+            int minute = now.getMinute();
+            Date date = new Date(day, month, year);
+            Horaire horaire = new Horaire(hour, minute);
+            Position position = new Position("positionInput");
+            commande.setInformationLivraison(date,horaire, position);
             commande.ajoutMenuPlat(plat, TypeMenuPlat.PLAT);
+        }
+
 
         Map<MenuPlat, Integer> menuPlats = commande.getMenuPlats();
         assertTrue(menuPlats.containsKey(plat));

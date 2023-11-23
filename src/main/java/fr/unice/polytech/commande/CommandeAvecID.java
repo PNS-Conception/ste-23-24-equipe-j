@@ -43,6 +43,13 @@ public abstract class CommandeAvecID  implements ICommande {
         this.horaireDateLivraison = new HoraireDate(date, horaire);
     }
 
+    protected CommandeAvecID(long idCommande, CompteUtilisateur createurCommande, HoraireDate horaireDateLivraison) {
+        this.idCommande = idCommande;
+        createur = createurCommande;
+        etatCommande = EtatCommande.EN_ATTENTE;
+        this.horaireDateLivraison = horaireDateLivraison;
+    }
+
     // Getters et setters
 
     /**

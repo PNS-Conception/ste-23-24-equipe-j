@@ -1,8 +1,11 @@
-package fr.unice.polytech.restaurant;
+package fr.unice.polytech.restaurant.ListMenu;
 
 
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
+import fr.unice.polytech.restaurant.AucunMenuException;
+import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.restaurant.RestaurantManager;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
 import io.cucumber.java.fr.Etantdonnéque;

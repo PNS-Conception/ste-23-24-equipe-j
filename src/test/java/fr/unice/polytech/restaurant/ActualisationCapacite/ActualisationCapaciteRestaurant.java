@@ -1,4 +1,4 @@
-package fr.unice.polytech.restaurant;
+package fr.unice.polytech.restaurant.ActualisationCapacite;
 
 
 import fr.unice.polytech.builder.TypeCommandeSimple;
@@ -9,6 +9,7 @@ import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
+import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.Date;
 import fr.unice.polytech.utils.Horaire;
@@ -79,7 +80,7 @@ public class ActualisationCapaciteRestaurant {
     }
 
     @Quand("l'utilisateur choisit le menu {string} à {double} €")
-    public void ilChoisitLeMenuÀ€(String nomMenu, double prix) throws AucunMenuException, RestaurantNonValideException {
+    public void ilChoisitLeMenuÀ€(String nomMenu, double prix) throws AucunMenuException, RestaurantNonValideException, PasswordException, TokenException, CapaciteDepasseException {
         for (MenuPlat menu : restaurant.getMenus()) {
             if (menu.getNom().equals(nomMenu)) {
                 try {
@@ -90,6 +91,7 @@ public class ActualisationCapaciteRestaurant {
                 break;
             }
         }
+        commande.payerCommande(this.compteUtilisateur.createToken(CompteUtilisateur.DEFAULT_PASSWORD));
         assertEquals((int) prix * 100, (int) commande.getPrix() * 100);
     }
 

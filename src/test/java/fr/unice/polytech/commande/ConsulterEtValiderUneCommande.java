@@ -8,10 +8,14 @@ import fr.unice.polytech.livraison.SystemeLivraison;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utils.Date;
+import fr.unice.polytech.utils.Horaire;
+import fr.unice.polytech.utils.HoraireDate;
 import fr.unice.polytech.utils.Position;
 import fr.unice.polytech.nourriture.Menu;
 import io.cucumber.java.fr.*;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -33,6 +37,16 @@ public class ConsulterEtValiderUneCommande {
             CommandeSimple commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(
                             new CompteUtilisateur("nom", "prenom"), TypeCommandeSimple.SIMPLE);
 
+            LocalDateTime now = LocalDateTime.now();
+            int year = now.getYear();
+            int month = now.getMonthValue();
+            int day = now.getDayOfMonth();
+            int hour = now.getHour();
+            int minute = now.getMinute();
+            Date date = new Date(day, month, year);
+            Horaire horaire = new Horaire(hour, minute);
+            Position position = new Position("positionInput");
+            commande.setInformationLivraison(date,horaire, position);
             commande.ajoutMenuPlat(menu, TypeMenuPlat.MENU);
         }
 
