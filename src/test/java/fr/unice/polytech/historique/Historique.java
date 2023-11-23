@@ -27,15 +27,18 @@ public class Historique {
     private ArrayList<CommandeAvecID> historiqueCommandes;
     private final RestaurantManager restaurantManager = new RestaurantManager();
 
-    @Etantdonnéque("l'utilisateur {string} {string} est connecté")
-    public void lUtilisateurEstLoggé(String prenom, String nom) {
+    @Etantdonnéque("l'utilisateur {string} {string} est connecté \\(passHistorique)")
+    public void lUtilisateurEstLoggéHistorique(String prenom, String nom) {
+        /* Line to pass cucumber duplication : Historique */
         compteUtilisateur = new CompteUtilisateur(nom, prenom);
+
         assertEquals(prenom, compteUtilisateur.getPrenom());
         assertEquals(nom, compteUtilisateur.getNom());
     }
 
-    @Etque("{string} {string} n'a jamais effectué de commande")
-    public void nAJamaisEffectuéDeCommande(String prenom, String nom) {
+    @Etque("{string} {string} n'a jamais effectué de commande \\(passHistorique)")
+    public void nAJamaisEffectuéDeCommandeHistorique(String prenom, String nom) {
+        /* Line to pass cucumber duplication : Historique */
         if (Objects.equals(compteUtilisateur.getNom(), nom) && Objects.equals(compteUtilisateur.getPrenom(), prenom)) {
             assertEquals(0, compteUtilisateur.getHistoriqueCommandes().size());
         } else {
@@ -43,8 +46,9 @@ public class Historique {
         }
     }
 
-    @Quand("{string} {string} veut accéder à l'historique")
-    public void veutAccéder(String prenom, String nom) {
+    @Quand("{string} {string} veut accéder à l'historique \\(passHistorique)")
+    public void veutAccéderHistorique(String prenom, String nom) {
+        /* Line to pass cucumber duplication : Historique */
         if (Objects.equals(compteUtilisateur.getNom(), nom) && Objects.equals(compteUtilisateur.getPrenom(), prenom)) {
             this.historiqueCommandes = compteUtilisateur.getHistoriqueCommandes();
             assert true : "L'utilisateur peut accéder à son historique : " + compteUtilisateur.getHistoriqueCommandes();
@@ -53,13 +57,15 @@ public class Historique {
         }
     }
 
-    @Alors("il obtient une liste de taille {int}")
-    public void ilObtientUneListeDeTaille(int tailleHistorique) {
+    @Alors("il obtient une liste de taille {int} \\(passHistorique)")
+    public void ilObtientUneListeDeTailleHistorique(int tailleHistorique) {
+        /* Line to pass cucumber duplication : Historique */
         assertEquals(tailleHistorique, historiqueCommandes.size());
     }
 
-    @Etque("{string} {string} effectue une commande dans le restaurant {string}")
-    public void effectueUneCommandeDansLeRestaurant(String prenom, String nom, String nomRestaurant) throws AucunMenuException, PasswordException, TokenException, RestaurantNonValideException {
+    @Etque("{string} {string} effectue une commande dans le restaurant {string} \\(passHistorique)")
+    public void effectueUneCommandeDansLeRestaurantHistorique(String prenom, String nom, String nomRestaurant) throws AucunMenuException, PasswordException, TokenException, RestaurantNonValideException {
+        /* Line to pass cucumber duplication : Historique */
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         SystemeCommande systemeCommande = new SystemeCommande();
         CommandeSimple commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(compteUtilisateur, TypeCommandeSimple.SIMPLE);
@@ -80,16 +86,17 @@ public class Historique {
 
 
 
-    @Etque("L'utilisateur peut accéder aux restaurants suivant:")
+    @Etque("L'utilisateur peut accéder aux restaurants suivant: \\(passHistorique)")
     public void lUtilisateurPeutAccéderAuxRestaurantsSuivantHistorique(List<String> restaurants) {
+        /* Line to pass cucumber duplication : Historique */
         for (String restaurant : restaurants) {
             restaurantManager.addRestaurant(new Restaurant(restaurant));
         }
     }
 
-    @Etque("les menus proposés par le restaurant {string} sont les suivant :")
+    @Etque("les menus proposés par le restaurant {string} sont les suivant : \\(passHistorique)")
     public void leRestaurantProposeLesMenusSuivantHistorique(String nomRestaurant, Map<String, Double> menus) {
-
+        /* Line to pass cucumber duplication : Historique */
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         for (Map.Entry<String, Double> menu : menus.entrySet()) {
             restaurant.addMenu(new Menu(menu.getKey(), menu.getValue()));

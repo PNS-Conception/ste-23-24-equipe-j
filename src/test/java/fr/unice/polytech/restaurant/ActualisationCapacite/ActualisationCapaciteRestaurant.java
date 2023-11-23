@@ -35,21 +35,21 @@ public class ActualisationCapaciteRestaurant {
     private Restaurant restaurant;
     private Exception exception;
 
-    @Etantdonnéque("l'utilisateur {string} {string} est connecté")
+    @Etantdonnéque("l'utilisateur {string} {string} est connecté \\(passActualisationCapaciteRestaurant)")
     public void lUtilisateurEstLoggé(String prenom, String nom) {
         compteUtilisateur = new CompteUtilisateur(nom, prenom);
     }
 
 
 
-    @Etque("L'utilisateur peut accéder aux restaurants suivant :")
+    @Etque("L'utilisateur peut accéder aux restaurants suivant : \\(passActualisationCapaciteRestaurant)")
     public void lUtilisateurPeutAccéderAuxRestaurantsSuivant(List<String> restaurants) {
         for (String restaurant : restaurants) {
             restaurantManager.addRestaurant(new Restaurant(restaurant));
         }
     }
 
-    @Etque("le restaurant {string} propose les menus suivant :")
+    @Etque("le restaurant {string} propose les menus suivant : \\(passActualisationCapaciteRestaurant)")
     public void leRestaurantProposeLesMenusSuivant(String nomRestaurant, Map<String, Double> menus) {
 
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
@@ -65,7 +65,7 @@ public class ActualisationCapaciteRestaurant {
     }
 
 
-    @Etque("le restaurant {string} a une capacité de {int} le {string} à {string}")
+    @Etque("le restaurant {string} a une capacité de {int} le {string} à {string} \\(passActualisationCapaciteRestaurant)")
     public void leRestaurantAUneCapacitéDe(String nomRestaurant, int capaciteRestaurant, String dateInput, String horaireInput) throws CapaciteDepasseException {
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         HoraireDate horaireDate = new HoraireDate(dateInput, horaireInput);
@@ -73,13 +73,13 @@ public class ActualisationCapaciteRestaurant {
         assertEquals(capaciteRestaurant, restaurant.getCapacity(horaireDate));
     }
 
-    @Quand("l'utilisateur choisit le restaurant {string}")
+    @Quand("l'utilisateur choisit le restaurant {string} \\(passActualisationCapaciteRestaurant)")
     public void ilChoisitLeRestaurant(String nomRestaurant) {
         restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         assertNotNull(restaurant);
     }
 
-    @Quand("l'utilisateur choisit le menu {string} à {double} €")
+    @Quand("l'utilisateur choisit le menu {string} à {double} € \\(passActualisationCapaciteRestaurant)")
     public void ilChoisitLeMenuÀ€(String nomMenu, double prix) throws AucunMenuException, RestaurantNonValideException, PasswordException, TokenException, CapaciteDepasseException {
         for (MenuPlat menu : restaurant.getMenus()) {
             if (menu.getNom().equals(nomMenu)) {
@@ -96,20 +96,20 @@ public class ActualisationCapaciteRestaurant {
     }
 
 
-    @Alors("la capacité du restaurant {string} est de {int} le {string} à {string}")
+    @Alors("la capacité du restaurant {string} est de {int} le {string} à {string} \\(passActualisationCapaciteRestaurant)")
     public void laCapacitéDuRestaurantEstDe(String nomRestaurant, int capacity, String dateInput, String horaireInput) {
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         HoraireDate horaireDate = new HoraireDate(dateInput, horaireInput);
         assertEquals(capacity, restaurant.getCapacity(horaireDate));
     }
 
-    @Alors("une {string} doit être déclenché")
+    @Alors("une {string} doit être déclenché \\(passActualisationCapaciteRestaurant)")
     public void uneDoitÊtreDéclenché(String exception) {
         assertEquals(exception, this.exception.getClass().getSimpleName());
     }
 
 
-    @Quand("l'utilisateur crée une commande pour le {string} à {string} avec comme point de livraison {string}")
+    @Quand("l'utilisateur crée une commande pour le {string} à {string} avec comme point de livraison {string} \\(passActualisationCapaciteRestaurant)")
     public void lUtilisateurCréeUneCommandePourLeÀAvecCommePointDeLivraison(String dateInput, String horaireInput, String positionInput) {
         commande = (CommandeSimple) commandeManager.creerCommandeSimpleMultipleGroupe(compteUtilisateur, TypeCommandeSimple.SIMPLE);
         Date date = new Date(dateInput);

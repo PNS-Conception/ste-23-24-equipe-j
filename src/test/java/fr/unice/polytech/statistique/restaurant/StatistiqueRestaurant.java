@@ -26,14 +26,14 @@ public class StatistiqueRestaurant {
     private final SystemeCommande commandeManager = new SystemeCommande();
 
 
-    @Etantdonnéque("L'utilisateur peut accéder aux restaurants suivant :")
+    @Etantdonnéque("L'utilisateur peut accéder aux restaurants suivant : \\(passStatistiqueRestaurant)")
     public void lUtilisateurPeutAccéderAuxRestaurantsSuivant(List<String> restaurants) {
         for (String restaurant : restaurants) {
             restaurantManager.addRestaurant(new Restaurant(restaurant));
         }
     }
 
-    @Etque("le restaurant {string} propose les menus suivant :")
+    @Etque("le restaurant {string} propose les menus suivant : \\(passStatistiqueRestaurant)")
     public void leRestaurantProposeLesMenusSuivant(String nomRestaurant, Map<String, Double> menus) {
 
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
@@ -49,14 +49,14 @@ public class StatistiqueRestaurant {
     }
 
 
-    @Etantdonnéque("l'utilisateur {string} {string} est connecté")
+    @Etantdonnéque("l'utilisateur {string} {string} est connecté \\(passStatistiqueRestaurant)")
     public void lUtilisateurEstLoggé(String prenom, String nom) {
         compteUtilisateur = new CompteUtilisateur(nom, prenom);
         assertEquals(prenom, compteUtilisateur.getPrenom());
         assertEquals(nom, compteUtilisateur.getNom());
     }
 
-    @Etque("le restaurant {string} n'a jamais effectué de commande")
+    @Etque("le restaurant {string} n'a jamais effectué de commande \\(passStatistiqueRestaurant)")
     public void leRestaurantNAJamaisEffectuéDeCommande(String nomRestaurant) {
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         try {
@@ -71,7 +71,7 @@ public class StatistiqueRestaurant {
         }
     }
 
-    @Quand("{string} {string} accède à la page des statistiques du restaurant {string}, il obtient une valeur {int}.")
+    @Quand("{string} {string} accède à la page des statistiques du restaurant {string}, il obtient une valeur {int}. \\(passStatistiqueRestaurant)")
     public void accèdeÀLaPageDesStatistiquesDuRestaurantIlObtientUneValeur(String prenom, String nom, String nomRestaurant, int tailleStatistique) {
         if (Objects.equals(compteUtilisateur.getNom(), nom) && Objects.equals(compteUtilisateur.getPrenom(), prenom)) {
             Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
@@ -90,7 +90,7 @@ public class StatistiqueRestaurant {
         }
     }
 
-    @Alors("{string} {string} effectue une commande dans le restaurant {string}.")
+    @Alors("{string} {string} effectue une commande dans le restaurant {string}. \\(passStatistiqueRestaurant)")
     public void ilEffectueUneCommandeDansCeRestaurant(String prenom, String nom, String nomRestaurant) throws AucunMenuException, PasswordException, TokenException, RestaurantNonValideException {
         if (Objects.equals(compteUtilisateur.getNom(), nom) && Objects.equals(compteUtilisateur.getPrenom(), prenom)) {
             Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
