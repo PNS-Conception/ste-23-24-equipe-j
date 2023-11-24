@@ -27,8 +27,56 @@ public class GoodClientReduction {
         this.reductionRate = reduction;
         this.nbDateReductionLast = nbDay;
         this.nbCommandeByUser = new HashMap<>();
+        this.goodClientRange = new HashMap<>();
     }
 
+    public GoodClientReduction(int nbCommande, double reduction, int nbDay) {
+        int rateFormatted = (int) Math.round(reduction * 100);
+        this.nbCommandeToGetReduction = nbCommande;
+        this.reductionRate = rateFormatted;
+        this.nbDateReductionLast = nbDay;
+        this.nbCommandeByUser = new HashMap<>();
+        this.goodClientRange = new HashMap<>();
+    }
+
+    public GoodClientReduction() {
+        this(0,0,0);
+    }
+
+
+
+    public void setNbCommandeToGetReduction(int nbCommandeToGetReduction) {
+        this.nbCommandeToGetReduction = nbCommandeToGetReduction;
+    }
+
+    public void setReductionRate(int reductionRate) {
+        this.reductionRate = reductionRate;
+    }
+
+    public void setReductionRate(double reductionRate) {
+        int rateFormatted = (int) Math.round(reductionRate * 100);
+        this.reductionRate = rateFormatted;
+    }
+
+    public void setNbDateReductionLast(int nbDateReductionLast) {
+        this.nbDateReductionLast = nbDateReductionLast;
+    }
+
+
+
+    public int getReductionRate(CompteUtilisateur user) {
+        if (this.checkIfUserIsGoodClient(user)) {
+            return this.reductionRate;
+        }
+        return 0;
+    }
+
+
+
+    /**
+     * To do after paiement but before check in order to update the number of command made by the user
+     * @param user
+     */
     public void addCommande(CompteUtilisateur user) {
         if (nbCommandeByUser.containsKey(user)) {
             int nbCommandeByDate = nbCommandeByUser.get(user);
@@ -37,7 +85,46 @@ public class GoodClientReduction {
         } else {
             nbCommandeByUser.put(user, 1);
         }
+        this.checkIfUserIsGoodClientAfterPaiement(user);
     }
+
+
+
+    /**
+     * To check after paiement in order to know if need to update Hashmap of good client with this last one
+     * @param user
+     */
+    private void checkIfUserIsGoodClientAfterPaiement(CompteUtilisateur user) {
+        if (this.checkNbCommandeCondition(user)) {
+            this.nbCommandeByUser.put(user, 0);
+            this.goodClientRange.put(user, this.determinateGoodClientLast());
+        } else {
+            if (this.goodClientRange.containsKey(user)) {
+                HoraireDate goodClientLast = this.goodClientRange.get(user);
+                HoraireDate now = this.getNowHoraireDate();
+                if (goodClientLast.compareTo(now) < 0) {
+                    this.goodClientRange.remove(user);
+                }
+            }
+        }
+    }
+
+
+
+    /**
+     * To check before paiement in order to apply reduction if needed
+     * @param user
+     * @return
+     */
+    private boolean checkIfUserIsGoodClient(CompteUtilisateur user) {
+        if (this.goodClientRange.containsKey(user)) {
+            HoraireDate goodClientLast = this.goodClientRange.get(user);
+            HoraireDate now = this.getNowHoraireDate();
+            return goodClientLast.compareTo(now) > 0;
+        }
+        return false;
+    }
+
 
     private boolean checkNbCommandeCondition(CompteUtilisateur user) {
         if (nbCommandeByUser.containsKey(user)) {
@@ -73,36 +160,7 @@ public class GoodClientReduction {
         return horaireDate;
     }
 
-    private void checkIfUserIsGoodClientAfterPaiement(CompteUtilisateur user) {
-        if (this.checkNbCommandeCondition(user)) {
-            this.nbCommandeByUser.put(user, 0);
-            this.goodClientRange.put(user, this.determinateGoodClientLast());
-        } else {
-            if (this.goodClientRange.containsKey(user)) {
-                HoraireDate goodClientLast = this.goodClientRange.get(user);
-                HoraireDate now = this.getNowHoraireDate();
-                if (goodClientLast.compareTo(now) < 0) {
-                    this.goodClientRange.remove(user);
-                }
-            }
-        }
-    }
 
-    public boolean checkIfUserIsGoodClient(CompteUtilisateur user) {
-        if (this.goodClientRange.containsKey(user)) {
-            HoraireDate goodClientLast = this.goodClientRange.get(user);
-            HoraireDate now = this.getNowHoraireDate();
-            return goodClientLast.compareTo(now) > 0;
-        }
-        return false;
-    }
-
-    public int getReductionRate(CompteUtilisateur user) {
-        if (this.checkIfUserIsGoodClient(user)) {
-            return this.reductionRate;
-        }
-        return 0;
-    }
 
 
 
