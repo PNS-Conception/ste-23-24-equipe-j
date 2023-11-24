@@ -23,14 +23,35 @@ import java.util.Objects;
 public class CompteUtilisateur implements EventListener {
     public static final String DEFAULT_PASSWORD = "0000";
     private final String statisticUserPassword = "0000";
+
+    private final Historique historique;
+    private final Statistique statistique;
+
+    private List<Position> adresseEnregistrees;
+    private ArrayList<Token> tokens;
+
+
     private final String nom;
     private final String prenom;
-    private final Historique historique = new Historique();
     private String password = DEFAULT_PASSWORD;
+    private UserStatut statut;
     private int solde; // en centimes pour éviter les erreurs d'arrondi
-    private List<Position> adresseEnregistrees;
-    private final Statistique statistique;
-    private ArrayList<Token> tokens;
+
+    public CompteUtilisateur(String nom,
+                             String prenom,
+                             String password,
+                             Statistique statistique,
+                             UserStatut statut) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.password = password;
+        this.statistique = statistique;
+        this.adresseEnregistrees = new ArrayList<>();
+        this.historique = new Historique();
+        this.tokens = new ArrayList<>();
+        this.solde = 0;
+        this.statut = statut;
+    }
 
     // Constructeur
     /**
@@ -39,22 +60,41 @@ public class CompteUtilisateur implements EventListener {
      * @param prenom prénom de l'utilisateur
      */
     public CompteUtilisateur(String nom, String prenom) {
-        this.tokens = new ArrayList<>();
-        this.nom = nom;
-        this.prenom = prenom;
-        solde = 0;
-        adresseEnregistrees = new ArrayList<>();
-        this.statistique = new Statistique();
+        this(nom, prenom, DEFAULT_PASSWORD, new Statistique(), UserStatut.NORMAL);
     }
 
     public CompteUtilisateur(String nom, String prenom, Statistique statistique) {
-        this.tokens = new ArrayList<>();
-        this.nom = nom;
-        this.prenom = prenom;
-        solde = 0;
-        adresseEnregistrees = new ArrayList<>();
-        this.statistique = statistique;
+        this(nom, prenom, DEFAULT_PASSWORD, statistique, UserStatut.NORMAL);
     }
+
+    public CompteUtilisateur(String nom, String prenom, String password) {
+        this(nom, prenom, password, new Statistique(), UserStatut.NORMAL);
+    }
+
+    public CompteUtilisateur(String nom, String prenom, String password, Statistique statistique) {
+        this(nom, prenom, password, statistique, UserStatut.NORMAL);
+    }
+
+    public CompteUtilisateur(String nom, String prenom, String password, UserStatut statut) {
+        this(nom, prenom, password, new Statistique(), statut);
+    }
+
+    public CompteUtilisateur(String nom, String prenom, Statistique statistique, UserStatut statut) {
+        this(nom, prenom, DEFAULT_PASSWORD, statistique, statut);
+    }
+
+    public CompteUtilisateur(String nom, String prenom, UserStatut statut) {
+        this(nom, prenom, DEFAULT_PASSWORD, new Statistique(), statut);
+    }
+
+    public void setStatut(UserStatut statut) {
+        this.statut = statut;
+    }
+
+    public UserStatut getStatut() {
+        return this.statut;
+    }
+
 
     // Accesseurs
 
@@ -87,13 +127,13 @@ public class CompteUtilisateur implements EventListener {
     }
 
     public void ajouterCommande(CommandeAvecID commande, Token token) throws TokenException {
-        if (tokens.contains(token)) {
-            tokens.remove(token);
-            this.historique.addCommande(commande);
-            this.statistique.updateUserStat(commande, this.statisticUserPassword);
-        } else {
-            throw new TokenException();
-        }
+        tokens.remove(token);
+        this.historique.addCommande(commande);
+        this.statistique.updateUserStat(commande, this.statisticUserPassword);
+    }
+
+    public boolean checkToken(Token token) {
+        return tokens.contains(token);
     }
 
     public Token createToken(String mdp) throws PasswordException {

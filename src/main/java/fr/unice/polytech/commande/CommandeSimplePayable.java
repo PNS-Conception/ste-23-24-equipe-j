@@ -25,7 +25,11 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
      */
     protected CommandeSimplePayable(long idCommande, CompteUtilisateur createurCommande) {
         super(idCommande, createurCommande);
-        paiementCommande = new PaiementCommande();
+        //int specialRate = super.restaurant.getSpecialRate(createurCommande.getStatut());
+        //int goodClientReduction = super.restaurant.getReductionRate(createurCommande);
+        //int rate = specialRate + goodClientReduction;
+        //paiementCommande = new PaiementCommande(rate);
+        paiementCommande = new PaiementCommande(0);
     }
 
     @Override
@@ -51,11 +55,22 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
     }
 
     @Override
-    public void payerCommande(Token token) throws TokenException {
-        this.createur.ajouterCommande(this, token);
-        if (paiementCommande.payerCommande())
-            setEtatCommande(EtatCommande.EN_PREPARATION);
+    public void checkDiscount() {
+        int specialRate = super.restaurant.getSpecialRate(super.createur.getStatut());
+        int goodClientReduction = super.restaurant.getReductionRate(super.createur);
+        int rate = specialRate + goodClientReduction;
+        paiementCommande.setDiscount(rate);
+    }
 
+    @Override
+    public void payerCommande(Token token) throws TokenException {
+        if (this.createur.checkToken(token) && paiementCommande.payerCommande()) {
+            setEtatCommande(EtatCommande.EN_PREPARATION);
+            this.createur.ajouterCommande(this, token);
+            this.restaurant.updateGoodClientReduction(this.createur);
+        } else if (!this.createur.checkToken(token)) {
+            throw new TokenException();
+        }
     }
 
     @Override

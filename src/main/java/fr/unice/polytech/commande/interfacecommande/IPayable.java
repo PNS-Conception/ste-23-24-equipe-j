@@ -18,4 +18,6 @@ public interface IPayable {
      * Permet de payer la commande
      */
     void payerCommande(Token token) throws TokenException;
+
+    void checkDiscount();
 }

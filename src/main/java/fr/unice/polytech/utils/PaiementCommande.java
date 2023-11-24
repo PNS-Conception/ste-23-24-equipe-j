@@ -6,12 +6,22 @@ package fr.unice.polytech.utils;
  */
 public class PaiementCommande {
     private double prix;
+    private int rate;
 
     /**
      * Constructeur par défaut
      */
     public PaiementCommande() {
-        prix = 0;
+        this(0);
+    }
+
+    public PaiementCommande(int discount) {
+        this.prix = 0;
+        this.rate = discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.rate = discount;
     }
 
     /**
@@ -19,7 +29,7 @@ public class PaiementCommande {
      * @return le prix de la commande
      */
     public double getPrix() {
-        return prix;
+        return Math.max(prix*(100-rate)/100, 0);
     }
 
     /**

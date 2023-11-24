@@ -4,7 +4,11 @@ import fr.unice.polytech.exceptions.AucunMenuException;
 import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.exceptions.ImpossibleAugmenterCapaciterException;
 import fr.unice.polytech.nourriture.MenuPlat;
+import fr.unice.polytech.restaurant.Reduction.GoodClientReduction;
+import fr.unice.polytech.restaurant.Reduction.SpecialRate;
 import fr.unice.polytech.restaurant.reservation.Reservation;
+import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utilisateur.UserStatut;
 import fr.unice.polytech.utils.temps.HoraireDate;
 import fr.unice.polytech.utils.Position;
 
@@ -20,6 +24,8 @@ public class Restaurant {
     private final Position position;
 
     private Reservation reservation;
+    private GoodClientReduction goodClientReduction;
+    private SpecialRate specialRate;
 
     /**
      * Constructeur pour les tests donnant une position par défaut
@@ -44,6 +50,52 @@ public class Restaurant {
         this.nomRestaurant = nomRestaurant;
         this.position= position;
         this.reservation = new Reservation(capaciteMaximale);
+        this.goodClientReduction = new GoodClientReduction();
+        this.specialRate = new SpecialRate();
+    }
+
+    public void updateGoodClientReduction(CompteUtilisateur compteUtilisateur){
+        this.goodClientReduction.addCommande(compteUtilisateur);
+    }
+
+    public void setGoodClientReduction(GoodClientReduction goodClientReduction){
+        this.goodClientReduction = goodClientReduction;
+    }
+
+    public void setSpecialRate(SpecialRate specialRate){
+        this.specialRate = specialRate;
+    }
+
+    public void setNbCommandeToGetReduction(int nbCommandeToGetReduction){
+        this.goodClientReduction.setNbCommandeToGetReduction(nbCommandeToGetReduction);
+    }
+
+    public void setReductionRate(int reductionRate) {
+        this.goodClientReduction.setReductionRate(reductionRate);
+    }
+
+    public void setReductionRate(double reductionRate) {
+        this.goodClientReduction.setReductionRate(reductionRate);
+    }
+
+    public void setNbDateReductionLast(int nbDateReductionLast) {
+        this.goodClientReduction.setNbDateReductionLast(nbDateReductionLast);
+    }
+
+    public void addSpecialRate(UserStatut statut, int rate) {
+        this.specialRate.addSpecialRate(statut, rate);
+    }
+
+    public void addSpecialRate(UserStatut statut, double rate) {
+        this.specialRate.addSpecialRate(statut, rate);
+    }
+
+    public int getReductionRate(CompteUtilisateur compteUtilisateur) {
+        return this.goodClientReduction.getReductionRate(compteUtilisateur);
+    }
+
+    public int getSpecialRate(UserStatut statut) {
+        return this.specialRate.getSpecialRate(statut);
     }
 
     // Accesseur
