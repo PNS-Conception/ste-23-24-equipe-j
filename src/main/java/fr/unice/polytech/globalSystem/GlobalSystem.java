@@ -6,12 +6,18 @@ import fr.unice.polytech.utilisateur.UserStatut;
 import fr.unice.polytech.utils.adress.SavedPosition;
 
 public class GlobalSystem {
-
+    /**
+     * Classe qui permet de créer un compte utilisateur tout en syncronisant entre les différents utilisateurs les mêmes objets :
+     * - Statistique
+     * - SavedPosition
+     */
 
     private Statistique statistique;
     private SavedPosition savedPosition;
 
-
+    /**
+     * Constructeur par défaut
+     */
     public GlobalSystem() {
         this.statistique = new Statistique();
         this.savedPosition = new SavedPosition();

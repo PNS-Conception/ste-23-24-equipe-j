@@ -9,25 +9,30 @@ import java.util.HashMap;
 
 public class Historique {
 
+    /**
+     * Class used to store the history of the commands for a selected restaurant
+     */
 
+    //ATTRIBUTS
+    /**
+     * HashMap witch contains the history of the commands for a selected restaurant
+     */
     private HashMap<HoraireDate, ArrayList<ICommande>> historique;
 
 
+    //CONSTRUCTEUR
     public Historique() {
         this.historique = new HashMap<>();
     }
 
-    public void addCommande(ICommande commande) {
-        HoraireDate horaireDate = commande.getInformationLivraison().getHoraireDate();
-        if (historique.containsKey(horaireDate)) {
-            ArrayList<ICommande> commandes = historique.get(horaireDate);
-            commandes.add(commande);
-            historique.put(commande.getInformationLivraison().getHoraireDate(), commandes);
-        } else {
-            ArrayList<ICommande> commandes = new ArrayList<>();
-            commandes.add(commande);
-            historique.put(horaireDate, commandes);
-        }
+
+    //GETTER AND SETTER
+    public HashMap<HoraireDate,ArrayList<ICommande>> getCommandeUser() {
+        return historique;
+    }
+
+    public ArrayList<ICommande> getCommandeHoraire(HoraireDate horaireDate) {
+        return historique.get(horaireDate);
     }
 
     public ArrayList<ICommande> getArrayListCommande() {
@@ -42,11 +47,18 @@ public class Historique {
         return toutesLesCommandes;
     }
 
-    public HashMap<HoraireDate,ArrayList<ICommande>> getCommandeUser() {
-        return historique;
-    }
 
-    public ArrayList<ICommande> getCommandeHoraire(HoraireDate horaireDate) {
-        return historique.get(horaireDate);
+    //METHODS
+    public void addCommande(ICommande commande) {
+        HoraireDate horaireDate = commande.getInformationLivraison().getHoraireDate();
+        if (historique.containsKey(horaireDate)) {
+            ArrayList<ICommande> commandes = historique.get(horaireDate);
+            commandes.add(commande);
+            historique.put(commande.getInformationLivraison().getHoraireDate(), commandes);
+        } else {
+            ArrayList<ICommande> commandes = new ArrayList<>();
+            commandes.add(commande);
+            historique.put(horaireDate, commandes);
+        }
     }
 }

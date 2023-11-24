@@ -6,13 +6,25 @@ import java.util.HashMap;
 
 public class SpecialRate {
 
+    /**
+     * Class used to apply a special rate to a specific user status
+     */
 
+
+    // ATTRIBUTES
+    /**
+     * HashMap containing the special rates for each user status
+     */
     private HashMap<UserStatut,Integer> specialRate;
 
+
+    // CONSTRUCTOR
     public SpecialRate() {
         this.specialRate = new HashMap<>();
     }
 
+
+    // METHODS
     public void addSpecialRate(UserStatut statut, int rate) {
         this.specialRate.put(statut, rate);
     }

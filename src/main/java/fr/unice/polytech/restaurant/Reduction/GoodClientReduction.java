@@ -10,15 +10,44 @@ import java.util.HashMap;
 
 public class GoodClientReduction {
 
+    /**
+     * Class used to manage the reduction for good client
+     * The reduction is applied if :
+     * - the user has made more than nbCommandeToGetReduction command in the last nbDateReductionLast days
+     * - the date of the last command is less than nbDateReductionLast days
+     */
+
+    // ATTRIBUTES
     private int nbCommandeToGetReduction;
+
+    /**
+     * In order to avoid computer imprecision of double type, the reduction rate is stored as an int as follows :
+     * reductionRate = Math.around(100 * reductionRateDouble)
+     *
+     * So the last 2 digits of the number correspond to the decimal part of the reduction rate
+     */
     private int reductionRate;
+
     private int nbDateReductionLast;
 
+    /**
+     * HashMap used to store the number of command made by each user
+     */
     private HashMap<CompteUtilisateur, Integer> nbCommandeByUser;
+
+    /**
+     * HashMap used to store the last date of discount applied for good client (client who benefit a reduction)
+     */
     private HashMap<CompteUtilisateur, HoraireDate> goodClientRange;
 
 
-
+    // CONSTRUCTOR
+    /**
+     * Constructor
+     * @param nbCommande : number of command to get the reduction
+     * @param reduction : reduction rate (in int as explained above)
+     * @param nbDay : number of day to get the reduction
+     */
     public GoodClientReduction(int nbCommande, int reduction, int nbDay) {
         this.nbCommandeToGetReduction = nbCommande;
         this.reductionRate = reduction;
@@ -27,6 +56,12 @@ public class GoodClientReduction {
         this.goodClientRange = new HashMap<>();
     }
 
+    /**
+     * Constructor
+     * @param nbCommande : number of command to get the reduction
+     * @param reduction : reduction rate (in double)
+     * @param nbDay : number of day to get the reduction
+     */
     public GoodClientReduction(int nbCommande, double reduction, int nbDay) {
         int rateFormatted = (int) Math.round(reduction * 100);
         this.nbCommandeToGetReduction = nbCommande;
@@ -36,12 +71,16 @@ public class GoodClientReduction {
         this.goodClientRange = new HashMap<>();
     }
 
+    /**
+     * Constructor by default with 0 advantage
+     */
     public GoodClientReduction() {
         this(0,0,0);
     }
 
 
 
+    // SETTER
     public void setNbCommandeToGetReduction(int nbCommandeToGetReduction) {
         this.nbCommandeToGetReduction = nbCommandeToGetReduction;
     }
@@ -60,15 +99,13 @@ public class GoodClientReduction {
     }
 
 
-
+    // GETTER AND COMMON USED METHODS
     public int getReductionRate(CompteUtilisateur user) {
         if (this.checkIfUserIsGoodClient(user)) {
             return this.reductionRate;
         }
         return 0;
     }
-
-
 
     /**
      * To do after paiement but before check in order to update the number of command made by the user
@@ -86,10 +123,10 @@ public class GoodClientReduction {
     }
 
 
-
+    // PRIVATE METHODS
     /**
-     * To check after paiement in order to know if need to update Hashmap of good client with this last one
-     * @param user
+     * Method used to check after paiement in order to know if it is needed to update Hashmap of good client with this last one
+     * @param user : user to check
      */
     private void checkIfUserIsGoodClientAfterPaiement(CompteUtilisateur user) {
         if (this.checkNbCommandeCondition(user)) {
@@ -106,11 +143,9 @@ public class GoodClientReduction {
         }
     }
 
-
-
     /**
-     * To check before paiement in order to apply reduction if needed
-     * @param user
+     * Method used to check before paiement in order to apply reduction if needed
+     * @param user : user to check
      * @return
      */
     private boolean checkIfUserIsGoodClient(CompteUtilisateur user) {
@@ -122,7 +157,11 @@ public class GoodClientReduction {
         return false;
     }
 
-
+    /**
+     * Method used to check if the number of command made by the user is greater than the number of command to get the reduction
+     * @param user : user to check
+     * @return
+     */
     private boolean checkNbCommandeCondition(CompteUtilisateur user) {
         if (nbCommandeByUser.containsKey(user)) {
             int nbCommande = nbCommandeByUser.get(user);
@@ -131,6 +170,10 @@ public class GoodClientReduction {
         return false;
     }
 
+    /**
+     * Method used to get the current date and hour
+     * @return
+     */
     private HoraireDate getNowHoraireDate() {
         LocalDateTime now = LocalDateTime.now();
         int year = now.getYear();
@@ -144,6 +187,10 @@ public class GoodClientReduction {
         return horaireDate;
     }
 
+    /**
+     * Method used to determinate the date and hour of the end of the reduction
+     * @return
+     */
     private HoraireDate determinateGoodClientLast() {
         LocalDateTime now = LocalDateTime.now();
         int year = now.getYear();
@@ -156,13 +203,4 @@ public class GoodClientReduction {
         HoraireDate horaireDate = new HoraireDate(date, horaire);
         return horaireDate;
     }
-
-
-
-
-
-
-
-
-
 }

@@ -8,15 +8,47 @@ import java.util.HashMap;
 
 public class Reservation {
 
+    /**
+     * Class used to represent a reservation : the capacity of the restaurant at a given time
+     */
+
+    //ATTRIBUTES
     private int capacityMax;
 
+    /**
+     * HashMap containing the capacity of the restaurant at a given time
+     */
     private HashMap<HoraireDate,Integer> capacityPerHour = new HashMap<>();
 
 
+    //CONSTRUCTOR
     public Reservation(int capacityMax) {
         this.capacityMax = capacityMax;
     }
 
+
+
+    //GETTERS AND SETTERS
+    public int getCapacityMax() {
+        return capacityMax;
+    }
+
+    public int getCapacity(HoraireDate horaire) {
+        if (horaire == null)
+            throw new IllegalArgumentException("Horaire null");
+        if (capacityPerHour.containsKey(horaire)) {
+            return capacityPerHour.get(horaire);
+        } else {
+            return 0;
+        }
+    }
+
+    public void setCapacityMax(int capacityMax) {
+        this.capacityMax = capacityMax;
+    }
+
+
+    //METHODS
     public void increaseReservation(HoraireDate horaire, int capacity) throws CapaciteDepasseException {
         if (horaire == null)
             throw new IllegalArgumentException("Horaire null");
@@ -50,25 +82,4 @@ public class Reservation {
             throw new ImpossibleAugmenterCapaciterException();
         }
     }
-
-    public int getCapacityMax() {
-        return capacityMax;
-    }
-
-    public int getCapacity(HoraireDate horaire) {
-        if (horaire == null)
-            throw new IllegalArgumentException("Horaire null");
-        if (capacityPerHour.containsKey(horaire)) {
-            return capacityPerHour.get(horaire);
-        } else {
-            return 0;
-        }
-    }
-
-    public void setCapacityMax(int capacityMax) {
-        this.capacityMax = capacityMax;
-    }
-
-
-
 }

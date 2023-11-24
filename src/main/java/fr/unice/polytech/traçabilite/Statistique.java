@@ -12,6 +12,11 @@ import java.util.HashMap;
 
 public class Statistique {
 
+    /**
+     * Classe qui permet de gérer les statistiques de l'application
+     */
+
+    //ATTRIBUTS
     private final String UserPassword = "0000";
     private final String RestaurantPassword = "1111";
     HashMap<CompteUtilisateur,Integer> nbCommandeUtilisateur;
@@ -20,6 +25,7 @@ public class Statistique {
     HashMap<Position,Integer> nbCommandePosition;
 
 
+    //CONSTRUCTEUR
     public Statistique() {
         nbCommandeUtilisateur = new HashMap<>();
         nbCommandeRestaurant = new HashMap<>();
@@ -27,6 +33,32 @@ public class Statistique {
         nbCommandePosition = new HashMap<>();
     }
 
+
+    //GETTERS ET SETTERS
+    public HashMap<CompteUtilisateur,Integer> getUserStat(String password) throws PasswordException {
+        if (password.equals(UserPassword)) {
+            return nbCommandeUtilisateur;
+        }
+        throw new PasswordException();
+    }
+
+    public HashMap<Restaurant,Integer> getRestaurantStat(String password) throws PasswordException {
+        if (password.equals(UserPassword)) {
+            return nbCommandeRestaurant;
+        }
+        throw new PasswordException();
+    }
+
+    public HashMap<HoraireDate,Integer> getHoraireStat() {
+        return nbCommandeHoraire;
+    }
+
+    public HashMap<Position,Integer> getPositionStat() {
+        return nbCommandePosition;
+    }
+
+
+    //METHODES
     public boolean updateUserStat(CommandeAvecID commande, String password) {
         if (password.equals(UserPassword)) {
 
@@ -57,34 +89,8 @@ public class Statistique {
             } else {
                 nbCommandeHoraire.put(commande.getInformationLivraison().getHoraireDate(), 1);
             }
-
             return true;
         }
         return false;
     }
-
-    public HashMap<CompteUtilisateur,Integer> getUserStat(String password) throws PasswordException {
-        if (password.equals(UserPassword)) {
-            return nbCommandeUtilisateur;
-        }
-        throw new PasswordException();
-    }
-
-    public HashMap<Restaurant,Integer> getRestaurantStat(String password) throws PasswordException {
-        if (password.equals(UserPassword)) {
-            return nbCommandeRestaurant;
-        }
-        throw new PasswordException();
-    }
-
-    public HashMap<HoraireDate,Integer> getHoraireStat() {
-        return nbCommandeHoraire;
-    }
-
-    public HashMap<Position,Integer> getPositionStat() {
-        return nbCommandePosition;
-
-    }
-
-
 }
