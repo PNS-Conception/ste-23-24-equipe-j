@@ -4,11 +4,15 @@ import fr.unice.polytech.builder.TypeCommandeSimple;
 import fr.unice.polytech.commande.CommandeAvecID;
 import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.commande.SystemeCommande;
+import fr.unice.polytech.exceptions.*;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Etantdonnéque;
 import io.cucumber.java.fr.Etque;
@@ -96,7 +100,7 @@ public class StatistiqueRestaurant {
             Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
             SystemeCommande systemeCommande = new SystemeCommande();
             CommandeSimple commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(compteUtilisateur, TypeCommandeSimple.SIMPLE);
-
+            commande.setInformationLivraison(new Date(true), new Horaire(true), new Position(""));
             List<MenuPlat> listMenus = restaurant.getMenus();
             if (listMenus.size()!=0) {
                 try {

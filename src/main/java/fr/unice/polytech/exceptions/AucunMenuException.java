@@ -1,4 +1,4 @@
-package fr.unice.polytech.restaurant;
+package fr.unice.polytech.exceptions;
 
 /**
  * Exception lorsqu'il n'y a aucun menu dans le restaurant

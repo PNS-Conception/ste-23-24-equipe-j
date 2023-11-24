@@ -3,7 +3,7 @@ package fr.unice.polytech.restaurant.ListMenu;
 
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
-import fr.unice.polytech.restaurant.AucunMenuException;
+import fr.unice.polytech.exceptions.AucunMenuException;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.restaurant.RestaurantManager;
 import io.cucumber.java.fr.Alors;

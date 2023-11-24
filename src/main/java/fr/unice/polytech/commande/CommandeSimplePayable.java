@@ -3,13 +3,13 @@ package fr.unice.polytech.commande;
 import fr.unice.polytech.commande.interfacecommande.IPayable;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
-import fr.unice.polytech.restaurant.CapaciteDepasseException;
-import fr.unice.polytech.restaurant.RestaurantNonValideException;
-import fr.unice.polytech.restaurant.TokenException;
+import fr.unice.polytech.exceptions.CapaciteDepasseException;
+import fr.unice.polytech.exceptions.RestaurantNonValideException;
+import fr.unice.polytech.exceptions.TokenException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.HoraireDate;
 import fr.unice.polytech.utils.PaiementCommande;
 import fr.unice.polytech.utils.Token;
+import fr.unice.polytech.utils.temps.HoraireDate;
 
 /**
  * Classe abstraite d'une commande seule payable avec un ID
@@ -37,7 +37,7 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
     public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException, CapaciteDepasseException {
         super.ajoutMenuPlat(menuPlat, typeMenuPlat);
         paiementCommande.ajoutPrix(menuPlat.getPrix());
-        this.restaurant.increaseReservation(this.horaireDateLivraison, 1);
+        this.restaurant.increaseReservation(this.getInformationLivraison().getHoraireDate(), 1);
     }
 
     @Override

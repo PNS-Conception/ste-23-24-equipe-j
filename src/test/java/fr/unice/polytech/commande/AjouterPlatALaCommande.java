@@ -1,10 +1,13 @@
 package fr.unice.polytech.commande;
 
 import fr.unice.polytech.nourriture.Plat;
-import fr.unice.polytech.restaurant.CapaciteDepasseException;
+import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.Restaurant;
-import fr.unice.polytech.restaurant.RestaurantNonValideException;
+import fr.unice.polytech.exceptions.RestaurantNonValideException;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
+import fr.unice.polytech.utils.temps.HoraireDate;
 import io.cucumber.java.fr.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +30,7 @@ public class AjouterPlatALaCommande {
         List<String> aliments = new ArrayList<>(Arrays.asList("Tagliatelles", "Saumon", "Crème Fraiche"));
         List<String> alergene =  new ArrayList<>();
         plat = new Plat(nomPlat, prix, aliments, alergene);
+        commande.setInformationLivraison(new Date(true), new Horaire(true),null);
         Restaurant restaurant =
             new Restaurant("Restaurant");
         restaurant.addMenu(plat);

@@ -1,4 +1,4 @@
-package fr.unice.polytech.restaurant;
+package fr.unice.polytech.exceptions;
 
 public class ImpossibleAugmenterCapaciterException extends Exception{
 

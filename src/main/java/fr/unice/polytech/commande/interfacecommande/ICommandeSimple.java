@@ -1,9 +1,9 @@
 package fr.unice.polytech.commande.interfacecommande;
 
 import fr.unice.polytech.nourriture.*;
-import fr.unice.polytech.restaurant.CapaciteDepasseException;
+import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.restaurant.Restaurant;
-import fr.unice.polytech.restaurant.RestaurantNonValideException;
+import fr.unice.polytech.exceptions.RestaurantNonValideException;
 
 import java.util.Map;
 import java.util.Optional;

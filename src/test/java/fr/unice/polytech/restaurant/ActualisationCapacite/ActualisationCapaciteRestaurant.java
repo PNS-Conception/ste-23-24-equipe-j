@@ -2,18 +2,17 @@ package fr.unice.polytech.restaurant.ActualisationCapacite;
 
 
 import fr.unice.polytech.builder.TypeCommandeSimple;
-import fr.unice.polytech.commande.CommandeAvecID;
 import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.commande.SystemeCommande;
-import fr.unice.polytech.livraison.InformationLivraison;
+import fr.unice.polytech.exceptions.*;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.Date;
-import fr.unice.polytech.utils.Horaire;
-import fr.unice.polytech.utils.HoraireDate;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
+import fr.unice.polytech.utils.temps.HoraireDate;
 import fr.unice.polytech.utils.Position;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Etantdonnéque;

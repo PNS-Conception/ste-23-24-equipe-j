@@ -1,6 +1,7 @@
 package fr.unice.polytech.commande;
 
 import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutable;
+import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
 /**
@@ -19,6 +20,11 @@ public class CommandeSimpleAjoutable extends CommandeSimplePayable implements IC
         super(idCommande, createurCommande);
         commandeGroupe.ajouterCommande(this);
         this.commandeGroupe = commandeGroupe;
+    }
+
+    @Override
+    public InformationLivraison getInformationLivraison() {
+        return this.commandeGroupe.getInformationLivraison();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package fr.unice.polytech.commande.interfacecommande;
 
-import fr.unice.polytech.restaurant.TokenException;
+import fr.unice.polytech.exceptions.TokenException;
 import fr.unice.polytech.utils.Token;
 
 /**

@@ -7,7 +7,8 @@ import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.*;
-import fr.unice.polytech.utils.Date;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
 
 import java.util.*;
 

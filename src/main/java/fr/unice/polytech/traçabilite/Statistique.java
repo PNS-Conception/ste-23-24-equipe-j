@@ -1,7 +1,9 @@
-package fr.unice.polytech.restaurant;
+package fr.unice.polytech.traçabilite;
 
 import fr.unice.polytech.commande.CommandeAvecID;
 import fr.unice.polytech.commande.CommandeSimpleAvecID;
+import fr.unice.polytech.exceptions.PasswordException;
+import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
 import java.util.HashMap;

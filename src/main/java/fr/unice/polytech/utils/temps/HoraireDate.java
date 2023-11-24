@@ -1,4 +1,4 @@
-package fr.unice.polytech.utils;
+package fr.unice.polytech.utils.temps;
 
 import java.util.Objects;
 
@@ -10,6 +10,10 @@ public class HoraireDate {
     public HoraireDate(String dateInput, String hourInput) {
         date = new Date(dateInput);
         horaire = new Horaire(hourInput);
+    }
+
+    public HoraireDate(boolean isDefault) {
+        this(new Date(true), new Horaire(true));
     }
 
     public HoraireDate(Date date, Horaire horaire) {

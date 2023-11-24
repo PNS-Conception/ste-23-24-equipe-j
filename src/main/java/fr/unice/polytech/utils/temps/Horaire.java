@@ -1,4 +1,4 @@
-package fr.unice.polytech.utils;
+package fr.unice.polytech.utils.temps;
 
 import java.util.Objects;
 
@@ -25,6 +25,10 @@ public class Horaire {
         } else {
             System.err.println("La chaîne n'est pas au format attendu.");
         }
+    }
+
+    public Horaire(boolean isDefault) {
+        this(0,0);
     }
 
     public Horaire(int heure, int minute) {

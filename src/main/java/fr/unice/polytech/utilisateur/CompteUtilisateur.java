@@ -1,14 +1,13 @@
 package fr.unice.polytech.utilisateur;
 
 import fr.unice.polytech.commande.CommandeAvecID;
-import fr.unice.polytech.restaurant.PasswordException;
+import fr.unice.polytech.exceptions.PasswordException;
 import fr.unice.polytech.restaurant.Restaurant;
-import fr.unice.polytech.restaurant.Statistique;
-import fr.unice.polytech.restaurant.TokenException;
+import fr.unice.polytech.traçabilite.Statistique;
+import fr.unice.polytech.exceptions.TokenException;
 import fr.unice.polytech.utils.Position;
 import fr.unice.polytech.utils.Token;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import fr.unice.polytech.observer.EventListener;

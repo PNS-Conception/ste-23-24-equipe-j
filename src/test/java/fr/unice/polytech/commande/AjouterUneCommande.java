@@ -1,15 +1,15 @@
 package fr.unice.polytech.commande;
 
-import fr.unice.polytech.livraison.InformationLivraison;
+import fr.unice.polytech.exceptions.*;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.builder.TypeCommandeSimple;
 import fr.unice.polytech.nourriture.*;
-import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.*;
-import fr.unice.polytech.utils.Date;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
 import io.cucumber.java.fr.*;
 
 import java.util.*;
@@ -88,6 +88,7 @@ public class AjouterUneCommande {
     @Etque("l'utilisateur choisit le menu {string} à {int} € \\(pass)")
     public void ilChoisitLeMenuÀ€AjouterUneCommande(String nomMenu, int prix) throws AucunMenuException, RestaurantNonValideException {
         /* Line to pass cucumber duplication : AjouterCommande */
+        commande.setInformationLivraison(new Date(true), new Horaire(true), new Position(""));
         for (MenuPlat menu : restaurant.getMenus()) {
             if (menu.getNom().equals(nomMenu)) {
                 try {

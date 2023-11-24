@@ -3,9 +3,9 @@ package fr.unice.polytech.commande;
 import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.Date;
-import fr.unice.polytech.utils.Horaire;
-import fr.unice.polytech.utils.HoraireDate;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
+import fr.unice.polytech.utils.temps.HoraireDate;
 import java.time.LocalDateTime;
 
 import java.util.Objects;
@@ -18,7 +18,6 @@ public abstract class CommandeAvecID  implements ICommande {
     private final long idCommande;
     protected final CompteUtilisateur createur;
     protected EtatCommande etatCommande;
-    protected HoraireDate horaireDateLivraison;
 
     // Constructeur
 
@@ -32,23 +31,9 @@ public abstract class CommandeAvecID  implements ICommande {
         createur = createurCommande;
         etatCommande = EtatCommande.EN_ATTENTE;
 
-        LocalDateTime now = LocalDateTime.now();
-        int year = now.getYear();
-        int month = now.getMonthValue();
-        int day = now.getDayOfMonth();
-        int hour = now.getHour();
-        int minute = now.getMinute();
-        Date date = new Date(day, month, year);
-        Horaire horaire = new Horaire(hour, minute);
-        this.horaireDateLivraison = new HoraireDate(date, horaire);
+
     }
 
-    protected CommandeAvecID(long idCommande, CompteUtilisateur createurCommande, HoraireDate horaireDateLivraison) {
-        this.idCommande = idCommande;
-        createur = createurCommande;
-        etatCommande = EtatCommande.EN_ATTENTE;
-        this.horaireDateLivraison = horaireDateLivraison;
-    }
 
     // Getters et setters
 

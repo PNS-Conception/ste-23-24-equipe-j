@@ -1,7 +1,10 @@
 package fr.unice.polytech.restaurant;
 
+import fr.unice.polytech.exceptions.AucunMenuException;
+import fr.unice.polytech.exceptions.CapaciteDepasseException;
+import fr.unice.polytech.exceptions.ImpossibleAugmenterCapaciterException;
 import fr.unice.polytech.nourriture.MenuPlat;
-import fr.unice.polytech.utils.HoraireDate;
+import fr.unice.polytech.utils.temps.HoraireDate;
 import fr.unice.polytech.utils.Position;
 
 import java.util.*;

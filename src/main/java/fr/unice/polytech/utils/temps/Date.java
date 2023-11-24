@@ -1,4 +1,4 @@
-package fr.unice.polytech.utils;
+package fr.unice.polytech.utils.temps;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -9,7 +9,6 @@ import java.util.Objects;
  * @author Equipe J
  */
 public class Date {
-
     private final int jour;
     private final int mois;
     private final int annee;
@@ -28,6 +27,10 @@ public class Date {
         annee = date.getYear();
         mois = date.getMonthValue();
         jour = date.getDayOfMonth();
+    }
+
+    public Date(boolean isDefault) {
+        this(1,1,2000);
     }
 
     public Date(int jour, int mois, int annee) {

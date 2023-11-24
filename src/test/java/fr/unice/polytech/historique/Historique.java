@@ -2,18 +2,20 @@ package fr.unice.polytech.historique;
 
 import fr.unice.polytech.builder.TypeCommandeSimple;
 import fr.unice.polytech.commande.*;
+import fr.unice.polytech.exceptions.*;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Etantdonnéque;
 import io.cucumber.java.fr.Etque;
 import io.cucumber.java.fr.Quand;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +71,7 @@ public class Historique {
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         SystemeCommande systemeCommande = new SystemeCommande();
         CommandeSimple commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(compteUtilisateur, TypeCommandeSimple.SIMPLE);
-
+        commande.setInformationLivraison(new Date(true), new Horaire(true), new Position(""));
         List<MenuPlat> listMenus = restaurant.getMenus();
         if (listMenus.size()!=0) {
             try {
