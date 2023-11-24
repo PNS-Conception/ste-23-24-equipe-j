@@ -1,15 +1,14 @@
 package fr.unice.polytech.utils.adress;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class savedPosition {
+public class SavedPosition {
 
 
     ArrayList<Position> savedPosition ;
 
 
-    public savedPosition() {
+    public SavedPosition() {
         savedPosition = new ArrayList<>();
     }
 

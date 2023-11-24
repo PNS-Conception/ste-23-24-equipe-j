@@ -13,6 +13,8 @@ import fr.unice.polytech.utils.Token;
 import java.util.ArrayList;
 import java.util.HashMap;
 import fr.unice.polytech.observer.EventListener;
+import fr.unice.polytech.utils.adress.SavedPosition;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -27,7 +29,7 @@ public class CompteUtilisateur implements EventListener {
     private final Historique historique;
     private final Statistique statistique;
 
-    private List<Position> adresseEnregistrees;
+    private SavedPosition adresseEnregistrees;
     private ArrayList<Token> tokens;
 
 
@@ -41,51 +43,32 @@ public class CompteUtilisateur implements EventListener {
                              String prenom,
                              String password,
                              Statistique statistique,
-                             UserStatut statut) {
+                             UserStatut statut,
+                             SavedPosition savedPosition) {
         this.nom = nom;
         this.prenom = prenom;
         this.password = password;
         this.statistique = statistique;
-        this.adresseEnregistrees = new ArrayList<>();
         this.historique = new Historique();
         this.tokens = new ArrayList<>();
         this.solde = 0;
         this.statut = statut;
+        this.adresseEnregistrees = savedPosition;
     }
 
-    // Constructeur
-    /**
-     * Constructeur par défaut
-     * @param nom nom de l'utilisateur
-     * @param prenom prénom de l'utilisateur
-     */
-    public CompteUtilisateur(String nom, String prenom) {
-        this(nom, prenom, DEFAULT_PASSWORD, new Statistique(), UserStatut.NORMAL);
+    public CompteUtilisateur(String nom, String prenom, Statistique statistique, SavedPosition savedPosition, UserStatut statut) {
+        this(nom, prenom, DEFAULT_PASSWORD, statistique, statut, savedPosition);
     }
 
-    public CompteUtilisateur(String nom, String prenom, Statistique statistique) {
-        this(nom, prenom, DEFAULT_PASSWORD, statistique, UserStatut.NORMAL);
+    public CompteUtilisateur(String nom, String prenom, Statistique statistique, SavedPosition savedPosition) {
+        this(nom, prenom, DEFAULT_PASSWORD, statistique, UserStatut.NORMAL, savedPosition);
     }
 
-    public CompteUtilisateur(String nom, String prenom, String password) {
-        this(nom, prenom, password, new Statistique(), UserStatut.NORMAL);
+    public CompteUtilisateur(String nom, String prenom, Statistique statistique, SavedPosition savedPosition, String password) {
+        this(nom, prenom, password, statistique, UserStatut.NORMAL, savedPosition);
     }
 
-    public CompteUtilisateur(String nom, String prenom, String password, Statistique statistique) {
-        this(nom, prenom, password, statistique, UserStatut.NORMAL);
-    }
 
-    public CompteUtilisateur(String nom, String prenom, String password, UserStatut statut) {
-        this(nom, prenom, password, new Statistique(), statut);
-    }
-
-    public CompteUtilisateur(String nom, String prenom, Statistique statistique, UserStatut statut) {
-        this(nom, prenom, DEFAULT_PASSWORD, statistique, statut);
-    }
-
-    public CompteUtilisateur(String nom, String prenom, UserStatut statut) {
-        this(nom, prenom, DEFAULT_PASSWORD, new Statistique(), statut);
-    }
 
     public void setStatut(UserStatut statut) {
         this.statut = statut;
@@ -155,11 +138,11 @@ public class CompteUtilisateur implements EventListener {
     }
 
     public List<Position> getAdresseEnregistrees() {
-        return adresseEnregistrees;
+        return adresseEnregistrees.getSavedPosition();
     }
 
     public Position getAdresseEnregistreesParNom(String nom) {
-        for (Position adresse : adresseEnregistrees) {
+        for (Position adresse : adresseEnregistrees.getSavedPosition()) {
             if (adresse.getNomPosition().equals(nom)) {
                 return adresse;
             }
@@ -169,7 +152,7 @@ public class CompteUtilisateur implements EventListener {
 
     // Méthodes
     public void ajouterAdresse(Position adresse) {
-        adresseEnregistrees.add(adresse);
+        adresseEnregistrees.addPosition(adresse);
     }
 
     @Override
