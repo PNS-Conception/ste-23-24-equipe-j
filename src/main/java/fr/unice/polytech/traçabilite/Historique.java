@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class Historique {
 
 
-    HashMap<HoraireDate, ArrayList<ICommande>> historique;
+    private HashMap<HoraireDate, ArrayList<ICommande>> historique;
 
 
     public Historique() {

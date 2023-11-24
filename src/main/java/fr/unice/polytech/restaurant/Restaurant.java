@@ -4,6 +4,7 @@ import fr.unice.polytech.exceptions.AucunMenuException;
 import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.exceptions.ImpossibleAugmenterCapaciterException;
 import fr.unice.polytech.nourriture.MenuPlat;
+import fr.unice.polytech.restaurant.reservation.Reservation;
 import fr.unice.polytech.utils.temps.HoraireDate;
 import fr.unice.polytech.utils.Position;
 
@@ -17,15 +18,8 @@ public class Restaurant {
     private final String nomRestaurant;
     private final Set<MenuPlat> menus;
     private final Position position;
-    private final int CapaciteMaximale;
 
-    /**
-     * Capacité enregistré par horaire
-     * Uniquement les horaires avec une capacité différente de 0 sont inscrite dedans
-     * Par défaut, si une horaire ne figure pas alors elle a une capacité de 0
-     */
-    private HashMap<HoraireDate,Integer> capaciteParHoraire = new HashMap<>();
-    // Constructeur
+    private Reservation reservation;
 
     /**
      * Constructeur pour les tests donnant une position par défaut
@@ -49,7 +43,7 @@ public class Restaurant {
         menus = new HashSet<>();
         this.nomRestaurant = nomRestaurant;
         this.position= position;
-        this.CapaciteMaximale = capaciteMaximale;
+        this.reservation = new Reservation(capaciteMaximale);
     }
 
     // Accesseur
@@ -59,20 +53,7 @@ public class Restaurant {
     }
 
     public void increaseReservation(HoraireDate horaire, int capacite) throws CapaciteDepasseException {
-        if (horaire == null)
-            throw new IllegalArgumentException("Horaire null");
-        if (capacite > CapaciteMaximale || capacite < 0)
-            throw new CapaciteDepasseException();
-        if (capaciteParHoraire.containsKey(horaire)) {
-            int capaciteRestante = capaciteParHoraire.get(horaire) + capacite;
-            if (capaciteRestante > CapaciteMaximale) {
-                throw new CapaciteDepasseException();
-            } else {
-                capaciteParHoraire.put(horaire, capaciteRestante);
-            }
-        } else {
-            capaciteParHoraire.put(horaire, capacite);
-        }
+        this.reservation.increaseReservation(horaire, capacite);
     }
 
     public void reduceReservation(HoraireDate horaire) throws CapaciteDepasseException, ImpossibleAugmenterCapaciterException {
@@ -80,34 +61,19 @@ public class Restaurant {
     }
 
     public void reduceReservation(HoraireDate horaire, int capacite) throws CapaciteDepasseException, ImpossibleAugmenterCapaciterException {
-        if (horaire == null)
-            throw new IllegalArgumentException("Horaire null");
-        if (capacite <= 0 || capacite >= CapaciteMaximale)
-            throw new CapaciteDepasseException();
-        if (capaciteParHoraire.containsKey(horaire)) {
-            int capaciteRestante = capaciteParHoraire.get(horaire) - capacite;
-            if (capaciteRestante <= 0) {
-                capaciteParHoraire.remove(horaire);
-            } else {
-                capaciteParHoraire.put(horaire, capaciteRestante);
-            }
-        } else {
-            throw new ImpossibleAugmenterCapaciterException();
-        }
+        this.reservation.reduceReservation(horaire, capacite);
     }
 
     public int getCapaciteMaximale() {
-        return CapaciteMaximale;
+        return reservation.getCapacityMax();
     }
 
     public int getCapacity(HoraireDate horaire) {
-        if (horaire == null)
-            throw new IllegalArgumentException("Horaire null");
-        if (capaciteParHoraire.containsKey(horaire)) {
-            return capaciteParHoraire.get(horaire);
-        } else {
-            return CapaciteMaximale;
-        }
+        return reservation.getCapacity(horaire);
+    }
+
+    public void setCapaciteMaximale(int capaciteMaximale) {
+        this.reservation.setCapacityMax(capaciteMaximale);
     }
 
     /**
