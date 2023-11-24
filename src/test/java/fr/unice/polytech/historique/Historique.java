@@ -2,6 +2,7 @@ package fr.unice.polytech.historique;
 
 import fr.unice.polytech.builder.TypeCommandeSimple;
 import fr.unice.polytech.commande.*;
+import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.exceptions.*;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
@@ -26,7 +27,7 @@ import static org.junit.Assert.*;
 public class Historique {
 
     private CompteUtilisateur compteUtilisateur;
-    private ArrayList<CommandeAvecID> historiqueCommandes;
+    private ArrayList<ICommande> historiqueCommandes;
     private final RestaurantManager restaurantManager = new RestaurantManager();
 
     @Etantdonnéque("l'utilisateur {string} {string} est connecté \\(passHistorique)")
@@ -42,7 +43,7 @@ public class Historique {
     public void nAJamaisEffectuéDeCommandeHistorique(String prenom, String nom) {
         /* Line to pass cucumber duplication : Historique */
         if (Objects.equals(compteUtilisateur.getNom(), nom) && Objects.equals(compteUtilisateur.getPrenom(), prenom)) {
-            assertEquals(0, compteUtilisateur.getHistoriqueCommandes().size());
+            assertEquals(0, compteUtilisateur.getAllHistorique().size());
         } else {
             assert false : "L'utilisateur n'est pas le bon";
         }
@@ -52,8 +53,8 @@ public class Historique {
     public void veutAccéderHistorique(String prenom, String nom) {
         /* Line to pass cucumber duplication : Historique */
         if (Objects.equals(compteUtilisateur.getNom(), nom) && Objects.equals(compteUtilisateur.getPrenom(), prenom)) {
-            this.historiqueCommandes = compteUtilisateur.getHistoriqueCommandes();
-            assert true : "L'utilisateur peut accéder à son historique : " + compteUtilisateur.getHistoriqueCommandes();
+            this.historiqueCommandes = compteUtilisateur.getAllHistorique();
+            assert true : "L'utilisateur peut accéder à son historique : " + compteUtilisateur.getAllHistorique();
         } else {
             assert false : "L'utilisateur n'est pas le bon";
         }

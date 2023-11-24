@@ -1,8 +1,10 @@
 package fr.unice.polytech.utilisateur;
 
 import fr.unice.polytech.commande.CommandeAvecID;
+import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.exceptions.PasswordException;
 import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.traçabilite.Historique;
 import fr.unice.polytech.traçabilite.Statistique;
 import fr.unice.polytech.exceptions.TokenException;
 import fr.unice.polytech.utils.Position;
@@ -23,13 +25,11 @@ public class CompteUtilisateur implements EventListener {
     private final String statisticUserPassword = "0000";
     private final String nom;
     private final String prenom;
+    private final Historique historique = new Historique();
     private String password = DEFAULT_PASSWORD;
     private int solde; // en centimes pour éviter les erreurs d'arrondi
     private List<Position> adresseEnregistrees;
-    private final Statistique statistique = new Statistique();
-
-    private ArrayList<CommandeAvecID> historiqueCommandes;
-
+    private final Statistique statistique;
     private ArrayList<Token> tokens;
 
     // Constructeur
@@ -40,11 +40,20 @@ public class CompteUtilisateur implements EventListener {
      */
     public CompteUtilisateur(String nom, String prenom) {
         this.tokens = new ArrayList<>();
-        this.historiqueCommandes = new ArrayList<>();
         this.nom = nom;
         this.prenom = prenom;
         solde = 0;
         adresseEnregistrees = new ArrayList<>();
+        this.statistique = new Statistique();
+    }
+
+    public CompteUtilisateur(String nom, String prenom, Statistique statistique) {
+        this.tokens = new ArrayList<>();
+        this.nom = nom;
+        this.prenom = prenom;
+        solde = 0;
+        adresseEnregistrees = new ArrayList<>();
+        this.statistique = statistique;
     }
 
     // Accesseurs
@@ -73,14 +82,14 @@ public class CompteUtilisateur implements EventListener {
         return this.solde;
     }
 
-    public ArrayList<CommandeAvecID> getHistoriqueCommandes() {
-        return this.historiqueCommandes;
+    public ArrayList<ICommande> getAllHistorique() {
+        return this.historique.getArrayListCommande();
     }
 
     public void ajouterCommande(CommandeAvecID commande, Token token) throws TokenException {
         if (tokens.contains(token)) {
             tokens.remove(token);
-            this.historiqueCommandes.add(commande);
+            this.historique.addCommande(commande);
             this.statistique.updateUserStat(commande, this.statisticUserPassword);
         } else {
             throw new TokenException();

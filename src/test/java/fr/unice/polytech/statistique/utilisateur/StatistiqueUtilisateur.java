@@ -60,7 +60,7 @@ public class StatistiqueUtilisateur {
     public void nAJamaisEffectuéDeCommande(String prenom, String name) {
         if (Objects.equals(compteUtilisateur.getNom(), name) && Objects.equals(compteUtilisateur.getPrenom(), prenom)) {
             try {
-                assertEquals(0, compteUtilisateur.getHistoriqueCommandes().size());
+                assertEquals(0, compteUtilisateur.getAllHistorique().size());
                 HashMap<CompteUtilisateur, Integer> statUser = null;
                 statUser = compteUtilisateur.getStatUser();
                 if (statUser.containsKey(compteUtilisateur)) {
