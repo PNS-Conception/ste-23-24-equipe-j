@@ -8,7 +8,7 @@ import java.util.Objects;
  * Classe contenant la date de livraison d'une commande
  * @author Equipe J
  */
-public class Date {
+public class Date implements Comparable<Date>{
     private final int jour;
     private final int mois;
     private final int annee;
@@ -87,5 +87,34 @@ public class Date {
                 ", mois=" + mois +
                 ", annee=" + annee +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Date date) {
+        if (this.equals(date)) {
+            return 0;
+        }
+        if (this.annee < date.annee) {
+            return -1;
+        }
+        else if (this.annee > date.annee) {
+            return 1;
+        }
+        else {
+            if (this.mois < date.mois) {
+                return -1;
+            }
+            else if (this.mois > date.mois) {
+                return 1;
+            }
+            else {
+                if (this.jour < date.jour) {
+                    return -1;
+                }
+                else {
+                    return 1;
+                }
+            }
+        }
     }
 }

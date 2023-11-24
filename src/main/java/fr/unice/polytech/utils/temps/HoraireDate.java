@@ -2,7 +2,7 @@ package fr.unice.polytech.utils.temps;
 
 import java.util.Objects;
 
-public class HoraireDate {
+public class HoraireDate implements Comparable<HoraireDate>{
 
     private Date date;
     private Horaire horaire;
@@ -43,6 +43,20 @@ public class HoraireDate {
     @Override
     public int hashCode() {
         return Objects.hash(date, horaire);
+    }
+
+    @Override
+    public int compareTo(HoraireDate horaireDate) {
+
+        if (this.equals(horaireDate)) {
+            return 0;
+        }
+        if (this.date.compareTo(horaireDate.date) == 0) {
+            return this.horaire.compareTo(horaireDate.horaire);
+        } else {
+            return this.date.compareTo(horaireDate.date);
+        }
+
     }
 
 }

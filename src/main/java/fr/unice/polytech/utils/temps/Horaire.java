@@ -6,7 +6,7 @@ import java.util.Objects;
  * Classe représentant un horaire à laquelle la livraison de la commande doit avoir lieu
  * @author Equipe J
  */
-public class Horaire {
+public class Horaire implements Comparable<Horaire> {
     private int heure;
     private int minute;
 
@@ -69,5 +69,25 @@ public class Horaire {
     @Override
     public String toString() {
         return heure + ":" + minute;
+    }
+
+    @Override
+    public int compareTo(Horaire horaire) {
+        if (this.equals(horaire)) {
+            return 0;
+        }
+        if (this.heure < horaire.heure) {
+            return -1;
+        }
+        if (this.heure > horaire.heure) {
+            return 1;
+        }
+        if (this.minute < horaire.minute) {
+            return -1;
+        }
+        if (this.minute > horaire.minute) {
+            return 1;
+        }
+        return 0;
     }
 }
