@@ -1,6 +1,6 @@
 package fr.unice.polytech.exceptions;
 
-public class CapaciteDepasseException extends Exception {
+public class CapaciteDepasseException extends STEException {
 
 
     public CapaciteDepasseException() {

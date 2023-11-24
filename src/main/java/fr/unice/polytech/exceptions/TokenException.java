@@ -1,7 +1,9 @@
 package fr.unice.polytech.exceptions;
 
-public class TokenException extends Exception {
+public class TokenException extends STEException {
 
-    public TokenException() {super("Le token n'est pas valide");}
+    public TokenException() {
+        super("Le token n'est pas valide");
+    }
 
 }
