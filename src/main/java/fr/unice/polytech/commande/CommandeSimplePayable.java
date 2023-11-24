@@ -24,10 +24,6 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
      */
     protected CommandeSimplePayable(long idCommande, CompteUtilisateur createurCommande) {
         super(idCommande, createurCommande);
-        //int specialRate = super.restaurant.getSpecialRate(createurCommande.getStatut());
-        //int goodClientReduction = super.restaurant.getReductionRate(createurCommande);
-        //int rate = specialRate + goodClientReduction;
-        //paiementCommande = new PaiementCommande(rate);
         paiementCommande = new PaiementCommande(0);
     }
 
@@ -39,6 +35,7 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
     @Override
     public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException, CapaciteDepasseException {
         super.ajoutMenuPlat(menuPlat, typeMenuPlat);
+        this.checkDiscount();
         paiementCommande.ajoutPrix(menuPlat.getPrix());
         this.restaurant.increaseReservation(this.getInformationLivraison().getHoraireDate(), 1);
     }
@@ -71,6 +68,8 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
             throw new TokenException();
         }
     }
+
+
 
     @Override
     public boolean equals(Object o) {

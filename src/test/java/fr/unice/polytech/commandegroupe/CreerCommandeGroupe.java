@@ -3,6 +3,7 @@ package fr.unice.polytech.commandegroupe;
 import fr.unice.polytech.builder.TypeCommandeSimple;
 import fr.unice.polytech.commande.CommandeGroupe;
 import fr.unice.polytech.commande.SystemeCommande;
+import fr.unice.polytech.globalSystem.GlobalSystem;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import io.cucumber.java.fr.*;
 
@@ -13,11 +14,13 @@ public class CreerCommandeGroupe {
     SystemeCommande systemeCommande;
     CompteUtilisateur compteUtilisateur;
     CommandeGroupe commandeGroupe;
+    GlobalSystem globalSystem = new GlobalSystem();
+
 
     @Etantdonné("un utilisateur {string} {string}")
     public void unUtilisateur(String nom, String Prenom) {
         systemeCommande = new SystemeCommande();
-        compteUtilisateur = new CompteUtilisateur(nom, Prenom);
+        compteUtilisateur = this.globalSystem.createAccount(nom,Prenom);
     }
 
     @Quand("l utilisateur crée une commande groupé")

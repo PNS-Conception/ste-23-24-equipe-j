@@ -56,6 +56,11 @@ public class CompteUtilisateur implements EventListener {
         this.adresseEnregistrees = savedPosition;
     }
 
+    //TODO : to delete, keep for test
+    public CompteUtilisateur(String nom, String prenom) {
+        this(nom, prenom, DEFAULT_PASSWORD, new Statistique(), UserStatut.NORMAL, new SavedPosition());
+    }
+
     public CompteUtilisateur(String nom, String prenom, Statistique statistique, SavedPosition savedPosition, UserStatut statut) {
         this(nom, prenom, DEFAULT_PASSWORD, statistique, statut, savedPosition);
     }
@@ -67,7 +72,6 @@ public class CompteUtilisateur implements EventListener {
     public CompteUtilisateur(String nom, String prenom, Statistique statistique, SavedPosition savedPosition, String password) {
         this(nom, prenom, password, statistique, UserStatut.NORMAL, savedPosition);
     }
-
 
 
     public void setStatut(UserStatut statut) {

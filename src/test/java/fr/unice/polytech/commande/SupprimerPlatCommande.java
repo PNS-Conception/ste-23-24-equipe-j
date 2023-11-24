@@ -1,12 +1,12 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.globalSystem.GlobalSystem;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.Plat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.exceptions.RestaurantNonValideException;
-import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.temps.Date;
 import fr.unice.polytech.utils.temps.Horaire;
 import fr.unice.polytech.utils.adress.Position;
@@ -21,10 +21,12 @@ import static org.junit.Assert.assertTrue;
 public class SupprimerPlatCommande {
     CommandeSimple commande;
     Plat plat;
+    GlobalSystem globalSystem = new GlobalSystem();
+
 
     @Etantdonnéque("l'utilisateur a une commande")
     public void lUtilisateurAUneCommande() {
-        commande = new CommandeSimple(0, new CompteUtilisateur("nom", "prenom"));
+        commande = new CommandeSimple(0, this.globalSystem.createAccount());
     }
 
     @Et("avec {int} plat {string} et que ce plat coûte {int}€")

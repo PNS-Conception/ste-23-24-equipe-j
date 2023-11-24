@@ -4,6 +4,7 @@ import fr.unice.polytech.builder.TypeCommandeSimple;
 import fr.unice.polytech.commande.*;
 import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.exceptions.*;
+import fr.unice.polytech.globalSystem.GlobalSystem;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
@@ -29,11 +30,13 @@ public class Historique {
     private CompteUtilisateur compteUtilisateur;
     private ArrayList<ICommande> historiqueCommandes;
     private final RestaurantManager restaurantManager = new RestaurantManager();
+    GlobalSystem globalSystem = new GlobalSystem();
+
 
     @Etantdonnéque("l'utilisateur {string} {string} est connecté \\(passHistorique)")
     public void lUtilisateurEstLoggéHistorique(String prenom, String nom) {
         /* Line to pass cucumber duplication : Historique */
-        compteUtilisateur = new CompteUtilisateur(nom, prenom);
+        compteUtilisateur = this.globalSystem.createAccount(nom, prenom);
 
         assertEquals(prenom, compteUtilisateur.getPrenom());
         assertEquals(nom, compteUtilisateur.getNom());

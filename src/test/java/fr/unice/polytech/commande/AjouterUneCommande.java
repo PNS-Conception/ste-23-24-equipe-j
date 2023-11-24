@@ -1,6 +1,7 @@
 package fr.unice.polytech.commande;
 
 import fr.unice.polytech.exceptions.*;
+import fr.unice.polytech.globalSystem.GlobalSystem;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.restaurant.*;
@@ -24,11 +25,13 @@ public class AjouterUneCommande {
     private CompteUtilisateur compteUtilisateur;
     private CommandeSimple commande;
     private Restaurant restaurant;
+    GlobalSystem globalSystem = new GlobalSystem();
+
 
     @Etantdonnéque("l'utilisateur {string} {string} est loggé \\(pass)")
     public void lUtilisateurEstLoggéAjouterUneCommande(String prenom, String nom) {
         /* Line to pass cucumber duplication : AjouterCommande */
-        compteUtilisateur = new CompteUtilisateur(nom, prenom);
+        compteUtilisateur = globalSystem.createAccount(nom, prenom);
 
     }
 

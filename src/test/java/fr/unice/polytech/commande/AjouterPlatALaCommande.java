@@ -1,5 +1,6 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.globalSystem.GlobalSystem;
 import fr.unice.polytech.nourriture.Plat;
 import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
@@ -19,9 +20,11 @@ public class AjouterPlatALaCommande {
     CommandeSimple commande;
     Plat plat;
 
+    GlobalSystem globalSystem = new GlobalSystem();
+
     @Etantdonnéque("une commande en cours de création avec un montant qui s'élève à {double}€")
     public void createCommande(double prix){
-        commande = new CommandeSimple(0, null);
+        commande = new CommandeSimple(0, globalSystem.createAccount());
         assertEquals(prix, commande.getPrix(), 0);
     }
 

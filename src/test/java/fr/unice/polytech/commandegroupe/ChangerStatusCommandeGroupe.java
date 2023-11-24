@@ -8,6 +8,7 @@ import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.exceptions.PasswordException;
 import fr.unice.polytech.exceptions.RestaurantNonValideException;
 import fr.unice.polytech.exceptions.TokenException;
+import fr.unice.polytech.globalSystem.GlobalSystem;
 import fr.unice.polytech.nourriture.Plat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.*;
@@ -22,11 +23,13 @@ public class ChangerStatusCommandeGroupe {
     ICommandeAjoutable commande;
     String erreurMessage;
     CompteUtilisateur compteUtilisateur;
+    GlobalSystem globalSystem = new GlobalSystem();
+
 
     @Etantdonnéque("la commande groupé possède {int} commande")
     public void lacommandegroupepossedecommandes(int nombreCommande) throws CapaciteDepasseException, RestaurantNonValideException {
         systemeCommande = new SystemeCommande();
-        this.compteUtilisateur = new CompteUtilisateur("test", "test");
+        this.compteUtilisateur = this.globalSystem.createAccount();
         commandeGroupe = (CommandeGroupe) systemeCommande.creerCommandeSimpleMultipleGroupe(
                 this.compteUtilisateur, TypeCommandeSimple.GROUPEE);
 

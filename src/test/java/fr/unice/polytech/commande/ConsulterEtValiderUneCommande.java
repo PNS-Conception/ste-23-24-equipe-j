@@ -5,13 +5,13 @@ import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.exceptions.PasswordException;
 import fr.unice.polytech.exceptions.RestaurantNonValideException;
 import fr.unice.polytech.exceptions.TokenException;
+import fr.unice.polytech.globalSystem.GlobalSystem;
 import fr.unice.polytech.livraison.CompteLivreur;
 import fr.unice.polytech.livraison.EtatLivraisonCommande;
 import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.livraison.SystemeLivraison;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.*;
-import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.temps.Date;
 import fr.unice.polytech.utils.temps.Horaire;
 import fr.unice.polytech.utils.adress.Position;
@@ -27,6 +27,8 @@ public class ConsulterEtValiderUneCommande {
     Restaurant restaurant;
     SystemeCommande systemeCommande = new SystemeCommande();
     SystemeLivraison systemeLivraison;
+    GlobalSystem globalSystem = new GlobalSystem();
+
 
     @Etantdonnéque("le restaurateur de position {int},{int} a la liste des commandes en attente avec les menus :")
     public void getCommandes(Integer latitude, Integer longitude, List<String> listeCommande) throws RestaurantNonValideException, CapaciteDepasseException {
@@ -38,7 +40,7 @@ public class ConsulterEtValiderUneCommande {
             restaurant.addMenu(menu);
 
             CommandeSimple commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(
-                            new CompteUtilisateur("nom", "prenom"), TypeCommandeSimple.SIMPLE);
+                            this.globalSystem.createAccount(), TypeCommandeSimple.SIMPLE);
 
             LocalDateTime now = LocalDateTime.now();
             int year = now.getYear();

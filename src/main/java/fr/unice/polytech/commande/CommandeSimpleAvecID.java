@@ -57,6 +57,7 @@ public abstract class CommandeSimpleAvecID extends CommandeAvecID implements ICo
     public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException, CapaciteDepasseException {
         if (restaurant == null)
             restaurant = menuPlat.getRestaurant();
+
         else if (!restaurant.equals(menuPlat.getRestaurant()))
             throw new RestaurantNonValideException();
         int nombre = menuPlats.getOrDefault(menuPlat, 0);

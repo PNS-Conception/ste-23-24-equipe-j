@@ -5,16 +5,20 @@ import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utilisateur.UserStatut;
 import fr.unice.polytech.utils.adress.SavedPosition;
 
-public class globalSystem {
+public class GlobalSystem {
 
 
     private Statistique statistique;
     private SavedPosition savedPosition;
 
 
-    public globalSystem() {
+    public GlobalSystem() {
         this.statistique = new Statistique();
         this.savedPosition = new SavedPosition();
+    }
+
+    public CompteUtilisateur createAccount() {
+        return new CompteUtilisateur("nom", "prenom", statistique, savedPosition);
     }
 
     public CompteUtilisateur createAccount(String nom, String prenom) {

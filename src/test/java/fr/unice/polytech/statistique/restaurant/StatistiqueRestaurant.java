@@ -5,6 +5,7 @@ import fr.unice.polytech.commande.CommandeAvecID;
 import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.commande.SystemeCommande;
 import fr.unice.polytech.exceptions.*;
+import fr.unice.polytech.globalSystem.GlobalSystem;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
@@ -28,6 +29,8 @@ public class StatistiqueRestaurant {
     private ArrayList<CommandeAvecID> historiqueCommandes;
     private final RestaurantManager restaurantManager = new RestaurantManager();
     private final SystemeCommande commandeManager = new SystemeCommande();
+    GlobalSystem globalSystem = new GlobalSystem();
+
 
 
     @Etantdonnéque("L'utilisateur peut accéder aux restaurants suivant : \\(passStatistiqueRestaurant)")
@@ -55,7 +58,7 @@ public class StatistiqueRestaurant {
 
     @Etantdonnéque("l'utilisateur {string} {string} est connecté \\(passStatistiqueRestaurant)")
     public void lUtilisateurEstLoggé(String prenom, String nom) {
-        compteUtilisateur = new CompteUtilisateur(nom, prenom);
+        compteUtilisateur = this.globalSystem.createAccount(nom, prenom);
         assertEquals(prenom, compteUtilisateur.getPrenom());
         assertEquals(nom, compteUtilisateur.getNom());
     }
