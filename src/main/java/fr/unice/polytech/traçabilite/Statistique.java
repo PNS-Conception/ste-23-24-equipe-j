@@ -23,6 +23,8 @@ public class Statistique {
     public Statistique() {
         nbCommandeUtilisateur = new HashMap<>();
         nbCommandeRestaurant = new HashMap<>();
+        nbCommandeHoraire = new HashMap<>();
+        nbCommandePosition = new HashMap<>();
     }
 
     public boolean updateUserStat(CommandeAvecID commande, String password) {
