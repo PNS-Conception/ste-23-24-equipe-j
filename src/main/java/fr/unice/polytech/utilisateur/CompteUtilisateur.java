@@ -7,7 +7,7 @@ import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.traçabilite.Historique;
 import fr.unice.polytech.traçabilite.Statistique;
 import fr.unice.polytech.exceptions.TokenException;
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.adress.Position;
 import fr.unice.polytech.utils.Token;
 
 import java.util.ArrayList;

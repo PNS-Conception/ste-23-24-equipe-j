@@ -1,7 +1,7 @@
 package fr.unice.polytech.commande.interfacecommande;
 
 import fr.unice.polytech.livraison.InformationLivraison;
-import fr.unice.polytech.utils.*;
+import fr.unice.polytech.utils.adress.Position;
 import fr.unice.polytech.utils.temps.Date;
 import fr.unice.polytech.utils.temps.Horaire;
 

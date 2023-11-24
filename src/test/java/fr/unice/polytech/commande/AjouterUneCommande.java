@@ -8,6 +8,7 @@ import fr.unice.polytech.builder.TypeCommandeSimple;
 import fr.unice.polytech.nourriture.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.*;
+import fr.unice.polytech.utils.adress.Position;
 import fr.unice.polytech.utils.temps.Date;
 import fr.unice.polytech.utils.temps.Horaire;
 import io.cucumber.java.fr.*;

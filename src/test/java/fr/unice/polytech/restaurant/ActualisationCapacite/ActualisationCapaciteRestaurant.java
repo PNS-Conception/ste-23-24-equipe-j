@@ -13,7 +13,7 @@ import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.temps.Date;
 import fr.unice.polytech.utils.temps.Horaire;
 import fr.unice.polytech.utils.temps.HoraireDate;
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.adress.Position;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Etantdonnéque;
 import io.cucumber.java.fr.Etque;

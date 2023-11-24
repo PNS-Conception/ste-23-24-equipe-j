@@ -2,7 +2,7 @@ package fr.unice.polytech.restaurant.AjouterRestaurant;
 
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.restaurant.RestaurantManager;
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.adress.Position;
 import io.cucumber.java.fr.*;
 
 import java.util.HashMap;

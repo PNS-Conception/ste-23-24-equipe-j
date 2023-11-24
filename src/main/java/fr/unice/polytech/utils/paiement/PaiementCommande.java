@@ -1,4 +1,4 @@
-package fr.unice.polytech.utils;
+package fr.unice.polytech.utils.paiement;
 
 /**
  * Classe contenant le prix d'une commande

@@ -9,7 +9,7 @@ import fr.unice.polytech.exceptions.RestaurantNonValideException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.temps.Date;
 import fr.unice.polytech.utils.temps.Horaire;
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.adress.Position;
 import io.cucumber.java.fr.*;
 
 import java.time.LocalDateTime;

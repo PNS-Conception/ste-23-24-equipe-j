@@ -14,7 +14,7 @@ import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.temps.Date;
 import fr.unice.polytech.utils.temps.Horaire;
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.adress.Position;
 import fr.unice.polytech.nourriture.Menu;
 import io.cucumber.java.fr.*;
 

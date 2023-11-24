@@ -2,15 +2,10 @@ package fr.unice.polytech.commande;
 
 import fr.unice.polytech.commande.interfacecommande.ILivrable;
 import fr.unice.polytech.livraison.InformationLivraison;
-import fr.unice.polytech.nourriture.MenuPlat;
-import fr.unice.polytech.nourriture.TypeMenuPlat;
-import fr.unice.polytech.exceptions.CapaciteDepasseException;
-import fr.unice.polytech.exceptions.RestaurantNonValideException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.*;
+import fr.unice.polytech.utils.adress.Position;
 import fr.unice.polytech.utils.temps.Date;
 import fr.unice.polytech.utils.temps.Horaire;
-import fr.unice.polytech.utils.temps.HoraireDate;
 
 /**
  * Classe d'une commande simple de commande payable et livrable

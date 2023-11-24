@@ -7,9 +7,8 @@ import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.exceptions.RestaurantNonValideException;
 import fr.unice.polytech.exceptions.TokenException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.PaiementCommande;
+import fr.unice.polytech.utils.paiement.PaiementCommande;
 import fr.unice.polytech.utils.Token;
-import fr.unice.polytech.utils.temps.HoraireDate;
 
 /**
  * Classe abstraite d'une commande seule payable avec un ID

@@ -10,7 +10,7 @@ import fr.unice.polytech.restaurant.reservation.Reservation;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utilisateur.UserStatut;
 import fr.unice.polytech.utils.temps.HoraireDate;
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.adress.Position;
 
 import java.util.*;
 

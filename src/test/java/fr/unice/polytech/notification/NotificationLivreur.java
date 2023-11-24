@@ -1,13 +1,12 @@
 package fr.unice.polytech.notification;
 
 import fr.unice.polytech.builder.TypeCommandeSimple;
-import fr.unice.polytech.commande.CommandeGroupe;
 import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.commande.EtatCommande;
 import fr.unice.polytech.commande.SystemeCommande;
 import fr.unice.polytech.livraison.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.adress.Position;
 import io.cucumber.java.fr.*;
 
 import java.util.HashMap;

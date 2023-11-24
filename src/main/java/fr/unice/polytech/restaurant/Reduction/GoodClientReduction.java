@@ -1,15 +1,12 @@
 package fr.unice.polytech.restaurant.Reduction;
 
-import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.Position;
 import fr.unice.polytech.utils.temps.Date;
 import fr.unice.polytech.utils.temps.Horaire;
 import fr.unice.polytech.utils.temps.HoraireDate;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.Set;
 
 public class GoodClientReduction {
 

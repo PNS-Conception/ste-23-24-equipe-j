@@ -4,7 +4,7 @@ import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.utils.temps.Date;
 import fr.unice.polytech.utils.temps.Horaire;
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.adress.Position;
 import fr.unice.polytech.utils.temps.HoraireDate;
 
 /**

@@ -5,7 +5,7 @@ import fr.unice.polytech.commande.CommandeSimpleAvecID;
 import fr.unice.polytech.exceptions.PasswordException;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.adress.Position;
 import fr.unice.polytech.utils.temps.HoraireDate;
 
 import java.util.HashMap;
