@@ -90,12 +90,28 @@ public class Restaurant {
         this.specialRate.addSpecialRate(statut, rate);
     }
 
-    public int getReductionRate(CompteUtilisateur compteUtilisateur) {
-        return this.goodClientReduction.getReductionRate(compteUtilisateur);
+    public int getReductionRate(CompteUtilisateur compteUtilisateur, HoraireDate horaire) {
+        return this.goodClientReduction.getReductionRate(compteUtilisateur, horaire);
     }
 
     public int getSpecialRate(UserStatut statut) {
         return this.specialRate.getSpecialRate(statut);
+    }
+
+    public int getNbCommandeToGetReduction() {
+        return this.goodClientReduction.getNbCommandeToGetReduction();
+    }
+
+    public int getNbDateReductionLast() {
+        return this.goodClientReduction.getNbDateReductionLast();
+    }
+
+    public int getReductionRateEntered() {
+        return this.goodClientReduction.getReductionRateEntered();
+    }
+
+    public int getNbCommandeByUser(CompteUtilisateur compteUtilisateur) {
+        return this.goodClientReduction.getNbCommandeByUser(compteUtilisateur);
     }
 
     // Accesseur

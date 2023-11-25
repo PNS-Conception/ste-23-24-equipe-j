@@ -12,7 +12,8 @@ public enum UserStatut {
 
 
     public static UserStatut getEtatUtilisateur(String etat) {
-        return switch (etat) {
+        String etatModificated = etat.toUpperCase();
+        return switch (etatModificated) {
             case "ETUDIANT" -> ETUDIANT;
             case "PROFESSEUR" -> PROFESSEUR;
             case "PERSONNEL" -> PERSONNEL;

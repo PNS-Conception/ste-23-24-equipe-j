@@ -9,6 +9,7 @@ import fr.unice.polytech.exceptions.TokenException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.paiement.PaiementCommande;
 import fr.unice.polytech.utils.Token;
+import fr.unice.polytech.utils.temps.HoraireDate;
 
 /**
  * Classe abstraite d'une commande seule payable avec un ID
@@ -29,6 +30,7 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
 
     @Override
     public double getPrix() {
+        this.checkDiscount();
         return paiementCommande.getPrix();
     }
 
@@ -53,7 +55,7 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
     @Override
     public void checkDiscount() {
         int specialRate = super.restaurant.getSpecialRate(super.createur.getStatut());
-        int goodClientReduction = super.restaurant.getReductionRate(super.createur);
+        int goodClientReduction = super.restaurant.getReductionRate(super.createur, this.getInformationLivraison().getHoraireDate());
         int rate = specialRate + goodClientReduction;
         paiementCommande.setDiscount(rate);
     }

@@ -43,6 +43,11 @@ public class CommandeSimple extends CommandeSimplePayable implements ILivrable {
     }
 
     @Override
+    public void setInformationLivraisonForced(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
+        informationLivraison.setInformationLivraisonForced(dateLivraison, heureLivraison, lieuxLivraison);
+    }
+
+    @Override
     public boolean equals(Object o) {
         return super.equals(o);
     }

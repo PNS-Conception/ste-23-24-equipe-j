@@ -105,4 +105,10 @@ public class InformationLivraison {
         if (this.lieuxLivraison == null)
             this.lieuxLivraison = lieuxLivraison;
     }
+
+    public void setInformationLivraisonForced(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
+        this.dateLivraison = dateLivraison;
+        this.heureLivraison = heureLivraison;
+        this.lieuxLivraison = lieuxLivraison;
+    }
 }

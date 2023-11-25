@@ -100,9 +100,28 @@ public class GoodClientReduction {
 
 
     // GETTER AND COMMON USED METHODS
-    public int getReductionRate(CompteUtilisateur user) {
-        if (this.checkIfUserIsGoodClient(user)) {
+    public int getReductionRate(CompteUtilisateur user, HoraireDate horaireDate) {
+        if (this.checkIfUserIsGoodClient(user,horaireDate)) {
             return this.reductionRate;
+        }
+        return 0;
+    }
+
+    public int getNbCommandeToGetReduction() {
+        return nbCommandeToGetReduction;
+    }
+
+    public int getNbDateReductionLast() {
+        return nbDateReductionLast;
+    }
+
+    public int getReductionRateEntered() {
+        return reductionRate;
+    }
+
+    public int getNbCommandeByUser(CompteUtilisateur user) {
+        if (nbCommandeByUser.containsKey(user)) {
+            return nbCommandeByUser.get(user);
         }
         return 0;
     }
@@ -148,11 +167,10 @@ public class GoodClientReduction {
      * @param user : user to check
      * @return
      */
-    private boolean checkIfUserIsGoodClient(CompteUtilisateur user) {
+    private boolean checkIfUserIsGoodClient(CompteUtilisateur user, HoraireDate horaireDate) {
         if (this.goodClientRange.containsKey(user)) {
             HoraireDate goodClientLast = this.goodClientRange.get(user);
-            HoraireDate now = this.getNowHoraireDate();
-            return goodClientLast.compareTo(now) > 0;
+            return horaireDate.compareTo(goodClientLast) < 0;
         }
         return false;
     }
@@ -192,10 +210,48 @@ public class GoodClientReduction {
      * @return
      */
     private HoraireDate determinateGoodClientLast() {
+
         LocalDateTime now = LocalDateTime.now();
         int year = now.getYear();
         int month = now.getMonthValue();
         int day = now.getDayOfMonth() + this.nbDateReductionLast;
+
+        boolean modif = true;
+        while (modif==true) {
+            modif = false;
+            if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+                if (day > 31) {
+                    day = day - 31;
+                    month = month + 1;
+                    if (month > 12) {
+                        month = month - 12;
+                        year = year + 1;
+                    }
+                    modif = true;
+                }
+            } else if (month == 2) {
+                if (day > 28) {
+                    day = day - 28;
+                    month = month + 1;
+                    if (month > 12) {
+                        month = month - 12;
+                        year = year + 1;
+                    }
+                    modif = true;
+                }
+            } else {
+                day = day - 30;
+                month = month + 1;
+                if (month > 12) {
+                    month = month - 12;
+                    year = year + 1;
+                }
+                modif = true;
+            }
+        }
+
+
+
         int hour = now.getHour();
         int minute = now.getMinute();
         Date date = new Date(day, month, year);

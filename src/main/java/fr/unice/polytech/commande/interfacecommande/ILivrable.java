@@ -17,6 +17,7 @@ public interface ILivrable {
      * @param lieuxLivraison le lieu de livraison
      */
     void setInformationLivraison(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison);
+    void setInformationLivraisonForced(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison);
 
     /**
      * Retourne les informations de livraison de la commande

@@ -46,6 +46,14 @@ public class HoraireDate implements Comparable<HoraireDate>{
     }
 
     @Override
+    public String toString() {
+        return "HoraireDate{" +
+                "date=" + date +
+                ", horaire=" + horaire +
+                '}';
+    }
+
+    @Override
     public int compareTo(HoraireDate horaireDate) {
 
         if (this.equals(horaireDate)) {

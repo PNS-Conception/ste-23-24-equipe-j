@@ -107,6 +107,11 @@ public abstract class ACommandeGroupe extends CommandeAvecID implements ILivrabl
     }
 
     @Override
+    public void setInformationLivraisonForced(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
+        informationLivraison.setInformationLivraisonForced(dateLivraison, heureLivraison, lieuxLivraison);
+    }
+
+    @Override
     public InformationLivraison getInformationLivraison() {
         return informationLivraison;
     }
