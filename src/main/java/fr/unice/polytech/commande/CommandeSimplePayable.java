@@ -30,7 +30,9 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
 
     @Override
     public double getPrix() {
-        this.checkDiscount();
+        if (super.restaurant != null) {
+            this.checkDiscount();
+        }
         return paiementCommande.getPrix();
     }
 

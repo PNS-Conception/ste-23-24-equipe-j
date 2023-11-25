@@ -62,7 +62,7 @@ public class Discount {
     @Etque("les utilisateur peut accéder aux restaurants suivant : \\(passDiscount)")
     public void lesUtilisateurPeutAccéderAuxRestaurantsSuivantPassDiscount(List<String> restaurants) {
         for (String restaurant : restaurants) {
-            restaurantManager.addRestaurant(new Restaurant(restaurant));
+            restaurantManager.addRestaurant(new Restaurant(restaurant, new Position(0,0), 100));
         }
         assertEquals(restaurants.size(), restaurantManager.getRestaurants().size());
     }
