@@ -1,5 +1,9 @@
 package fr.unice.polytech.utils;
 
+import fr.unice.polytech.nourriture.MenuPlat;
+
+import java.util.Map;
+
 /**
  * Classe contenant le prix d'une commande
  * @author Equipe J
@@ -18,8 +22,8 @@ public class PaiementCommande {
      * Retourne le prix de la commande
      * @return le prix de la commande
      */
-    public double getPrix() {
-        return prix;
+    public double getPrix(Map<MenuPlat, Integer> produitsCommandes) {
+        return Reduction.getReduction(produitsCommandes);
     }
 
     /**

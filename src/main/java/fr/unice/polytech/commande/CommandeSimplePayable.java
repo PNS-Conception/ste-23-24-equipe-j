@@ -26,7 +26,7 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
 
     @Override
     public double getPrix() {
-        return paiementCommande.getPrix();
+        return paiementCommande.getPrix(menuPlats);
     }
 
     @Override
