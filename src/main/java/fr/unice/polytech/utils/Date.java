@@ -28,6 +28,11 @@ public class Date {
         mois = date.getMonthValue();
         jour = date.getDayOfMonth();
     }
+    public Date(LocalDate localDate){
+        annee = localDate.getYear();
+        mois = localDate.getMonthValue();
+        jour = localDate.getDayOfMonth();
+    }
 
     /**
      * Retourne le jour de la date
@@ -51,5 +56,25 @@ public class Date {
      */
     public int getAnnee() {
         return annee;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Date date = (Date) o;
+
+        if (jour != date.jour) return false;
+        if (mois != date.mois) return false;
+        return annee == date.annee;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = jour;
+        result = 31 * result + mois;
+        result = 31 * result + annee;
+        return result;
     }
 }
