@@ -1,5 +1,8 @@
-package fr.unice.polytech.commande;
+package fr.unice.polytech.commande_test;
 
+import fr.unice.polytech.commande.Commande;
+import fr.unice.polytech.commande.CommandeManager;
+import fr.unice.polytech.commande.EtatCommande;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.restaurant.AucunMenuException;
@@ -9,6 +12,7 @@ import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.*;
 import fr.unice.polytech.utils.Date;
 import io.cucumber.java.fr.*;
+import org.junit.Assert;
 
 import java.util.*;
 
@@ -103,7 +107,7 @@ public class AjouterUneCommande {
 
     @Alors("la commande est ajouté à la liste des commandes {string} et elle est envoyé au restaurant {string}")
     public void laCommandeEstAjoutéÀLaListeDesCommandesEnPréparationEtElleEstEnvoyéAuRestaurant(String etatCommande, String nomRestaurant) {
-        assertEquals(EtatCommande.getEtatSousCommande(etatCommande), commande.getEtatCommande());
+        Assert.assertEquals(EtatCommande.getEtatSousCommande(etatCommande), commande.getEtatCommande());
         assertEquals(restaurant.getNomRestaurant(), nomRestaurant);
         assertTrue(commandeManager.getCommandeEnPreparationRestaurant(restaurant).contains(commande));
     }

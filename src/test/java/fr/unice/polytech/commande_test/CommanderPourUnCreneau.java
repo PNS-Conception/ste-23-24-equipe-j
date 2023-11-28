@@ -1,5 +1,4 @@
-package fr.unice.polytech.commande;
-
+package fr.unice.polytech.commande_test;
 import fr.unice.polytech.commande.Commande;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
@@ -14,7 +13,6 @@ import fr.unice.polytech.utils.OffreUtils;
 import io.cucumber.java.fr.*;
 import org.junit.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -39,7 +37,6 @@ public class CommanderPourUnCreneau {
 
     @Etqu("il a possède uniquement des créneaux  {string}:")
     public void ilAPossèdeUniquementDesCréneaux(String arg0, List<List<String>>iCreneauList) {
-     //   restaurant.ajouterCreneau();
             createCreneaus(arg0,iCreneauList,creneauDirector).forEach(c->restaurant.ajouterCreneau(c));
         scheduler.ajouterRestaurant(restaurant);
 
@@ -107,8 +104,6 @@ public class CommanderPourUnCreneau {
     public void jeDemandeLaListeDesCreneauxPourLeRestaurantPourLe(String arg0, String arg1) {
         restaurant=new Restaurant(arg0);
         date= new Date(arg1);
-        ;
-
     }
 
     @Alors("j'obtient les creneaux :")
@@ -123,10 +118,6 @@ public class CommanderPourUnCreneau {
     @Alors("{string} contient pour {string} prochain:")
     public void contientPourProchain(String arg0, String arg1,List<String >creneaux) {
         Date date=OffreUtils.convertStringToDate(arg1);
-
-     // ICreneau iCreneau=  scheduler.getCreneau(restaurant,arg1,new Horaire(creneaux.get(0)),new Horaire(creneaux.get(1)));
-
-
         CommandeCreneau commandeCreneau=scheduler.getCommandesPlannifiees().get(restaurant).getCommandeCreneau(date,new Horaire(creneaux.get(0)),new Horaire(creneaux.get(1)));
         assertTrue(commandeCreneau!=null&&commandeCreneau.getNbCommandesPasses()==Integer.parseInt(creneaux.get(2))&&commandeCreneau.getNbCommandesPossibles()==Integer.parseInt(creneaux.get(3)));
     }

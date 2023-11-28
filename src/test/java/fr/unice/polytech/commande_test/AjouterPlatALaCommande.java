@@ -1,5 +1,6 @@
-package fr.unice.polytech.commande;
+package fr.unice.polytech.commande_test;
 
+import fr.unice.polytech.commande.Commande;
 import fr.unice.polytech.nourriture.Plat;
 import io.cucumber.java.fr.*;
 import java.util.ArrayList;

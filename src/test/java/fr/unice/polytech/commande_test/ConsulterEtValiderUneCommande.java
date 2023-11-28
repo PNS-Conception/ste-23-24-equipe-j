@@ -1,5 +1,8 @@
-package fr.unice.polytech.commande;
+package fr.unice.polytech.commande_test;
 
+import fr.unice.polytech.commande.Commande;
+import fr.unice.polytech.commande.CommandeManager;
+import fr.unice.polytech.commande.EtatCommande;
 import fr.unice.polytech.livraison.CompteLivreur;
 import fr.unice.polytech.livraison.EtatLivraisonCommande;
 import fr.unice.polytech.livraison.SystemeLivraison;

@@ -1,4 +1,4 @@
-package fr.unice.polytech.commande;
+package fr.unice.polytech.commande_test;
 
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
