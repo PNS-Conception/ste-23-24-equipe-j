@@ -1,6 +1,5 @@
 package fr.unice.polytech.commande;
 
-import fr.unice.polytech.commande.Commande;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.offre.*;
@@ -14,7 +13,6 @@ import fr.unice.polytech.utils.OffreUtils;
 import io.cucumber.java.fr.*;
 import org.junit.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
