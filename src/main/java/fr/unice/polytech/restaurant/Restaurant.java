@@ -58,14 +58,6 @@ public class Restaurant {
         this.goodClientReduction.addCommande(compteUtilisateur);
     }
 
-    public void setGoodClientReduction(GoodClientReduction goodClientReduction){
-        this.goodClientReduction = goodClientReduction;
-    }
-
-    public void setSpecialRate(SpecialRate specialRate){
-        this.specialRate = specialRate;
-    }
-
     public void setNbCommandeToGetReduction(int nbCommandeToGetReduction){
         this.goodClientReduction.setNbCommandeToGetReduction(nbCommandeToGetReduction);
     }
@@ -74,19 +66,11 @@ public class Restaurant {
         this.goodClientReduction.setReductionRate(reductionRate);
     }
 
-    public void setReductionRate(double reductionRate) {
-        this.goodClientReduction.setReductionRate(reductionRate);
-    }
-
     public void setNbDateReductionLast(int nbDateReductionLast) {
         this.goodClientReduction.setNbDateReductionLast(nbDateReductionLast);
     }
 
     public void addSpecialRate(UserStatut statut, int rate) {
-        this.specialRate.addSpecialRate(statut, rate);
-    }
-
-    public void addSpecialRate(UserStatut statut, double rate) {
         this.specialRate.addSpecialRate(statut, rate);
     }
 
@@ -116,32 +100,13 @@ public class Restaurant {
 
     // Accesseur
 
-    public void increaseReservation(HoraireDate horaire) throws CapaciteDepasseException {
-        increaseReservation(horaire, 1);
-    }
 
     public void increaseReservation(HoraireDate horaire, int capacite) throws CapaciteDepasseException {
         this.reservation.increaseReservation(horaire, capacite);
     }
 
-    public void reduceReservation(HoraireDate horaire) throws CapaciteDepasseException, ImpossibleAugmenterCapaciterException {
-        reduceReservation(horaire, 1);
-    }
-
-    public void reduceReservation(HoraireDate horaire, int capacite) throws CapaciteDepasseException, ImpossibleAugmenterCapaciterException {
-        this.reservation.reduceReservation(horaire, capacite);
-    }
-
-    public int getCapaciteMaximale() {
-        return reservation.getCapacityMax();
-    }
-
     public int getCapacity(HoraireDate horaire) {
         return reservation.getCapacity(horaire);
-    }
-
-    public void setCapaciteMaximale(int capaciteMaximale) {
-        this.reservation.setCapacityMax(capaciteMaximale);
     }
 
     /**
