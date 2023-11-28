@@ -54,49 +54,23 @@ public class Restaurant {
         this.specialRate = new SpecialRate();
     }
 
-    public void updateGoodClientReduction(CompteUtilisateur compteUtilisateur){
-        this.goodClientReduction.addCommande(compteUtilisateur);
+
+    public GoodClientReduction getGoodClientReduction() {
+        return goodClientReduction;
     }
 
-    public void setNbCommandeToGetReduction(int nbCommandeToGetReduction){
-        this.goodClientReduction.setNbCommandeToGetReduction(nbCommandeToGetReduction);
+    public SpecialRate getSpecialRate() {
+        return specialRate;
     }
 
-    public void setReductionRate(int reductionRate) {
-        this.goodClientReduction.setReductionRate(reductionRate);
+    public void setSpecialRate(SpecialRate specialRate) {
+        this.specialRate = specialRate;
     }
 
-    public void setNbDateReductionLast(int nbDateReductionLast) {
-        this.goodClientReduction.setNbDateReductionLast(nbDateReductionLast);
+    public void setGoodClientReduction(GoodClientReduction goodClientReduction) {
+        this.goodClientReduction = goodClientReduction;
     }
 
-    public void addSpecialRate(UserStatut statut, int rate) {
-        this.specialRate.addSpecialRate(statut, rate);
-    }
-
-    public int getReductionRate(CompteUtilisateur compteUtilisateur, HoraireDate horaire) {
-        return this.goodClientReduction.getReductionRate(compteUtilisateur, horaire);
-    }
-
-    public int getSpecialRate(UserStatut statut) {
-        return this.specialRate.getSpecialRate(statut);
-    }
-
-    public int getNbCommandeToGetReduction() {
-        return this.goodClientReduction.getNbCommandeToGetReduction();
-    }
-
-    public int getNbDateReductionLast() {
-        return this.goodClientReduction.getNbDateReductionLast();
-    }
-
-    public int getReductionRateEntered() {
-        return this.goodClientReduction.getReductionRateEntered();
-    }
-
-    public int getNbCommandeByUser(CompteUtilisateur compteUtilisateur) {
-        return this.goodClientReduction.getNbCommandeByUser(compteUtilisateur);
-    }
 
     // Accesseur
 

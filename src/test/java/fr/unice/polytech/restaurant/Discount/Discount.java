@@ -86,23 +86,23 @@ public class Discount {
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         for (String statut : discounts.keySet()) {
             UserStatut userStatut = UserStatut.getEtatUtilisateur(statut);
-            restaurant.addSpecialRate(userStatut, discounts.get(statut));
+            restaurant.getSpecialRate().addSpecialRate(userStatut, discounts.get(statut));
         }
         for (String statut : discounts.keySet()) {
             UserStatut userStatut = UserStatut.getEtatUtilisateur(statut);
-            assertEquals((int) discounts.get(statut), (int) restaurant.getSpecialRate(userStatut));
+            assertEquals((int) discounts.get(statut), (int) restaurant.getSpecialRate().getSpecialRate(userStatut));
         }
     }
 
     @Etque("le restaurant {string} propose une réduction de {int} \\(%) valable {int} jours pour les bon clients ayant effectué plus de {int} commandes. \\(passDiscount)")
     public void leRestaurantProposeUneRéductionDeValableJoursPourLesBonClientsAyantEffectuéPlusDeCommandesPassDiscount(String nomRestaurant, int discountRate, int validity, int nbCommande) {
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
-        restaurant.setNbCommandeToGetReduction(nbCommande);
-        restaurant.setReductionRate(discountRate);
-        restaurant.setNbDateReductionLast(validity);
-        assertEquals((int) discountRate,(int) restaurant.getReductionRateEntered());
-        assertEquals(validity, restaurant.getNbDateReductionLast());
-        assertEquals(nbCommande, restaurant.getNbCommandeToGetReduction());
+        restaurant.getGoodClientReduction().setNbCommandeToGetReduction(nbCommande);
+        restaurant.getGoodClientReduction().setReductionRate(discountRate);
+        restaurant.getGoodClientReduction().setNbDateReductionLast(validity);
+        assertEquals((int) discountRate,(int) restaurant.getGoodClientReduction().getReductionRateEntered());
+        assertEquals(validity, restaurant.getGoodClientReduction().getNbDateReductionLast());
+        assertEquals(nbCommande, restaurant.getGoodClientReduction().getNbCommandeToGetReduction());
     }
 
     @Etque("l'utilisateur {string} {string} a effectué {int} commandes au restaurant {string} \\(passDiscount)")
@@ -113,7 +113,7 @@ public class Discount {
                 for (int i = 0; i < nbCommandeDone; i++) {
                     this.passXCommande(restaurant, compteUtilisateur);
                 }
-                assertEquals(nbCommandeDone, restaurant.getNbCommandeByUser(compteUtilisateur));
+                assertEquals(nbCommandeDone, restaurant.getGoodClientReduction().getNbCommandeByUser(compteUtilisateur));
                 return;
             }
         }
@@ -137,8 +137,8 @@ public class Discount {
 
     @Alors("le prix total de la commande doit être de {double} \\(passDiscount)")
     public void lePrixTotalDeLaCommandeDoitÊtreDePassDiscount(double priceExpected) {
-        int specialRate = this.currentRestaurant.getSpecialRate(this.c.getStatut());
-        int goodClientReduction = this.currentRestaurant.getReductionRate(this.c, new HoraireDate(true));
+        int specialRate = this.currentRestaurant.getSpecialRate().getSpecialRate(this.c.getStatut());
+        int goodClientReduction = this.currentRestaurant.getGoodClientReduction().getReductionRate(this.c, new HoraireDate(true));
         int rate = specialRate + goodClientReduction;
 
         assertEquals(Math.round(priceExpected*100), Math.round(currentCommande.getPrix()*100));
@@ -149,11 +149,11 @@ public class Discount {
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         for (CompteUtilisateur compteUtilisateur : utilisateurs) {
             if (compteUtilisateur.getNom().equals(nom) && compteUtilisateur.getPrenom().equals(prenom)) {
-                int nbPreviousCommande = restaurant.getNbCommandeByUser(compteUtilisateur);
+                int nbPreviousCommande = restaurant.getGoodClientReduction().getNbCommandeByUser(compteUtilisateur);
                 for (int i = 0; i < nbCommandeDone; i++) {
                     this.passXCommande(restaurant, compteUtilisateur, new Date(dateInput), new Horaire(horaireInput));
                 }
-                assertEquals((nbCommandeDone + nbPreviousCommande)%restaurant.getNbCommandeToGetReduction(), restaurant.getNbCommandeByUser(compteUtilisateur));
+                assertEquals((nbCommandeDone + nbPreviousCommande)%restaurant.getGoodClientReduction().getNbCommandeToGetReduction(), restaurant.getGoodClientReduction().getNbCommandeByUser(compteUtilisateur));
                 return;
             }
         }

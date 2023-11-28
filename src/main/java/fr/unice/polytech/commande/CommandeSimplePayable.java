@@ -56,8 +56,8 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
 
     @Override
     public void checkDiscount() {
-        int specialRate = super.restaurant.getSpecialRate(super.createur.getStatut());
-        int goodClientReduction = super.restaurant.getReductionRate(super.createur, this.getInformationLivraison().getHoraireDate());
+        int specialRate = super.restaurant.getSpecialRate().getSpecialRate(super.createur.getStatut());
+        int goodClientReduction = super.restaurant.getGoodClientReduction().getReductionRate(super.createur, this.getInformationLivraison().getHoraireDate());
         int rate = specialRate + goodClientReduction;
         paiementCommande.setDiscount(rate);
     }
@@ -67,7 +67,7 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
         if (this.createur.checkToken(token) && paiementCommande.payerCommande()) {
             setEtatCommande(EtatCommande.EN_PREPARATION);
             this.createur.ajouterCommande(this, token);
-            this.restaurant.updateGoodClientReduction(this.createur);
+            this.restaurant.getGoodClientReduction().addCommande(this.createur);
         } else if (!this.createur.checkToken(token)) {
             throw new TokenException();
         }
