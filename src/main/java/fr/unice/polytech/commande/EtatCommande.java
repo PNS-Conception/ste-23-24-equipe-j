@@ -1,10 +1,11 @@
 package fr.unice.polytech.commande;
 
 /**
- * Enum de l'état d'une sous commande dans le restaurant
+ * Enum des états de suivi d'une commande
+ * @author Equipe J
  */
 public enum EtatCommande {
-
+    ANNULE,
     EN_ATTENTE,
     EN_PREPARATION,
     PRETE;
@@ -16,6 +17,7 @@ public enum EtatCommande {
      */
     public static EtatCommande getEtatSousCommande(String etat) {
         return switch (etat) {
+            case "ANNULE" -> ANNULE;
             case "EN_ATTENTE" -> EN_ATTENTE;
             case "EN_PREPARATION" -> EN_PREPARATION;
             case "PRETE" -> PRETE;
