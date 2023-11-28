@@ -2,10 +2,16 @@ package fr.unice.polytech.commandegroupe;
 
 import fr.unice.polytech.builder.TypeCommandeAjoutable;
 import fr.unice.polytech.builder.TypeCommandeSimple;
-import fr.unice.polytech.commande.CommandeGroupe;
-import fr.unice.polytech.commande.EtatCommande;
-import fr.unice.polytech.commande.SystemeCommande;
+import fr.unice.polytech.commande.*;
 import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutable;
+import fr.unice.polytech.exceptions.CapaciteDepasseException;
+import fr.unice.polytech.exceptions.PasswordException;
+import fr.unice.polytech.exceptions.RestaurantNonValideException;
+import fr.unice.polytech.exceptions.TokenException;
+import fr.unice.polytech.globalSystem.GlobalSystem;
+import fr.unice.polytech.nourriture.Plat;
+import fr.unice.polytech.nourriture.TypeMenuPlat;
+import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import io.cucumber.java.fr.*;
 
@@ -16,28 +22,42 @@ public class ChangerStatusCommandeGroupe {
     CommandeGroupe commandeGroupe;
     ICommandeAjoutable commande;
     String erreurMessage;
+    CompteUtilisateur compteUtilisateur;
+    GlobalSystem globalSystem = new GlobalSystem();
+
 
     @Etantdonnéque("la commande groupé possède {int} commande")
-    public void lacommandegroupepossedecommandes(int nombreCommande){
+    public void lacommandegroupepossedecommandes(int nombreCommande) throws CapaciteDepasseException, RestaurantNonValideException {
         systemeCommande = new SystemeCommande();
+        this.compteUtilisateur = this.globalSystem.createAccount();
         commandeGroupe = (CommandeGroupe) systemeCommande.creerCommandeSimpleMultipleGroupe(
-                new CompteUtilisateur("test", "test"), TypeCommandeSimple.GROUPEE);
+                this.compteUtilisateur, TypeCommandeSimple.GROUPEE);
 
         for (int i = 0; i < nombreCommande; i++) {
             ICommandeAjoutable commandeAjoutable = systemeCommande.creerCommandeAjoutable(
-                    new CompteUtilisateur("test" + i, "test"),
+                    this.compteUtilisateur,
                     TypeCommandeAjoutable.SIMPLE, (int) commandeGroupe.getIdCommande());
 
-            commandeGroupe.ajouterCommande(commandeAjoutable);
+            CommandeSimpleAjoutable commandeSimple = (CommandeSimpleAjoutable) commandeAjoutable;
+
+            Plat plat = new Plat("nomPlat", 5.00, null, null);
+            Restaurant restaurant =
+                    new Restaurant("Restaurant");
+            restaurant.addMenu(plat);
+            commandeSimple.ajoutMenuPlat(plat, TypeMenuPlat.PLAT);
+            commandeGroupe.ajouterCommande((ICommandeAjoutable) commandeSimple);
         }
 
         commande = commandeGroupe.getCommandes().get(0);
         assertEquals(nombreCommande, commandeGroupe.getCommandes().size());
+
+
+
     }
 
     @Quand("l'utilisateur paye la commande")
-    public void lUtilisateurPayeLaCommande() {
-        commande.payerCommande();
+    public void lUtilisateurPayeLaCommande() throws PasswordException, TokenException {
+        commande.payerCommande(this.compteUtilisateur.createToken(CompteUtilisateur.DEFAULT_PASSWORD));
     }
 
 

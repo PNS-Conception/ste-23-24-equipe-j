@@ -1,13 +1,13 @@
 package fr.unice.polytech.notification;
 
 import fr.unice.polytech.builder.TypeCommandeSimple;
-import fr.unice.polytech.commande.CommandeGroupe;
 import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.commande.EtatCommande;
 import fr.unice.polytech.commande.SystemeCommande;
+import fr.unice.polytech.globalSystem.GlobalSystem;
 import fr.unice.polytech.livraison.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.adress.Position;
 import io.cucumber.java.fr.*;
 
 import java.util.HashMap;
@@ -23,6 +23,8 @@ public class NotificationLivreur {
     Map<String, CompteLivreur> livreurs;
     Map<CompteLivreur, Integer> nombreNotifications;
     CommandeSimple commande;
+    GlobalSystem globalSystem = new GlobalSystem();
+
 
 
     @Etantdonné("les livreurs {string} {string} et {string} {string}")
@@ -54,7 +56,7 @@ public class NotificationLivreur {
     public void nEstPasDisponible(String nom, String prenom) {
         CompteLivreur livreur = livreurs.get(nom + prenom);
         CommandeSimple commandeLivreur = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(
-                new CompteUtilisateur("nom", "prenom"), TypeCommandeSimple.SIMPLE);
+                this.globalSystem.createAccount("nom", "prenom"), TypeCommandeSimple.SIMPLE);
 
         commandeLivreur.setEtatCommande(EtatCommande.PRETE);
         List<CompteLivreur> listeLivreurs = systemeLivraison.getLivreursDisponibles();
@@ -65,7 +67,7 @@ public class NotificationLivreur {
     @Quand("la commande change de status à {string}")
     public void laCommandeChangeDeStatusÀ(String status) {
         commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(
-                new CompteUtilisateur("nom", "prenom"), TypeCommandeSimple.SIMPLE);
+                this.globalSystem.createAccount("nom", "prenom"), TypeCommandeSimple.SIMPLE);
 
         commande.setEtatCommande(EtatCommande.getEtatSousCommande(status));
     }

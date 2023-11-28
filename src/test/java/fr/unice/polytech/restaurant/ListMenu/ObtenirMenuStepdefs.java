@@ -1,8 +1,12 @@
-package fr.unice.polytech.restaurant;
+package fr.unice.polytech.restaurant.ListMenu;
 
 
+import fr.unice.polytech.globalSystem.GlobalSystem;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
+import fr.unice.polytech.exceptions.AucunMenuException;
+import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.restaurant.RestaurantManager;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
 import io.cucumber.java.fr.Etantdonnéque;
@@ -18,6 +22,8 @@ import static org.junit.Assert.assertThrows;
 public class ObtenirMenuStepdefs {
     RestaurantManager restaurantManager;
     Restaurant restaurant;
+    GlobalSystem globalSystem = new GlobalSystem();
+
 
     @Etantdonnéque("l'utilisateur à une liste de restaurant :")
     public void getRestaurants(List<String> listeRestaurant) {

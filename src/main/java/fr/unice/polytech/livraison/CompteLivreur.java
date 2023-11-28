@@ -1,6 +1,6 @@
 package fr.unice.polytech.livraison;
 import fr.unice.polytech.observer.EventListener;
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.adress.Position;
 
 /**
  * Compte du livreur contant son nom, prénom et sa position actuelle

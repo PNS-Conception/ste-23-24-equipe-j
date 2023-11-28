@@ -2,6 +2,9 @@ package fr.unice.polytech.commande;
 
 import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutable;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utils.adress.Position;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
 
 /**
  * Classe d'une commande groupe composé de commandes payables, avec des id

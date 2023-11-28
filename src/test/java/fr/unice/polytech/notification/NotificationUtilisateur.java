@@ -4,6 +4,7 @@ import fr.unice.polytech.builder.TypeCommandeSimple;
 import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.commande.EtatCommande;
 import fr.unice.polytech.commande.SystemeCommande;
+import fr.unice.polytech.globalSystem.GlobalSystem;
 import fr.unice.polytech.livraison.EtatLivraisonCommande;
 import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
@@ -26,6 +27,8 @@ public class NotificationUtilisateur {
     CommandeSimple commande;
     EtatCommande etatCommande;
     EtatLivraisonCommande etatLivraisonCommande;
+    GlobalSystem globalSystem = new GlobalSystem();
+
 
 
     @Etantdonné("les utilisateurs {string} {string} et {string} {string}")
@@ -33,8 +36,8 @@ public class NotificationUtilisateur {
         systemeCommande = new SystemeCommande();
         utilisateurs = new HashMap<>();
         nombreNotifications = new HashMap<>();
-        CompteUtilisateur compteUtilisateur1 = spy(new CompteUtilisateur(nom1, prenom1));
-        CompteUtilisateur compteUtilisateur2 = spy(new CompteUtilisateur(nom2, prenom2));
+        CompteUtilisateur compteUtilisateur1 = spy(this.globalSystem.createAccount(nom1, prenom1));
+        CompteUtilisateur compteUtilisateur2 = spy(this.globalSystem.createAccount(nom2, prenom2));
 
         utilisateurs.put(nom1 + prenom1, compteUtilisateur1);
         utilisateurs.put(nom2 + prenom2, compteUtilisateur2);

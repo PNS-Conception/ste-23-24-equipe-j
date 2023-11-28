@@ -7,7 +7,9 @@ import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.*;
-import fr.unice.polytech.utils.Date;
+import fr.unice.polytech.utils.adress.Position;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
 
 import java.util.*;
 
@@ -102,6 +104,11 @@ public abstract class ACommandeGroupe extends CommandeAvecID implements ILivrabl
     @Override
     public void setInformationLivraison(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
         informationLivraison.setInformationLivraison(dateLivraison, heureLivraison, lieuxLivraison);
+    }
+
+    @Override
+    public void setInformationLivraisonForced(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
+        informationLivraison.setInformationLivraisonForced(dateLivraison, heureLivraison, lieuxLivraison);
     }
 
     @Override
