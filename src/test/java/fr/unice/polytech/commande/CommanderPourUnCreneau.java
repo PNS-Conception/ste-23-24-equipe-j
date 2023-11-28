@@ -1,9 +1,9 @@
-package fr.unice.polytech.commande_test;
-import fr.unice.polytech.commande.Commande;
+package fr.unice.polytech.commande;
 
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.offre.*;
+import fr.unice.polytech.commande.Commande;
 import fr.unice.polytech.restaurant.AucunMenuException;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.restaurant.RestaurantManager;
