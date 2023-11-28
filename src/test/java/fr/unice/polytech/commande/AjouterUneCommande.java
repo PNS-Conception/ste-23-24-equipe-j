@@ -6,6 +6,7 @@ import fr.unice.polytech.restaurant.AucunMenuException;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.restaurant.RestaurantManager;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utilisateur.StatusUtilisateur;
 import fr.unice.polytech.utilisateur.UtilisateurNonAuthentifieException;
 import fr.unice.polytech.utils.*;
 import fr.unice.polytech.utils.Date;
@@ -28,12 +29,26 @@ public class AjouterUneCommande {
         compteUtilisateur = new CompteUtilisateur(nom, prenom, "ETUDIANT");
     }
 
+    @Etantdonnéque("l'utilisateur {string} {string} est connecté et est {string}")
+    public void lUtilisateurEstConnectéEtEstEtudiant(String prenom, String nom, String status) {
+        compteUtilisateur = new CompteUtilisateur(nom, prenom, "ETUDIANT");
+    }
+
     @Etque("{string} {string} crée une commande")
     public void créeUneCommande(String prenom, String nom) {
         commande = new Commande(compteUtilisateur);
 
         assertEquals(prenom, compteUtilisateur.getPrenom());
         assertEquals(nom, compteUtilisateur.getNom());
+    }
+
+    @Etque("l'utilisateur {string} {string} crée une commande")
+    public void créeUneCommandeEtudiant(String prenom, String nom) {
+        commande = new Commande(compteUtilisateur);
+
+        assertEquals(prenom, compteUtilisateur.getPrenom());
+        assertEquals(nom, compteUtilisateur.getNom());
+        assertEquals(StatusUtilisateur.ETUDIANT, compteUtilisateur.getStatusUtilisateur());
     }
 
     @Etque("L'utilisateur peut accéder aux restaurants suivant :")
@@ -65,11 +80,23 @@ public class AjouterUneCommande {
         }
     }
 
-
     @Etque("l'utilisateur choisit le restaurant {string}")
     public void ilChoisitLeRestaurant(String nomRestaurant) {
         restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         assertNotNull(restaurant);
+    }
+
+    @Etque("le restaurant applique un tarif spécial pour les {string} :")
+    public void leRestaurantAppliqueUnTarifSpecialPourLesEtudiant(String statusUtilisateur, Map<String, Double> menus) throws AucunMenuException{
+        for (Map.Entry<String, Double> menu : menus.entrySet()) {
+            MenuPlat menuRestaurant = restaurant.getMenu(menu.getKey());
+            menuRestaurant.setPrixStatus(StatusUtilisateur.valueOf(statusUtilisateur), menus.get(menuRestaurant.getNom()));
+        }
+
+        for (MenuPlat menu : restaurant.getMenus()){
+            Optional<Double> prixMenuEtudiant = Optional.of(menu.getPrix(StatusUtilisateur.ETUDIANT));
+            assertEquals(menus.get(menu.getNom()),prixMenuEtudiant.get());
+        }
     }
 
     @Etque("l'utilisateur choisit le menu {string} à {int} €")
@@ -107,5 +134,10 @@ public class AjouterUneCommande {
         assertEquals(EtatCommande.getEtatSousCommande(etatCommande), commande.getEtatCommande());
         assertEquals(restaurant.getNomRestaurant(), nomRestaurant);
         assertTrue(commandeManager.getCommandeEnPreparationRestaurant(restaurant).contains(commande));
+    }
+
+    @Alors("le prix de la commande augmente de {int} €")
+    public void lePrixDeLaCommandeAugmenteDe(int prix){
+        assertEquals(prix, commande.getPrix(), 0.001);
     }
 }

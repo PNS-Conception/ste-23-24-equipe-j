@@ -204,7 +204,7 @@ public class Commande {
         else {
             menuPlats.put(menuPlat, quantite);
         }
-        prixCommande += menuPlat.getPrix();
+        prixCommande += menuPlat.getPrix(compteUtilisateur.getStatusUtilisateur());
     }
 
     // A revoir si on ajoute une quantite à supprimer d'un plat

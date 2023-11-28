@@ -1,5 +1,6 @@
 package fr.unice.polytech.restaurant;
 
+import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.utils.Position;
 
@@ -65,6 +66,15 @@ public class Restaurant {
         if (nombreMenu() == 0)
             throw new AucunMenuException();
         return menus.stream().toList();
+    }
+
+    public MenuPlat getMenu(String nomMenu) throws AucunMenuException {
+        List<MenuPlat> menus = getMenus();
+        for (MenuPlat menu : menus){
+            if (menu.getNom().equals(nomMenu))
+                return menu;
+        }
+        return null;
     }
 
     /**

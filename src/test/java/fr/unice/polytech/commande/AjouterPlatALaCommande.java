@@ -5,6 +5,7 @@ import fr.unice.polytech.nourriture.Plat;
 import fr.unice.polytech.restaurant.AucunMenuException;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.restaurant.RestaurantManager;
+import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import io.cucumber.java.BeforeAll;
 import io.cucumber.java.fr.*;
 import org.junit.Before;
@@ -20,6 +21,7 @@ public class AjouterPlatALaCommande {
     private Restaurant restaurant;
     Commande commande;
     Plat plat;
+    CompteUtilisateur compteUtilisateur =  new CompteUtilisateur("Dupont","Antoine", "ETUDIANT");
 
     @Etantdonnéque("une commande en cours de création avec un montant qui s'élève à {double}€")
     public void createCommande(double prix){
@@ -30,7 +32,7 @@ public class AjouterPlatALaCommande {
         restaurant = new Restaurant("Italien");
         restaurant.addMenu(newPlat);
 
-        commande = new Commande();
+        commande = new Commande(compteUtilisateur);
         assertEquals(prix, commande.getPrix(), 0);
     }
 

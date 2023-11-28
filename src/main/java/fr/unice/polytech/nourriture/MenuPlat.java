@@ -1,6 +1,7 @@
 package fr.unice.polytech.nourriture;
 
 import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.utilisateur.StatusUtilisateur;
 
 /**
  * Interface qui regroupe les menus et les plats pour les ajouter tous les deux dans une commande
@@ -17,7 +18,9 @@ public interface MenuPlat {
      * Récupère le prix du plat ou du menu
      * @return le prix du plat ou du menu
      */
-    double getPrix();
+    double getPrix(StatusUtilisateur statusUtilisateur);
+    void setPrix(double newPrix);
+    void setPrixStatus(StatusUtilisateur statusUtilisateur, double newPrixStatus);
 
     /**
      * Ajoute le restaurant au plat ou au menu pour pouvoir savoir de quel restaurant vient le plat ou le menu

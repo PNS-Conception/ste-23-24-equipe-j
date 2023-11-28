@@ -1,7 +1,11 @@
 package fr.unice.polytech.nourriture;
 
 import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.utilisateur.StatusUtilisateur;
 
+import java.io.ObjectInputFilter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -10,7 +14,8 @@ import java.util.Objects;
  */
 public class Menu implements MenuPlat{
     private final String nomMenu;
-    private final double prix;
+    private double prix;
+    private Map<StatusUtilisateur, Double> prixStatus;
     private Restaurant restaurant;
 
     // Constructeur
@@ -24,6 +29,16 @@ public class Menu implements MenuPlat{
             throw new IllegalArgumentException("Nom vide");
         this.nomMenu = nomMenu;
         this.prix = prix;
+        restaurant = null;
+        prixStatus = new HashMap<>();
+    }
+
+    public Menu(String nomMenu, double prix, Map<StatusUtilisateur, Double> prixStatus){
+        if (nomMenu == null || nomMenu.isEmpty())
+            throw new IllegalArgumentException("Nom vide");
+        this.nomMenu = nomMenu;
+        this.prix = prix;
+        this.prixStatus = prixStatus;
         restaurant = null;
     }
 
@@ -43,9 +58,23 @@ public class Menu implements MenuPlat{
      * @return le prix du menu
      */
     @Override
-    public double getPrix() {
+    public double getPrix(StatusUtilisateur statusUtilisateur) {
+        if (prixStatus.containsKey(statusUtilisateur)){
+            return prixStatus.get(statusUtilisateur);
+        }
         return prix;
     }
+
+    @Override
+    public void setPrix(double newPrix){
+        this.prix = newPrix;
+    }
+
+    @Override
+    public void setPrixStatus(StatusUtilisateur statusUtilisateur, double newPrixStatus){
+        prixStatus.put(statusUtilisateur, newPrixStatus);
+    }
+
 
     @Override
     public void setRestaurant(Restaurant restaurant) {
