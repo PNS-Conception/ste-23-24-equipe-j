@@ -62,6 +62,22 @@ public class SystemeCommande {
     }
 
     /**
+     * Crée une commande Afterwork
+     * @param utilisateur l'utilisateur de la commande
+     * @param nombrePersonne le nombre de personne pour la commande Afterwork
+     * @return la commande crée
+     */
+    public CommandeAfterworks creerCommandeAfterwork(CompteUtilisateur utilisateur, int nombrePersonne) {
+        BuilderCommandeSimpleMultipleGroupe builder = new BuilderCommandeSimpleMultipleGroupe(idCommande++, utilisateur);
+
+        CommandeAfterworks commande = (CommandeAfterworks) builder.buildTypeCommandeSimple(TypeCommandeSimple.AFTERWORKS)
+                .buildNombrePersonneCommandeAfterworks(nombrePersonne).build();
+
+        commandes.put((int) commande.getIdCommande(), commande);
+        return commande;
+    }
+
+    /**
      * Supprime une commande du système
      * @param idCommande l'id de la commande
      */
