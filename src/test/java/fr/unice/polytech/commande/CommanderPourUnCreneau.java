@@ -1,10 +1,13 @@
 package fr.unice.polytech.commande;
 
-import fr.unice.polytech.commande.Commande;
+import fr.unice.polytech.builder.TypeCommandeSimple;
+import fr.unice.polytech.exceptions.AucunMenuException;
+import fr.unice.polytech.exceptions.CapaciteDepasseException;
+import fr.unice.polytech.exceptions.RestaurantNonValideException;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
+import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.offre.*;
-import fr.unice.polytech.restaurant.AucunMenuException;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.restaurant.RestaurantManager;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
@@ -29,6 +32,7 @@ public class CommanderPourUnCreneau {
     CreneauDirector creneauDirector=new CreneauDirector();
     Scheduler scheduler=new Scheduler();
     CompteUtilisateur compteUtilisateur ;
+    private final SystemeCommande systemeCommande = new SystemeCommande();
     Date date;
     @Etantdonné("un restaurant  {string}")
     public void unRestaurant(String arg0) {
@@ -68,16 +72,21 @@ public class CommanderPourUnCreneau {
         Horaire fin =new Horaire(arg3);
        assertTrue( scheduler.restaurantContientCreneau(restaurant,arg1,debut,fin));
        ICreneau creneau=scheduler.getCreneau(restaurant,arg1,debut,fin );
-        Commande commande=new Commande(compteUtilisateur);
+        CommandeSimple commande=   (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(compteUtilisateur,
+                TypeCommandeSimple.SIMPLE);
 
         try {
             List<MenuPlat>menuPlats=restaurant.getMenus();
             Optional<MenuPlat> menu=menuPlats.stream().filter(m->m.getNom().equals(menus.get(0))).findFirst();
             assertTrue(menu.isPresent());
-            commande.ajoutMenuPlat(menu.get(),1);
+            commande.ajoutMenuPlat(menu.get(), TypeMenuPlat.PLAT);
             scheduler.diminuerLaCapacitePourCreneau(restaurant,date,creneau,1);
 
         } catch (AucunMenuException e) {
+            throw new RuntimeException(e);
+        } catch (CapaciteDepasseException e) {
+            throw new RuntimeException(e);
+        } catch (RestaurantNonValideException e) {
             throw new RuntimeException(e);
         }
 
@@ -98,7 +107,7 @@ public class CommanderPourUnCreneau {
         }
     }
 
-    @Et("un utilisateur {string} {string}")
+    @Et("un utilisateur enregisté {string} {string}")
     public void unUtilisateur(String arg0, String arg1) {
        compteUtilisateur= new CompteUtilisateur(arg0, arg1);
     }
@@ -130,4 +139,6 @@ public class CommanderPourUnCreneau {
         CommandeCreneau commandeCreneau=scheduler.getCommandesPlannifiees().get(restaurant).getCommandeCreneau(date,new Horaire(creneaux.get(0)),new Horaire(creneaux.get(1)));
         assertTrue(commandeCreneau!=null&&commandeCreneau.getNbCommandesPasses()==Integer.parseInt(creneaux.get(2))&&commandeCreneau.getNbCommandesPossibles()==Integer.parseInt(creneaux.get(3)));
     }
+
+
 }

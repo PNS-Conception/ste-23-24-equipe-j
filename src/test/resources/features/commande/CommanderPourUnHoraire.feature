@@ -11,7 +11,7 @@ Fonctionnalité: Commander pour un creneau
       | 14:30 | 15:00 | 10 | lundi |
       | 15:10 | 15:40 | 10 | mardi |
 
-    Et un utilisateur "Antoine" "Marie"
+    Et un utilisateur enregisté "Antoine" "Marie"
 
 
   Scénario: Demander la liste des créneaux
