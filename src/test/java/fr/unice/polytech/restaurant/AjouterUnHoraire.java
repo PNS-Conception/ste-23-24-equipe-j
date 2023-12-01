@@ -2,21 +2,17 @@ package fr.unice.polytech.restaurant;
 
 import fr.unice.polytech.offre.Creneau;
 import fr.unice.polytech.offre.CreneauDirector;
-import fr.unice.polytech.offre.CreneauQuotidien;
 import fr.unice.polytech.offre.ICreneau;
 import fr.unice.polytech.utils.Horaire;
 import fr.unice.polytech.utils.OffreUtils;
 import io.cucumber.java.fr.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AjouterUnHoraire {
     Restaurant restaurant;
-    List<Creneau> creneaus=new ArrayList<>();
     int ancienneTaille =0;
     int ancienneCapacite;
     boolean estAjoute=false;
@@ -40,10 +36,10 @@ public class AjouterUnHoraire {
 
 
     @Alors("la liste d'horaire contient:")
-    public void laListeDHoraireContient(List<String>horaire) {
+    public void laListeDHoraireContient() {
 
 
-        assertTrue(restaurant.getCreneaus().get(restaurant.getCreneaus().size()-1).estIdentique(ancienCreneau));
+        assertEquals(restaurant.getCreneaus().get(restaurant.getCreneaus().size() - 1), ancienCreneau);
 
     }
 
@@ -69,7 +65,7 @@ public class AjouterUnHoraire {
 
     @Alors("l'horaire n'est pas ajouté")
     public void lHoraireNEstPasAjouté() {
-        assertEquals(false,estAjoute);
+        assertFalse(estAjoute);
     }
 
     @Alors("la capacite n'a pas augmenté")
@@ -86,7 +82,6 @@ public class AjouterUnHoraire {
            estAjoute= restaurant.ajouterCreneau(creneaus1.get(0));
            ancienCreneau=creneaus1.get(0);
 
-            //  Creneau creneau=new Creneau(new Horaire(horaire.get(0)),new Horaire(horaire.get(1)),capacite);
 
         }
         catch (NumberFormatException e){

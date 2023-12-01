@@ -5,6 +5,8 @@ import fr.unice.polytech.utils.OffreUtils;
 
 import java.util.List;
 
+import static fr.unice.polytech.offre.DayEnum.getDayOfTheWeek;
+
 public class QuotidienBuilder extends CreneauBuilder implements ICreneauBuilder{
 
 
@@ -16,7 +18,7 @@ public class QuotidienBuilder extends CreneauBuilder implements ICreneauBuilder{
 
     @Override
     public void buildJOurDuCreneau(String jour) {
-        ((CreneauQuotidien) result).setJourDeLaSemaine(OffreUtils.getDayOfTheWeek(jour));
+        ((CreneauQuotidien) result).setJourDeLaSemaine(getDayOfTheWeek(jour));
     }
 
 

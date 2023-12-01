@@ -1,12 +1,12 @@
 package fr.unice.polytech.offre;
 
-import fr.unice.polytech.offre.Creneau;
 import fr.unice.polytech.utils.Date;
 import fr.unice.polytech.utils.Horaire;
-import fr.unice.polytech.utils.OffreUtils;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+
+import static fr.unice.polytech.offre.DayEnum.getDayOfTheWeek;
 
 public class CreneauQuotidien extends Creneau {
     public DayOfWeek getJourDeLaSemaine() {
@@ -21,7 +21,7 @@ public class CreneauQuotidien extends Creneau {
     public CreneauQuotidien(Horaire debut, Horaire fin, int capacite_par_slot,String jourDeLaSemaine) {
 
         super(debut, fin, capacite_par_slot);
-        this.jourDeLaSemaine= OffreUtils.getDayOfTheWeek(jourDeLaSemaine);
+        this.jourDeLaSemaine= getDayOfTheWeek(jourDeLaSemaine);
     }
     public CreneauQuotidien(){
         super();
@@ -52,11 +52,7 @@ public class CreneauQuotidien extends Creneau {
         return result;
     }
 
-    @Override
-    public boolean estIdentique(ICreneau iCreneau) {
-        CreneauQuotidien creneauQuotidien=(CreneauQuotidien) iCreneau;
-        return equals(creneauQuotidien);
-    }
+
 
     @Override
     public boolean estDisponible(Date date) {

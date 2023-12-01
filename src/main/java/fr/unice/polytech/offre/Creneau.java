@@ -33,9 +33,7 @@ public class Creneau implements ICreneau {
         this.duree = duree;
     }
 
-    public int getCapacite_par_slot() {
-        return capacite_par_slot;
-    }
+
 
     public void setCapacite_par_slot(int capacite_par_slot) {
         this.capacite_par_slot = capacite_par_slot;
@@ -80,10 +78,7 @@ public class Creneau implements ICreneau {
         return capacite_par_slot;
     }
 
-    @Override
-    public boolean estIdentique(ICreneau iCreneau) {
-        return equals(iCreneau);
-    }
+
 
     @Override
     public boolean estDisponible(Date date,Horaire debut,Horaire fin) {

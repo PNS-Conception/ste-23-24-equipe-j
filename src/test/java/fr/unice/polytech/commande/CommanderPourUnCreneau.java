@@ -17,7 +17,6 @@ import fr.unice.polytech.utils.OffreUtils;
 import io.cucumber.java.fr.*;
 import org.junit.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -35,88 +34,72 @@ public class CommanderPourUnCreneau {
     private final SystemeCommande systemeCommande = new SystemeCommande();
     Date date;
     @Etantdonné("un restaurant  {string}")
-    public void unRestaurant(String arg0) {
-        restaurant=new Restaurant(arg0);
+    public void unRestaurant(String nomRestaurant) {
+        restaurant=new Restaurant(nomRestaurant);
         restaurantManager.addRestaurant(restaurant);
 
     }
 
     @Etqu("il a possède uniquement des créneaux  {string}:")
-    public void ilAPossèdeUniquementDesCréneaux(String arg0, List<List<String>>iCreneauList) {
+    public void ilAPossèdeUniquementDesCréneaux(String typeCreneau, List<List<String>>iCreneauList) {
      //   restaurant.ajouterCreneau();
-            createCreneaus(arg0,iCreneauList,creneauDirector).forEach(c->restaurant.ajouterCreneau(c));
+            createCreneaus(typeCreneau,iCreneauList,creneauDirector).forEach(c->restaurant.ajouterCreneau(c));
         scheduler.ajouterRestaurant(restaurant);
 
 
     }
 
     @Quand("je demande la liste des creneaux pour le restaurant {string}")
-    public void jeDemandeLaListeDesCreneauxPourLeRestaurant(String arg0) {
-        restaurant=new Restaurant(arg0);
+    public void jeDemandeLaListeDesCreneauxPourLeRestaurant(String nomRestaurant) {
+        restaurant=new Restaurant(nomRestaurant);
 
     }
 
     @Alors("j'obtient les creneaux {string}:")
-    public void jObtient(String arg0,List<List<String>>horaires) {
+    public void jObtient(String typeCreneau,List<List<String>>horaires) {
 
-       assertEquals(createCreneaus(arg0,horaires,creneauDirector),scheduler.getCreneauxDisponibles(restaurant)) ;
+       assertEquals(createCreneaus(typeCreneau,horaires,creneauDirector),scheduler.getCreneauxDisponibles(restaurant)) ;
 
     }
 
 
     @Quand("je commande à {string} {string} prochain  entre {string} et {string} un menu:")
-    public void jeCommandeÀAujourdHuiEntreEtUnMenu(String arg0, String arg1, String arg2,String arg3,List<String>menus) {
-        //restaurant=new Restaurant(arg0);
-        Date date=OffreUtils.convertStringToDate(arg1);
-        Horaire debut=new Horaire(arg2);
-        Horaire fin =new Horaire(arg3);
-       assertTrue( scheduler.restaurantContientCreneau(restaurant,arg1,debut,fin));
-       ICreneau creneau=scheduler.getCreneau(restaurant,arg1,debut,fin );
-        CommandeSimple commande=   (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(compteUtilisateur,
+    public void jeCommandeÀAujourdHuiEntreEtUnMenu(String nomRestaurant, String dateCommande, String debutCreneau,String finCreneau,List<String>menus) throws AucunMenuException,CapaciteDepasseException,RestaurantNonValideException{
+        Date date=OffreUtils.convertStringToDate(dateCommande);
+        Horaire debut=new Horaire(debutCreneau);
+        Horaire fin =new Horaire(finCreneau);
+       assertTrue( scheduler.restaurantContientCreneau(restaurant,dateCommande,debut,fin));
+       ICreneau creneau=scheduler.getCreneau(restaurant,dateCommande,debut,fin );
+       CommandeSimple commande=   (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(compteUtilisateur,
                 TypeCommandeSimple.SIMPLE);
-
-        try {
-            List<MenuPlat>menuPlats=restaurant.getMenus();
-            Optional<MenuPlat> menu=menuPlats.stream().filter(m->m.getNom().equals(menus.get(0))).findFirst();
-            assertTrue(menu.isPresent());
-            commande.ajoutMenuPlat(menu.get(), TypeMenuPlat.PLAT);
-            scheduler.diminuerLaCapacitePourCreneau(restaurant,date,creneau,1);
-
-        } catch (AucunMenuException e) {
-            throw new RuntimeException(e);
-        } catch (CapaciteDepasseException e) {
-            throw new RuntimeException(e);
-        } catch (RestaurantNonValideException e) {
-            throw new RuntimeException(e);
-        }
+       List<MenuPlat>menuPlats=restaurant.getMenus();
+       Optional<MenuPlat> menu=menuPlats.stream().filter(m->m.getNom().equals(menus.get(0))).findFirst();
+       assertTrue(menu.isPresent());
+       commande.ajoutMenuPlat(menu.get(), TypeMenuPlat.PLAT);
+       scheduler.diminuerLaCapacitePourCreneau(restaurant,date,creneau,1);
 
     }
 
 
 
     @Etqu("il propose les menus suivant :")
-    public void ilProposeLesMenusSuivant(Map<String,Double>menus) {
+    public void ilProposeLesMenusSuivant(Map<String,Double>menus) throws AucunMenuException{
         for (Map.Entry<String, Double> menu : menus.entrySet()) {
             restaurant.addMenu(new Menu(menu.getKey(), menu.getValue()));
         }
+        Assert.assertEquals(menus.size(), restaurant.getMenus().size());
 
-        try {
-            Assert.assertEquals(menus.size(), restaurant.getMenus().size());
-        } catch (AucunMenuException e) {
-            assert false : "Le restaurant ne doit pas avoir aucun menu";
-        }
     }
 
     @Et("un utilisateur enregisté {string} {string}")
-    public void unUtilisateur(String arg0, String arg1) {
-       compteUtilisateur= new CompteUtilisateur(arg0, arg1);
+    public void unUtilisateur(String nom, String prenom) {
+       compteUtilisateur= new CompteUtilisateur(nom, prenom);
     }
 
     @Quand("je demande la liste des creneaux pour le restaurant {string} pour le {string}")
-    public void jeDemandeLaListeDesCreneauxPourLeRestaurantPourLe(String arg0, String arg1) {
-        restaurant=new Restaurant(arg0);
-        date= new Date(arg1);
-        ;
+    public void jeDemandeLaListeDesCreneauxPourLeRestaurantPourLe(String nomRestaurant, String dateC) {
+        restaurant=new Restaurant(nomRestaurant);
+        date= new Date(dateC);
 
     }
 
@@ -124,18 +107,13 @@ public class CommanderPourUnCreneau {
     public void jObtientLesCreneaux(List<String>creneaux) {
         CreneauQuotidien creneau=new CreneauQuotidien(new Horaire(creneaux.get(0)),new Horaire(creneaux.get(1)),Integer.parseInt(creneaux.get(2)),creneaux.get(3));
         ICreneau tes=scheduler.getCreneauxDisponblesFor(date,  restaurant).get(0);
-
-        assertTrue(creneau.estIdentique(tes));
+        assertEquals(creneau, tes);
     }
 
 
     @Alors("{string} contient pour {string} prochain:")
-    public void contientPourProchain(String arg0, String arg1,List<String >creneaux) {
-        Date date=OffreUtils.convertStringToDate(arg1);
-
-     // ICreneau iCreneau=  scheduler.getCreneau(restaurant,arg1,new Horaire(creneaux.get(0)),new Horaire(creneaux.get(1)));
-
-
+    public void contientPourProchain(String nomR, String dateC,List<String >creneaux) {
+        Date date=OffreUtils.convertStringToDate(dateC);
         CommandeCreneau commandeCreneau=scheduler.getCommandesPlannifiees().get(restaurant).getCommandeCreneau(date,new Horaire(creneaux.get(0)),new Horaire(creneaux.get(1)));
         assertTrue(commandeCreneau!=null&&commandeCreneau.getNbCommandesPasses()==Integer.parseInt(creneaux.get(2))&&commandeCreneau.getNbCommandesPossibles()==Integer.parseInt(creneaux.get(3)));
     }

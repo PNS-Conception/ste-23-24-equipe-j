@@ -4,7 +4,6 @@ import fr.unice.polytech.utils.Date;
 import fr.unice.polytech.utils.Horaire;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class CommandesDate {
     private Map<Date, List<CommandeCreneau>>commandesDate;
@@ -16,7 +15,7 @@ public class CommandesDate {
     public boolean ajouterCommandePourLaDate(Date date,ICreneau iCreneau,int nbCommandes){
      List<CommandeCreneau>commandeCreneaus=  commandesDate.get(date);
      if(commandeCreneaus!=null){
-         Optional<CommandeCreneau>creneauOptional= commandeCreneaus.stream().filter(c->c.getiCreneau().estIdentique(iCreneau)).findFirst();
+         Optional<CommandeCreneau>creneauOptional= commandeCreneaus.stream().filter(c->c.getiCreneau().equals(iCreneau)).findFirst();
          if(creneauOptional.isPresent()) return creneauOptional.get().ajouterNombreDeCommande(nbCommandes);
          else {
              CommandeCreneau commandeCreneau=new CommandeCreneau(nbCommandes, iCreneau);

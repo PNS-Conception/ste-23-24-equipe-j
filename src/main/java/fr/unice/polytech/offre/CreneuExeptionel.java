@@ -42,11 +42,7 @@ public class CreneuExeptionel extends Creneau {
         return Objects.equals(dateCreneau, that.dateCreneau);
     }
 
-    @Override
-    public boolean estIdentique(ICreneau iCreneau) {
-        CreneuExeptionel creneauExeptionel=(CreneuExeptionel) iCreneau;
-        return creneauExeptionel.equals(iCreneau);
-    }
+
 
     @Override
     public int hashCode() {

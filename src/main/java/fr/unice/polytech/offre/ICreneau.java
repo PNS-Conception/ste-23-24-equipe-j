@@ -10,7 +10,6 @@ public interface ICreneau {
     public Horaire getFin() ;
     public int getDuree();
     public int getCapaciteParSlot();
-    public boolean estIdentique(ICreneau iCreneau);
     public boolean estDisponible(Date date,Horaire debut,Horaire fin );
     public boolean estDisponible(Date date );
     public static int getCapaciteCreneau(ICreneau iCreneau){
