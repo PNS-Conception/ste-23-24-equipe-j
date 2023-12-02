@@ -1,5 +1,7 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.nourriture.*;
+import fr.unice.polytech.restaurant.RestaurantNonValideException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
 import java.util.Objects;
@@ -37,6 +39,8 @@ public class CommandeAfterworks extends CommandeSimpleAvecID {
         return nombrePersonne;
     }
 
+    // Equals et HashCode
+
     @Override
     public boolean equals(Object o) {
         if (super.equals(o)) {
@@ -49,5 +53,22 @@ public class CommandeAfterworks extends CommandeSimpleAvecID {
     @Override
     public int hashCode() {
         return Objects.hash(getIdCommande(), createur, nombrePersonne);
+    }
+
+    // Méthode
+
+    /**
+     * @throws IllegalArgumentException Si le menu n'est pas de type afterworks
+     */
+    @Override
+    public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException {
+        if (typeMenuPlat == TypeMenuPlat.PLAT)
+            throw new IllegalArgumentException("Impossible d'ajouté un plat");
+
+        Menu menu = (Menu) menuPlat;
+        if (menu.getTypeMenu() != TypeMenu.AFTERWORKS)
+            throw new IllegalArgumentException("Impossible d'ajouter un menu qui n'est pas afterworks");
+
+        super.ajoutMenuPlat(menuPlat, typeMenuPlat);
     }
 }
