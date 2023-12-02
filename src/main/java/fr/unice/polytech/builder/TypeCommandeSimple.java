@@ -1,9 +1,9 @@
 package fr.unice.polytech.builder;
 
 /**
- * Enumé de type de commande
+ * Enum de type de commande
  */
-public enum TypeCommande {
+public enum TypeCommandeSimple {
     SIMPLE,
     GROUPEE,
     BUFFET
