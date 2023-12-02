@@ -1,6 +1,7 @@
 package fr.unice.polytech.commande.interfacecommande;
 
 import fr.unice.polytech.commande.EtatCommande;
+import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
 /**
@@ -16,6 +17,8 @@ public interface ICommande {
      * @return le créateur de la commande
      */
     CompteUtilisateur getCreateur();
+
+    InformationLivraison getInformationLivraison();
 
     /**
      * Retourne l'état de suivi d'une commande

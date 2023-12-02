@@ -1,17 +1,24 @@
 package fr.unice.polytech.commande;
 
 import fr.unice.polytech.builder.TypeCommandeSimple;
+import fr.unice.polytech.exceptions.CapaciteDepasseException;
+import fr.unice.polytech.exceptions.PasswordException;
+import fr.unice.polytech.exceptions.RestaurantNonValideException;
+import fr.unice.polytech.exceptions.TokenException;
+import fr.unice.polytech.globalSystem.GlobalSystem;
 import fr.unice.polytech.livraison.CompteLivreur;
 import fr.unice.polytech.livraison.EtatLivraisonCommande;
 import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.livraison.SystemeLivraison;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.*;
-import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
+import fr.unice.polytech.utils.adress.Position;
 import fr.unice.polytech.nourriture.Menu;
 import io.cucumber.java.fr.*;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -20,9 +27,11 @@ public class ConsulterEtValiderUneCommande {
     Restaurant restaurant;
     SystemeCommande systemeCommande = new SystemeCommande();
     SystemeLivraison systemeLivraison;
+    GlobalSystem globalSystem = new GlobalSystem();
+
 
     @Etantdonnéque("le restaurateur de position {int},{int} a la liste des commandes en attente avec les menus :")
-    public void getCommandes(Integer latitude, Integer longitude, List<String> listeCommande) throws RestaurantNonValideException {
+    public void getCommandes(Integer latitude, Integer longitude, List<String> listeCommande) throws RestaurantNonValideException, CapaciteDepasseException {
         systemeLivraison = new SystemeLivraison();
         restaurant = new Restaurant("Chinois", new Position(latitude, longitude));
 
@@ -31,8 +40,18 @@ public class ConsulterEtValiderUneCommande {
             restaurant.addMenu(menu);
 
             CommandeSimple commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(
-                            new CompteUtilisateur("nom", "prenom"), TypeCommandeSimple.SIMPLE);
+                            this.globalSystem.createAccount(), TypeCommandeSimple.SIMPLE);
 
+            LocalDateTime now = LocalDateTime.now();
+            int year = now.getYear();
+            int month = now.getMonthValue();
+            int day = now.getDayOfMonth();
+            int hour = now.getHour();
+            int minute = now.getMinute();
+            Date date = new Date(day, month, year);
+            Horaire horaire = new Horaire(hour, minute);
+            Position position = new Position("positionInput");
+            commande.setInformationLivraison(date,horaire, position);
             commande.ajoutMenuPlat(menu, TypeMenuPlat.MENU);
         }
 
@@ -47,7 +66,7 @@ public class ConsulterEtValiderUneCommande {
 
 
     @Etque("la commande avec le menu d'ID {int} à le status {string}")
-    public void setCommande(Integer id, String status) {
+    public void setCommande(Integer id, String status) throws PasswordException, TokenException {
         CommandeSimple commandeVoulu = (CommandeSimple) systemeCommande.getCommandeParId(id);
         EtatCommande etatCommande = EtatCommande.getEtatSousCommande(status);
 

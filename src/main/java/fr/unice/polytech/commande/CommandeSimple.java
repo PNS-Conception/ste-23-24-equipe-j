@@ -3,7 +3,9 @@ package fr.unice.polytech.commande;
 import fr.unice.polytech.commande.interfacecommande.ILivrable;
 import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.*;
+import fr.unice.polytech.utils.adress.Position;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
 
 /**
  * Classe d'une commande simple de commande payable et livrable
@@ -38,6 +40,11 @@ public class CommandeSimple extends CommandeSimplePayable implements ILivrable {
     @Override
     public void setInformationLivraison(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
         informationLivraison.setInformationLivraison(dateLivraison, heureLivraison, lieuxLivraison);
+    }
+
+    @Override
+    public void setInformationLivraisonForced(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
+        informationLivraison.setInformationLivraisonForced(dateLivraison, heureLivraison, lieuxLivraison);
     }
 
     @Override

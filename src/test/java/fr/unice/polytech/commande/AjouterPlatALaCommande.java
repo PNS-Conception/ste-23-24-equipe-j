@@ -1,8 +1,14 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.globalSystem.GlobalSystem;
 import fr.unice.polytech.nourriture.Plat;
+import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
-import fr.unice.polytech.restaurant.RestaurantNonValideException;
+import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.exceptions.RestaurantNonValideException;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
+import fr.unice.polytech.utils.temps.HoraireDate;
 import io.cucumber.java.fr.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,18 +20,23 @@ public class AjouterPlatALaCommande {
     CommandeSimple commande;
     Plat plat;
 
-    @Etantdonnéque("une commande en cours de création avec un montant qui s'élève à {double}€")
+    GlobalSystem globalSystem = new GlobalSystem();
+
+    @Etantdonnéqu("une commande en cours de création avec un montant qui s'élève à {double}€")
     public void createCommande(double prix){
-        commande = new CommandeSimple(0, null);
+        commande = new CommandeSimple(0, globalSystem.createAccount());
         assertEquals(prix, commande.getPrix(), 0);
     }
 
     @Quand("l'utilisateur ajoute {int} quantité de plat de {string} à {double}€")
-    public void ajoutPlatDansCommande(int quantite, String nomPlat, double prix) throws RestaurantNonValideException {
+    public void ajoutPlatDansCommande(int quantite, String nomPlat, double prix) throws RestaurantNonValideException,CapaciteDepasseException {
         List<String> aliments = new ArrayList<>(Arrays.asList("Tagliatelles", "Saumon", "Crème Fraiche"));
         List<String> alergene =  new ArrayList<>();
         plat = new Plat(nomPlat, prix, aliments, alergene);
-
+        commande.setInformationLivraison(new Date(true), new Horaire(true),null);
+        Restaurant restaurant =
+            new Restaurant("Restaurant");
+        restaurant.addMenu(plat);
         for (int i = 0; i < quantite; i++)
             commande.ajoutMenuPlat(plat, TypeMenuPlat.PLAT);
 

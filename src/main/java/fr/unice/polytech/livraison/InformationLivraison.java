@@ -2,9 +2,10 @@ package fr.unice.polytech.livraison;
 
 import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.observer.EventManager;
-import fr.unice.polytech.utils.Date;
-import fr.unice.polytech.utils.Horaire;
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
+import fr.unice.polytech.utils.adress.Position;
+import fr.unice.polytech.utils.temps.HoraireDate;
 
 /**
  * Classe contenant les informations de livraison d'une commande
@@ -90,6 +91,10 @@ public class InformationLivraison {
         this.etatLivraisonCommande = etatLivraisonCommande;
     }
 
+    public HoraireDate getHoraireDate() {
+        return new HoraireDate(dateLivraison, heureLivraison);
+    }
+
     public void setInformationLivraison(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
         if (this.dateLivraison == null)
             this.dateLivraison = dateLivraison;
@@ -99,5 +104,11 @@ public class InformationLivraison {
 
         if (this.lieuxLivraison == null)
             this.lieuxLivraison = lieuxLivraison;
+    }
+
+    public void setInformationLivraisonForced(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
+        this.dateLivraison = dateLivraison;
+        this.heureLivraison = heureLivraison;
+        this.lieuxLivraison = lieuxLivraison;
     }
 }

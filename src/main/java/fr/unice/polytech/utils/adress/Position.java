@@ -1,4 +1,4 @@
-package fr.unice.polytech.utils;
+package fr.unice.polytech.utils.adress;
 
 import java.util.Objects;
 
