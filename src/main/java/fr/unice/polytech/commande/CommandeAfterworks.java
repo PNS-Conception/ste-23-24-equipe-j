@@ -1,8 +1,12 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.exceptions.CapaciteDepasseException;
+import fr.unice.polytech.exceptions.TokenException;
+import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.nourriture.*;
-import fr.unice.polytech.restaurant.RestaurantNonValideException;
+import fr.unice.polytech.exceptions.RestaurantNonValideException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utils.Token;
 
 import java.util.Objects;
 
@@ -61,7 +65,7 @@ public class CommandeAfterworks extends CommandeSimpleAvecID {
      * @throws IllegalArgumentException Si le menu n'est pas de type afterworks
      */
     @Override
-    public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException {
+    public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException, CapaciteDepasseException {
         if (typeMenuPlat == TypeMenuPlat.PLAT)
             throw new IllegalArgumentException("Impossible d'ajouté un plat");
 
@@ -70,5 +74,15 @@ public class CommandeAfterworks extends CommandeSimpleAvecID {
             throw new IllegalArgumentException("Impossible d'ajouter un menu qui n'est pas afterworks");
 
         super.ajoutMenuPlat(menuPlat, typeMenuPlat);
+    }
+
+    @Override
+    public void payerCommande(Token token) throws TokenException {
+        throw new IllegalArgumentException("Impossible de payer cette commande");
+    }
+
+    @Override
+    public InformationLivraison getInformationLivraison() {
+        throw new IllegalArgumentException("Impossible de livrer cette commande");
     }
 }

@@ -1,7 +1,8 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.nourriture.*;
-import fr.unice.polytech.restaurant.RestaurantNonValideException;
+import fr.unice.polytech.exceptions.RestaurantNonValideException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import io.cucumber.java.fr.*;
 
@@ -24,7 +25,7 @@ public class AjoutMenuAfterworksCommandeAfterworks {
     }
 
     @Quand("il ajoute le menu afterworks {string} à {int}€")
-    public void ilAjouteLeMenuAfterworksÀ€(String nomMenu, int prix) throws RestaurantNonValideException {
+    public void ilAjouteLeMenuAfterworksÀ€(String nomMenu, int prix) throws RestaurantNonValideException, CapaciteDepasseException {
         menuPlat = new Menu(nomMenu, prix, TypeMenu.AFTERWORKS);
         commandeAfterworks.ajoutMenuPlat(menuPlat, TypeMenuPlat.MENU);
     }
@@ -35,7 +36,7 @@ public class AjoutMenuAfterworksCommandeAfterworks {
     }
 
     @Quand("il ajoute le menu classique {string} à {int}€")
-    public void ilAjouteLeMenuClassiqueÀ€(String nomMenu, int prix) throws RestaurantNonValideException {
+    public void ilAjouteLeMenuClassiqueÀ€(String nomMenu, int prix) throws RestaurantNonValideException, CapaciteDepasseException {
         menuPlat = new Menu(nomMenu, prix);
 
         try {
@@ -52,7 +53,7 @@ public class AjoutMenuAfterworksCommandeAfterworks {
     }
 
     @Quand("il ajoute le plat {string} à {int}€")
-    public void ilAjouteLePlatÀ€(String nomPlat, int prix) throws RestaurantNonValideException {
+    public void ilAjouteLePlatÀ€(String nomPlat, int prix) throws RestaurantNonValideException, CapaciteDepasseException {
         menuPlat = new Plat(nomPlat, prix, null, null);
 
         try {
