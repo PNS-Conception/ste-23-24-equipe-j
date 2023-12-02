@@ -1,38 +1,87 @@
 package fr.unice.polytech.utilisateur;
 
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.commande.CommandeAvecID;
+import fr.unice.polytech.commande.interfacecommande.ICommande;
+import fr.unice.polytech.exceptions.PasswordException;
+import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.traçabilite.Historique;
+import fr.unice.polytech.traçabilite.Statistique;
+import fr.unice.polytech.exceptions.TokenException;
+import fr.unice.polytech.utils.adress.Position;
+import fr.unice.polytech.utils.Token;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import fr.unice.polytech.observer.EventListener;
+import fr.unice.polytech.utils.adress.SavedPosition;
+
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Classe représentant un compte utilisateur
  * @author Equipe J
  */
-public class CompteUtilisateur {
+public class CompteUtilisateur implements EventListener {
+    public static final String DEFAULT_PASSWORD = "0000";
+    private final String statisticUserPassword = "0000";
+
+    private final Historique historique;
+    private final Statistique statistique;
+
+    private SavedPosition adresseEnregistrees;
+    private ArrayList<Token> tokens;
+
 
     private final String nom;
     private final String prenom;
+    private String password = DEFAULT_PASSWORD;
+    private StatusUtilisateur status;
     private int solde; // en centimes pour éviter les erreurs d'arrondi
-    private List<Position> adresseEnregistrees;
-    private boolean authentifie;
-    private StatusUtilisateur statusUtilisateur;
 
-
-    // Constructeur
-    /**
-     * Constructeur par défaut
-     * @param nom nom de l'utilisateur
-     * @param prenom prénom de l'utilisateur
-     */
-    public CompteUtilisateur(String nom, String prenom, String status) {
+    public CompteUtilisateur(String nom,
+                             String prenom,
+                             String password,
+                             Statistique statistique,
+                             StatusUtilisateur status,
+                             SavedPosition savedPosition) {
         this.nom = nom;
         this.prenom = prenom;
-        solde = 0;
-        adresseEnregistrees = new ArrayList<>();
-        authentifie = true;
-        statusUtilisateur = StatusUtilisateur.getStatutUtilisateur(status);
+        this.password = password;
+        this.statistique = statistique;
+        this.historique = new Historique();
+        this.tokens = new ArrayList<>();
+        this.solde = 0;
+        this.status = status;
+        this.adresseEnregistrees = savedPosition;
     }
+
+    //TODO : to delete, keep for test
+    public CompteUtilisateur(String nom, String prenom) {
+        this(nom, prenom, DEFAULT_PASSWORD, new Statistique(),StatusUtilisateur.NORMAL , new SavedPosition());
+    }
+
+    public CompteUtilisateur(String nom, String prenom, Statistique statistique, SavedPosition savedPosition, StatusUtilisateur status) {
+        this(nom, prenom, DEFAULT_PASSWORD, statistique, status, savedPosition);
+    }
+
+    public CompteUtilisateur(String nom, String prenom, Statistique statistique, SavedPosition savedPosition) {
+        this(nom, prenom, DEFAULT_PASSWORD, statistique, StatusUtilisateur.NORMAL, savedPosition);
+    }
+
+    public CompteUtilisateur(String nom, String prenom, Statistique statistique, SavedPosition savedPosition, String password) {
+        this(nom, prenom, password, statistique, StatusUtilisateur.NORMAL, savedPosition);
+    }
+
+
+    public void setStatusUtilisateur(StatusUtilisateur status) {
+        this.status = status;
+    }
+
+    public StatusUtilisateur getStatusUtilisateur() {
+        return status;
+    }
+
 
     // Accesseurs
 
@@ -60,24 +109,44 @@ public class CompteUtilisateur {
         return this.solde;
     }
 
-    /**
-     * Récupère si l'utilisateur est authentifié ou non
-     * @return Le boolean du compte de l'utilisateur
-     */
-    public boolean isAuthentifie() {
-        return authentifie;
+    public ArrayList<ICommande> getAllHistorique() {
+        return this.historique.getArrayListCommande();
     }
 
-    public StatusUtilisateur getStatusUtilisateur() {
-        return statusUtilisateur;
+    public void ajouterCommande(CommandeAvecID commande, Token token) throws TokenException {
+        tokens.remove(token);
+        this.historique.addCommande(commande);
+        this.statistique.updateUserStat(commande, this.statisticUserPassword);
+    }
+
+    public boolean checkToken(Token token) {
+        return tokens.contains(token);
+    }
+
+    public Token createToken(String mdp) throws PasswordException {
+        if (Objects.equals(mdp, this.password)) {
+            Token token = new Token(this);
+            tokens.add(token);
+            return token;
+        } else {
+            throw new PasswordException();
+        }
+    }
+
+    public HashMap<CompteUtilisateur,Integer> getStatUser() throws PasswordException {
+        return this.statistique.getUserStat(this.statisticUserPassword);
+    }
+
+    public HashMap<Restaurant,Integer> getStatResto() throws PasswordException {
+        return this.statistique.getRestaurantStat(this.statisticUserPassword);
     }
 
     public List<Position> getAdresseEnregistrees() {
-        return adresseEnregistrees;
+        return adresseEnregistrees.getSavedPosition();
     }
 
     public Position getAdresseEnregistreesParNom(String nom) {
-        for (Position adresse : adresseEnregistrees) {
+        for (Position adresse : adresseEnregistrees.getSavedPosition()) {
             if (adresse.getNomPosition().equals(nom)) {
                 return adresse;
             }
@@ -87,6 +156,11 @@ public class CompteUtilisateur {
 
     // Méthodes
     public void ajouterAdresse(Position adresse) {
-        adresseEnregistrees.add(adresse);
+        adresseEnregistrees.addPosition(adresse);
+    }
+
+    @Override
+    public void notify(String message) {
+        System.out.println(message);
     }
 }

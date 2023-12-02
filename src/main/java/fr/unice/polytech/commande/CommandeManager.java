@@ -28,7 +28,7 @@ public class CommandeManager {
      * @param commande la commande à ajouter
      */
     public void ajoutCommande(Commande commande) throws UtilisateurNonAuthentifieException {
-        if (!commande.getCompteUtilisateur().isAuthentifie()){
+        if (commande.getCompteUtilisateur()==null){
             throw new UtilisateurNonAuthentifieException();
         }
         commande.setId(id++);

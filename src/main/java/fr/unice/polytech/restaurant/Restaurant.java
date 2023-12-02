@@ -2,13 +2,10 @@ package fr.unice.polytech.restaurant;
 
 import fr.unice.polytech.exceptions.AucunMenuException;
 import fr.unice.polytech.exceptions.CapaciteDepasseException;
-import fr.unice.polytech.exceptions.ImpossibleAugmenterCapaciterException;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.restaurant.Reduction.GoodClientReduction;
 import fr.unice.polytech.restaurant.Reduction.SpecialRate;
 import fr.unice.polytech.restaurant.reservation.Reservation;
-import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utilisateur.UserStatut;
 import fr.unice.polytech.utils.temps.HoraireDate;
 import fr.unice.polytech.utils.adress.Position;
 
@@ -26,6 +23,7 @@ public class Restaurant {
     private Reservation reservation;
     private GoodClientReduction goodClientReduction;
     private SpecialRate specialRate;
+
 
     /**
      * Constructeur pour les tests donnant une position par défaut
@@ -51,7 +49,6 @@ public class Restaurant {
         this.position= position;
         this.reservation = new Reservation(capaciteMaximale);
         this.goodClientReduction = new GoodClientReduction();
-        this.specialRate = new SpecialRate();
     }
 
 
@@ -66,7 +63,6 @@ public class Restaurant {
     public void setSpecialRate(SpecialRate specialRate) {
         this.specialRate = specialRate;
     }
-
     public void setGoodClientReduction(GoodClientReduction goodClientReduction) {
         this.goodClientReduction = goodClientReduction;
     }
@@ -125,6 +121,13 @@ public class Restaurant {
     public boolean addMenu(MenuPlat m) {
         m.setRestaurant(this);
         return menus.add(m);
+    }
+
+    public MenuPlat getMenuPlatByName(String menuPlatName) throws AucunMenuException {
+        for (MenuPlat menuPlat : getMenus()){
+            if (menuPlat.getNom().equals(menuPlatName)) return menuPlat;
+        }
+        return null;
     }
 
 

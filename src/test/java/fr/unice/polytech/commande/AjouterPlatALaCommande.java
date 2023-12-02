@@ -2,10 +2,13 @@ package fr.unice.polytech.commande;
 
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.Plat;
-import fr.unice.polytech.restaurant.AucunMenuException;
+import fr.unice.polytech.exceptions.AucunMenuException;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.restaurant.RestaurantManager;
+import fr.unice.polytech.traçabilite.Statistique;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
+import fr.unice.polytech.utilisateur.StatusUtilisateur;
+import fr.unice.polytech.utils.adress.SavedPosition;
 import io.cucumber.java.BeforeAll;
 import io.cucumber.java.fr.*;
 import org.junit.Before;
@@ -21,7 +24,9 @@ public class AjouterPlatALaCommande {
     private Restaurant restaurant;
     Commande commande;
     Plat plat;
-    CompteUtilisateur compteUtilisateur =  new CompteUtilisateur("Dupont","Antoine", "ETUDIANT");
+    Statistique statistique;
+    SavedPosition savedPosition;
+    CompteUtilisateur compteUtilisateur =  new CompteUtilisateur("Dupont", "Antoine", statistique, savedPosition, "ETUDIANT");
 
     @Etantdonnéque("une commande en cours de création avec un montant qui s'élève à {double}€")
     public void createCommande(double prix){

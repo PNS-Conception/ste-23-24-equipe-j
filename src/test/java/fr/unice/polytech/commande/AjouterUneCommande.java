@@ -1,15 +1,18 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.exceptions.*;
+import fr.unice.polytech.globalSystem.GlobalSystem;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
-import fr.unice.polytech.restaurant.AucunMenuException;
-import fr.unice.polytech.restaurant.Restaurant;
-import fr.unice.polytech.restaurant.RestaurantManager;
+import fr.unice.polytech.restaurant.*;
+import fr.unice.polytech.builder.TypeCommandeSimple;
+import fr.unice.polytech.nourriture.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utilisateur.StatusUtilisateur;
-import fr.unice.polytech.utilisateur.UtilisateurNonAuthentifieException;
 import fr.unice.polytech.utils.*;
-import fr.unice.polytech.utils.Date;
+import fr.unice.polytech.utils.adress.Position;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
 import io.cucumber.java.fr.*;
 
 import java.util.*;
@@ -18,57 +21,60 @@ import static org.junit.Assert.*;
 
 public class AjouterUneCommande {
     private final RestaurantManager restaurantManager = new RestaurantManager();
-    private final CommandeManager commandeManager = new CommandeManager();
+    private final SystemeCommande systemeCommande = new SystemeCommande();
 
     private CompteUtilisateur compteUtilisateur;
-    private Commande commande;
+    private CommandeSimple commande;
     private Restaurant restaurant;
+    GlobalSystem globalSystem = new GlobalSystem();
 
-    @Etantdonnéque("l'utilisateur {string} {string} est connecté")
-    public void lUtilisateurEstConnecté(String prenom, String nom) {
-        compteUtilisateur = new CompteUtilisateur(nom, prenom, "ETUDIANT");
+
+    @Etantdonnéque("l'utilisateur {string} {string} est connecté \\(pass)")
+    public void lUtilisateurEstLoggéAjouterUneCommande(String prenom, String nom) {
+        /* Line to pass cucumber duplication : AjouterCommande */
+        compteUtilisateur = globalSystem.createAccount(nom, prenom);
+
     }
 
-    @Etantdonnéque("l'utilisateur {string} {string} est connecté et est {string}")
-    public void lUtilisateurEstConnectéEtEstEtudiant(String prenom, String nom, String status) {
-        compteUtilisateur = new CompteUtilisateur(nom, prenom, "ETUDIANT");
+    @Etantdonnéque("l'utilisateur {string} {string} est connecté et est {string} \\(pass)")
+    public void lUtilisateurEstConnectéEtestEtudiant(String prenom, String nom, String status){
+        compteUtilisateur = globalSystem.createAccount(nom, prenom, StatusUtilisateur.getStatusUtilisateur(status),"password");
     }
 
-    @Etque("{string} {string} crée une commande")
-    public void créeUneCommande(String prenom, String nom) {
-        commande = new Commande(compteUtilisateur);
+    @Etque("{string} {string} crée une commande \\(pass)")
+    public void créeUneCommandeAjouterUneCommande(String prenom, String nom) {
+        /* Line to pass cucumber duplication : AjouterCommande */
+        commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(compteUtilisateur,
+                TypeCommandeSimple.SIMPLE);
+
 
         assertEquals(prenom, compteUtilisateur.getPrenom());
         assertEquals(nom, compteUtilisateur.getNom());
     }
 
-    @Etque("l'utilisateur {string} {string} crée une commande")
-    public void créeUneCommandeEtudiant(String prenom, String nom) {
-        commande = new Commande(compteUtilisateur);
-
-        assertEquals(prenom, compteUtilisateur.getPrenom());
-        assertEquals(nom, compteUtilisateur.getNom());
-        assertEquals(StatusUtilisateur.ETUDIANT, compteUtilisateur.getStatusUtilisateur());
-    }
-
-    @Etque("L'utilisateur peut accéder aux restaurants suivant :")
-    public void lUtilisateurPeutAccéderAuxRestaurantsSuivant(List<String> restaurants) {
+    @Etque("L'utilisateur peut accéder aux restaurants suivant : \\(pass)")
+    public void lUtilisateurPeutAccéderAuxRestaurantsSuivantAjouterUneCommande(List<String> restaurants) {
+        /* Line to pass cucumber duplication : AjouterCommande */
         for (String restaurant : restaurants) {
             restaurantManager.addRestaurant(new Restaurant(restaurant));
+
         }
     }
 
-    @Etque("les adresses suivantes sont pré-enregistré :")
-    public void lesAdressesSuivantesSontPréEnregistré(List<String> adresses) {
+    @Etque("les adresses suivantes sont pré-enregistré : \\(pass)")
+    public void lesAdressesSuivantesSontPréEnregistréAjouterUneCommande(List<String> adresses) {
+        /* Line to pass cucumber duplication : AjouterCommande */
         for (String adresse : adresses) {
             compteUtilisateur.ajouterAdresse(new Position(adresse));
+
         }
     }
 
-    @Etque("le restaurant {string} propose les menus suivant :")
-    public void leRestaurantProposeLesMenusSuivant(String nomRestaurant, Map<String, Double> menus) {
-
+    @Etque("le restaurant {string} propose les menus suivant : \\(pass)")
+    public void leRestaurantProposeLesMenusSuivantAjouterUneCommande(String nomRestaurant, Map<String, Double> menus) {
+        /* Line to pass cucumber duplication : AjouterCommande */
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
+
         for (Map.Entry<String, Double> menu : menus.entrySet()) {
             restaurant.addMenu(new Menu(menu.getKey(), menu.getValue()));
         }
@@ -80,64 +86,79 @@ public class AjouterUneCommande {
         }
     }
 
-    @Etque("l'utilisateur choisit le restaurant {string}")
-    public void ilChoisitLeRestaurant(String nomRestaurant) {
+    @Etque("le restaurant {string} applique un tarif spécial pour les {string} :")
+    public void leRestaurantAppliqueTarifSpecialEtudiant(String nomRestaurant, String status, Map<String, Double> menus){
+        Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
+
+        try {
+            for (Map.Entry<String, Double> menu : menus.entrySet()) {
+                MenuPlat menuPlat = restaurant.getMenuPlatByName(menu.getKey());
+                menuPlat.setPrixStatus(StatusUtilisateur.getStatusUtilisateur(status), menu.getValue());
+                assertEquals(Optional.of(menuPlat.getPrix(StatusUtilisateur.getStatusUtilisateur(status))).get(), menu.getValue());
+            }
+        } catch (AucunMenuException e) {
+            assert false : "Le restaurant ne doit pas avoir aucun menu";
+        }
+    }
+
+    @Etque("l'utilisateur choisit le restaurant {string} \\(pass)")
+    public void ilChoisitLeRestaurantAjouterUneCommande(String nomRestaurant) {
+        /* Line to pass cucumber duplication : AjouterCommande */
         restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
+
         assertNotNull(restaurant);
     }
 
-    @Etque("le restaurant applique un tarif spécial pour les {string} :")
-    public void leRestaurantAppliqueUnTarifSpecialPourLesEtudiant(String statusUtilisateur, Map<String, Double> menus) throws AucunMenuException{
-        for (Map.Entry<String, Double> menu : menus.entrySet()) {
-            MenuPlat menuRestaurant = restaurant.getMenu(menu.getKey());
-            menuRestaurant.setPrixStatus(StatusUtilisateur.valueOf(statusUtilisateur), menus.get(menuRestaurant.getNom()));
-        }
-
-        for (MenuPlat menu : restaurant.getMenus()){
-            Optional<Double> prixMenuEtudiant = Optional.of(menu.getPrix(StatusUtilisateur.ETUDIANT));
-            assertEquals(menus.get(menu.getNom()),prixMenuEtudiant.get());
-        }
-    }
-
-    @Etque("l'utilisateur choisit le menu {string} à {int} €")
-    public void ilChoisitLeMenuÀ€(String nomMenu, int prix) throws AucunMenuException, UtilisateurNonAuthentifieException {
-
+    @Etque("l'utilisateur choisit le menu {string} à {int} € \\(pass)")
+    public void ilChoisitLeMenuÀ€AjouterUneCommande(String nomMenu, int prix) throws AucunMenuException, RestaurantNonValideException {
+        /* Line to pass cucumber duplication : AjouterCommande */
+        commande.setInformationLivraison(new Date(true), new Horaire(true), new Position(""));
         for (MenuPlat menu : restaurant.getMenus()) {
             if (menu.getNom().equals(nomMenu)) {
-                commande.ajoutMenuPlat(menu,1);
+                try {
+                    commande.ajoutMenuPlat(menu,TypeMenuPlat.MENU);
+                } catch (CapaciteDepasseException e) {
+                    throw new RuntimeException(e);
+
+                }
                 break;
             }
         }
 
-        commandeManager.ajoutCommande(commande);
         assertEquals(prix * 100, (int) commande.getPrix() * 100);
     }
 
-    @Etque("l'utilisateur choisit la livraison le {string} à {string} à l'adresse pré-enregistré {string}")
-    public void ilChoisitLaLivraisonLeÀÀLAdressePréEnregistré(String dateInput, String heureInput, String adresseInput) {
+    @Etque("l'utilisateur choisit la livraison le {string} à {string} à l'adresse pré-enregistré {string} \\(pass)")
+    public void ilChoisitLaLivraisonLeÀÀLAdressePréEnregistréAjouterUneCommande(String dateInput, String heureInput, String adresseInput) {
+        /* Line to pass cucumber duplication : AjouterCommande */
         Date date = new Date(dateInput);
+
         Horaire horaire = new Horaire(heureInput);
         Position position = compteUtilisateur.getAdresseEnregistreesParNom(adresseInput);
-        commande.setDateCommande(date);
-        commande.setHoraireCommande(horaire);
-        commande.setPosition(position);
+
+        commande.setInformationLivraison(date, horaire, position);
     }
 
-    @Quand("l'utilisateur paye sa commande à {int}€")
-    public void lUtilisateurConfirmeSaCommandeEtQuIlPayeLes€(int prix) {
-        commandeManager.payerCommande(commande);
+    @Quand("l'utilisateur paye sa commande à {int}€ \\(pass)")
+    public void lUtilisateurConfirmeSaCommandeEtQuIlPayeLes€AjouterUneCommande(int prix) throws PasswordException, TokenException {
+        /* Line to pass cucumber duplication : AjouterCommande */
+        Token token = compteUtilisateur.createToken(CompteUtilisateur.DEFAULT_PASSWORD);
+
+        commande.payerCommande(token);
         assertEquals(prix, (int) commande.getPrix());
     }
 
-    @Alors("la commande est ajouté à la liste des commandes {string} et elle est envoyé au restaurant {string}")
-    public void laCommandeEstAjoutéÀLaListeDesCommandesEnPréparationEtElleEstEnvoyéAuRestaurant(String etatCommande, String nomRestaurant) {
+    @Alors("la commande est ajouté à la liste des commandes {string} et elle est envoyé au restaurant {string} \\(pass)")
+    public void laCommandeEstAjoutéÀLaListeDesCommandesEnPréparationEtElleEstEnvoyéAuRestaurantAjouterUneCommande(String etatCommande, String nomRestaurant) {
+        /* Line to pass cucumber duplication : AjouterCommande */
         assertEquals(EtatCommande.getEtatSousCommande(etatCommande), commande.getEtatCommande());
+
         assertEquals(restaurant.getNomRestaurant(), nomRestaurant);
-        assertTrue(commandeManager.getCommandeEnPreparationRestaurant(restaurant).contains(commande));
+        assertTrue(systemeCommande.getCommandeEnPreparationRestaurant(restaurant).contains(commande));
     }
 
-    @Alors("le prix de la commande augmente de {int} €")
-    public void lePrixDeLaCommandeAugmenteDe(int prix){
+    @Alors("le prix de la commande est de {int} €")
+    public void lePrixDeLaCommandeAugmenteDe€(int prix){
         assertEquals(prix, commande.getPrix(), 0.001);
     }
 }

@@ -5,9 +5,9 @@ import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.Plat;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.Date;
-import fr.unice.polytech.utils.Horaire;
-import fr.unice.polytech.utils.Position;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
+import fr.unice.polytech.utils.adress.Position;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -166,7 +166,7 @@ public class Commande {
      * Ajoute la date de quand la commande doit être livré
      * @param dateCommande la date de la commande
      */
-    public void setDateCommande(fr.unice.polytech.utils.Date dateCommande) {
+    public void setDateCommande(fr.unice.polytech.utils.temps.Date dateCommande) {
         this.dateCommande = dateCommande;
     }
 
