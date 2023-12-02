@@ -36,7 +36,7 @@ public class AjouterUnHoraire {
 
 
     @Alors("la liste d'horaire contient:")
-    public void laListeDHoraireContient() {
+    public void laListeDHoraireContient(List<String> list) {
 
 
         assertEquals(restaurant.getCreneaus().get(restaurant.getCreneaus().size() - 1), ancienCreneau);
