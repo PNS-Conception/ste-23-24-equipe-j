@@ -1,5 +1,11 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.exceptions.CapaciteDepasseException;
+import fr.unice.polytech.exceptions.RestaurantNonValideException;
+import fr.unice.polytech.nourriture.Menu;
+import fr.unice.polytech.nourriture.MenuPlat;
+import fr.unice.polytech.nourriture.TypeMenu;
+import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utilisateur.UserStatut;
 
@@ -10,11 +16,14 @@ import fr.unice.polytech.utilisateur.UserStatut;
 public class CommandeBuffet extends CommandeSimple{
     CompteUtilisateur destinataire;
 
+    // Constructeur
+
     /**
      * Constructeur par défaut
      * @param idCommande l'identifiant de la commande
      * @param createurCommande le créateur de la commande
      * @param destinataireCommande le destinataire de la commande
+     * @throws IllegalArgumentException si l'utilisateur n'est pas un staff universitaire ou n'existe pas
      */
     public CommandeBuffet(long idCommande, CompteUtilisateur createurCommande, CompteUtilisateur destinataireCommande) {
         super(idCommande, createurCommande);
@@ -27,6 +36,8 @@ public class CommandeBuffet extends CommandeSimple{
 
         destinataire = destinataireCommande;
     }
+
+    // Getter
 
     /**
      * Retourne le destinataire de la commande
@@ -44,5 +55,24 @@ public class CommandeBuffet extends CommandeSimple{
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    // Méthodes
+
+    /**
+     * @throws IllegalArgumentException si c'est un plat ou un menu qui n'est pas un menu buffet
+     */
+    @Override
+    public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws CapaciteDepasseException, RestaurantNonValideException {
+        if (!typeMenuPlat.equals(TypeMenuPlat.MENU))
+            throw new IllegalArgumentException("Impossible d'ajouter un plat");
+
+        Menu menu = (Menu) menuPlat;
+        if (!menu.getTypeMenu().equals(TypeMenu.BUFFET))
+            throw new IllegalArgumentException("mauvais menu ajouté");
+
+        // A modifier dans un future proche refactor
+        int nombre = menuPlats.getOrDefault(menuPlat, 0);
+        menuPlats.put(menuPlat, nombre + 1);
     }
 }
