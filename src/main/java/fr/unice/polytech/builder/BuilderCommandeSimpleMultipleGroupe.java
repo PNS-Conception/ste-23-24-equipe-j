@@ -2,6 +2,7 @@ package fr.unice.polytech.builder;
 
 import fr.unice.polytech.commande.CommandeAvecID;
 import fr.unice.polytech.commande.CommandeGroupe;
+import fr.unice.polytech.commande.CommandeMultiple;
 import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
@@ -40,6 +41,7 @@ public class BuilderCommandeSimpleMultipleGroupe extends BuilderCommande{
         return switch (typeCommandeSimple) {
             case SIMPLE -> new CommandeSimple(id, createur);
             case GROUPEE -> new CommandeGroupe(id, createur);
+            case MULTIPLE -> new CommandeMultiple(id, createur);
         };
     }
 }
