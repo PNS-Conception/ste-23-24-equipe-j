@@ -3,8 +3,7 @@ package fr.unice.polytech.nourriture;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.StatusUtilisateur;
 
-import java.io.ObjectInputFilter;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -39,10 +38,10 @@ public class Menu implements MenuPlat{
      * @throws IllegalArgumentException le type de menu est <code>null</code>
      */
     public Menu(String nomMenu, double prix, TypeMenu typeDuMenu) {
-        this(nomMenu, prix, new HashMap<>(), typeDuMenu);
+        this(nomMenu, prix, new EnumMap<>(StatusUtilisateur.class), typeDuMenu);
     }
 
-    public Menu(String nomMenu, double prix, Map<StatusUtilisateur, Double> prixStatus, TypeMenu typeMenu){
+    public Menu(String nomMenu, double prix, Map<StatusUtilisateur, Double> prixStatus, TypeMenu typeDuMenu){
         if (nomMenu == null || nomMenu.isEmpty())
             throw new IllegalArgumentException("Nom vide");
         else if (typeDuMenu == null)
@@ -51,7 +50,6 @@ public class Menu implements MenuPlat{
         this.prix = prix;
         this.prixStatus = prixStatus;
         restaurant = null;
-        this.typeMenu = typeMenu;
         typeMenu = typeDuMenu;
     }
 
