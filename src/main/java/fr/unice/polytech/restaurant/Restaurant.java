@@ -32,6 +32,9 @@ public class Restaurant {
     private int capacite;
     private int duree_slot;
     private  static  final int DEFAULT_DUREE_SLOT=10;
+
+    private List<Integer> notes;
+
     public List<ICreneau> getCreneaus() {
         return creneaus;
     }
@@ -76,6 +79,7 @@ public class Restaurant {
         this.specialRate = new SpecialRate();
         this.capacite = 0;
         this.creneaus = new ArrayList<>();
+        this.notes = new ArrayList<>();
         duree_slot=DEFAULT_DUREE_SLOT;
     }
 
@@ -176,11 +180,37 @@ public class Restaurant {
         return menus.add(m);
     }
 
+    /**
+     * Récupère le Menu du restaurant qui correspond au nom de menu voulu
+     * @param menuPlatName
+     * @return le menu voulu si il existe, null sinon
+     * @throws AucunMenuException
+     */
     public MenuPlat getMenuPlatByName(String menuPlatName) throws AucunMenuException {
         for (MenuPlat menuPlat : getMenus()){
             if (menuPlat.getNom().equals(menuPlatName)) return menuPlat;
         }
         return null;
+    }
+
+    /**
+     * Retourne la moyenne des notes du restaurant
+     * @return la moyenne des notes du restaurant
+     */
+    public double getNote(){
+        double noteTotal = 0;
+        for (Integer note: notes){
+            noteTotal += note;
+        }
+        return noteTotal/notes.size();
+    }
+
+    /**
+     * Ajoute une note à la liste des notes du restaurant
+     * @param note la note à ajouter
+     */
+    public void addNote(Integer note){
+        notes.add(note);
     }
 
 

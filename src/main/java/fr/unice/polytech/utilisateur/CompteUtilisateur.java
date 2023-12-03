@@ -3,6 +3,7 @@ package fr.unice.polytech.utilisateur;
 import fr.unice.polytech.commande.CommandeAvecID;
 import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.exceptions.PasswordException;
+import fr.unice.polytech.livraison.CompteLivreur;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.traçabilite.Historique;
 import fr.unice.polytech.traçabilite.Statistique;
@@ -38,6 +39,9 @@ public class CompteUtilisateur implements EventListener {
     private String password = DEFAULT_PASSWORD;
     private StatusUtilisateur status;
     private int solde; // en centimes pour éviter les erreurs d'arrondi
+    private List<Integer> notesRetard;
+    private List<Integer> notesAmabilite;
+
 
     public CompteUtilisateur(String nom,
                              String prenom,
@@ -54,6 +58,8 @@ public class CompteUtilisateur implements EventListener {
         this.solde = 0;
         this.status = status;
         this.adresseEnregistrees = savedPosition;
+        this.notesRetard = new ArrayList<>();
+        this.notesAmabilite = new ArrayList<>();
     }
 
     //TODO : to delete, keep for test
@@ -111,6 +117,55 @@ public class CompteUtilisateur implements EventListener {
 
     public ArrayList<ICommande> getAllHistorique() {
         return this.historique.getArrayListCommande();
+    }
+
+    /**
+     * Return la moyenne des notes de retard de l'utilisateur
+     * @return la moyenne des notes de retard de l'utilisateur
+     */
+    public double getNoteRetard(){
+        double noteTotal = 0;
+        for (Integer note: notesRetard){
+            noteTotal += note;
+        }
+        return noteTotal/notesRetard.size();
+    }
+
+    /**
+     * Return la moyenne des notes d'amabilité de l'utilisateur
+     * @return la moyenne des notes d'amabilité de l'utilisateur
+     */
+    public double getNoteAmabilite(){
+        double noteTotal = 0;
+        for (Integer note: notesAmabilite){
+            noteTotal += note;
+        }
+        return noteTotal/ notesAmabilite.size();
+    }
+
+    /**
+     * Ajoute une note de retard à la liste de notes de retard de l'utilisateur
+     * @param noteRetard la note à ajouter
+     */
+    public void addNoteRetard(Integer noteRetard){
+        notesRetard.add(noteRetard);
+    }
+
+    /**
+     * Ajoute une note d'amabilité à la liste de notes d'amabilité de l'utilisateur
+     * @param noteAmabilite la note à ajouter
+     */
+    public void addNoteAmabilite(Integer noteAmabilite){
+        notesAmabilite.add(noteAmabilite);
+    }
+
+    /**
+     * Note le livreur
+     * @param compteLivreur le livreur à noter
+     * @param note la note
+     */
+    public void noteLivreur(CompteLivreur compteLivreur, Integer note){
+        compteLivreur.addNote(note);
     }
 
     public void ajouterCommande(CommandeAvecID commande, Token token) throws TokenException {
