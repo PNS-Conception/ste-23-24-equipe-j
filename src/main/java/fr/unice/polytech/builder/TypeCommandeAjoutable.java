@@ -5,5 +5,6 @@ package fr.unice.polytech.builder;
  * @author Equipe J
  */
 public enum TypeCommandeAjoutable {
-    SIMPLE
+    SIMPLE,
+    MULTIPLE
 }
