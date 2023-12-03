@@ -92,11 +92,11 @@ public class Menu implements MenuPlat{
         else if (o == null || o.getClass() != Menu.class)
             return false;
         Menu menu = (Menu) o;
-        return menu.nomMenu.equals(nomMenu);
+        return menu.nomMenu.equals(nomMenu) && typeMenu.equals(menu.typeMenu);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nomMenu);
+        return Objects.hash(nomMenu, typeMenu);
     }
 }
