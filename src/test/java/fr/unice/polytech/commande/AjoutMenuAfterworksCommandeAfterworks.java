@@ -30,7 +30,7 @@ public class AjoutMenuAfterworksCommandeAfterworks {
         commandeAfterworks.ajoutMenuPlat(menuPlat, TypeMenuPlat.MENU);
     }
 
-    @Alors("le menu est ajouté à la commande")
+    @Alors("le menu afterworks est ajouté à la commande")
     public void leMenuEstAjoutéÀLaCommande() {
         assertTrue(commandeAfterworks.getMenuPlats().containsKey(menuPlat));
     }
@@ -47,7 +47,7 @@ public class AjoutMenuAfterworksCommandeAfterworks {
         }
     }
 
-    @Alors("une erreur est renvoyé {string}")
+    @Alors("une erreur de la commande afterworks est renvoyé {string}")
     public void uneErreurEstRenvoyé(String messageErreur) {
         assertEquals(messageErreur, this.messageErreur);
     }
@@ -64,7 +64,7 @@ public class AjoutMenuAfterworksCommandeAfterworks {
         }
     }
 
-    @Et("le menu n'est pas ajouté")
+    @Et("le menu afterworks n'est pas ajouté")
     public void leMenuNEstPasAjouté() {
         assertFalse(commandeAfterworks.getMenuPlats().containsKey(menuPlat));
     }

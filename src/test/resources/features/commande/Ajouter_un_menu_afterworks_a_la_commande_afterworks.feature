@@ -7,14 +7,14 @@ Fonctionnalité: Ajout de menus afterwork dans la commande afterworks
 
   Scénario: Menu ajouté avec succès
     Quand il ajoute le menu afterworks "crêpe" à 12€
-    Alors le menu est ajouté à la commande
+    Alors le menu afterworks est ajouté à la commande
 
   Scénario: Menu non ajouté avec succès
     Quand il ajoute le menu classique "pate" à 10€
-    Alors une erreur est renvoyé "Impossible d'ajouter un menu qui n'est pas afterworks"
-    Et le menu n'est pas ajouté
+    Alors une erreur de la commande afterworks est renvoyé "Impossible d'ajouter un menu qui n'est pas afterworks"
+    Et le menu afterworks n'est pas ajouté
 
   Scénario: Plat non ajouté avec succès
     Quand il ajoute le plat "pate" à 5€
-    Alors une erreur est renvoyé "Impossible d'ajouté un plat"
-    Et le menu n'est pas ajouté
+    Alors une erreur de la commande afterworks est renvoyé "Impossible d'ajouté un plat"
+    Et le menu afterworks n'est pas ajouté
