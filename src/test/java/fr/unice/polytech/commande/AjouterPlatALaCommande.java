@@ -1,8 +1,11 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.exceptions.CapaciteDepasseException;
+import fr.unice.polytech.exceptions.RestaurantNonValideException;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.Plat;
 import fr.unice.polytech.exceptions.AucunMenuException;
+import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.restaurant.RestaurantManager;
 import fr.unice.polytech.traçabilite.Statistique;
@@ -22,7 +25,7 @@ import static org.junit.Assert.*;
 public class AjouterPlatALaCommande {
     private final RestaurantManager restaurantManager = new RestaurantManager();
     private Restaurant restaurant;
-    Commande commande;
+    CommandeSimple commande;
     Plat plat;
     Statistique statistique;
     SavedPosition savedPosition;
@@ -37,7 +40,7 @@ public class AjouterPlatALaCommande {
         restaurant = new Restaurant("Italien");
         restaurant.addMenu(newPlat);
 
-        commande = new Commande(compteUtilisateur);
+        commande = new CommandeSimple(0, compteUtilisateur);
         assertEquals(prix, commande.getPrix(), 0);
     }
 
@@ -71,7 +74,7 @@ public class AjouterPlatALaCommande {
     }
 
     @Quand("l'utilisateur ajoute {int} quantité de plat de {string} à {double}€")
-    public void ajoutPlatDansCommande(int quantite, String nomPlat, double prix) {
+    public void ajoutPlatDansCommande(int quantite, String nomPlat, double prix) throws CapaciteDepasseException, RestaurantNonValideException {
         try {
             for (MenuPlat menuPlat : restaurant.getMenus()){
                 if (menuPlat.getNom().equals(nomPlat)){
@@ -80,7 +83,9 @@ public class AjouterPlatALaCommande {
                 }
             }
 
-            commande.ajoutMenuPlat(plat, quantite);
+            for (int i = 0; i < quantite; i++)
+                commande.ajoutMenuPlat(plat, TypeMenuPlat.PLAT);
+
             int nombrePlatAjouter = commande.getMenuPlats().get(plat);
             assertEquals(quantite, nombrePlatAjouter);
         }
