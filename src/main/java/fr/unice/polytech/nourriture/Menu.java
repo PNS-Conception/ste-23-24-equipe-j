@@ -17,29 +17,43 @@ public class Menu implements MenuPlat{
     private double prix;
     private Map<StatusUtilisateur, Double> prixStatus;
     private Restaurant restaurant;
+    private TypeMenu typeMenu;
 
     // Constructeur
 
     /**
      * Constructeur par défaut
      * @param nomMenu le nom du Menu
+     * @param prix le prix du menu
      */
     public Menu(String nomMenu, double prix) {
+        this(nomMenu, prix, TypeMenu.NORMAL);
+    }
+
+    /**
+     * Constructeur d'un menu avec son type
+     * @param nomMenu le nom du menu
+     * @param prix le prix du menu
+     * @param typeMenu le type du menu
+     */
+    public Menu(String nomMenu, double prix, TypeMenu typeMenu) {
         if (nomMenu == null || nomMenu.isEmpty())
             throw new IllegalArgumentException("Nom vide");
         this.nomMenu = nomMenu;
         this.prix = prix;
         restaurant = null;
         prixStatus = new HashMap<>();
+        this.typeMenu = typeMenu;
     }
 
-    public Menu(String nomMenu, double prix, Map<StatusUtilisateur, Double> prixStatus){
+    public Menu(String nomMenu, double prix, Map<StatusUtilisateur, Double> prixStatus, TypeMenu typeMenu){
         if (nomMenu == null || nomMenu.isEmpty())
             throw new IllegalArgumentException("Nom vide");
         this.nomMenu = nomMenu;
         this.prix = prix;
         this.prixStatus = prixStatus;
         restaurant = null;
+        this.typeMenu = typeMenu;
     }
 
     // Accesseurs et setters
@@ -63,6 +77,14 @@ public class Menu implements MenuPlat{
             return prixStatus.get(statusUtilisateur);
         }
         return prix;
+    }
+
+    /**
+     * Retourne le type du menu
+     * @return le type du menu
+     */
+    public TypeMenu getTypeMenu() {
+        return typeMenu;
     }
 
     @Override
@@ -95,11 +117,11 @@ public class Menu implements MenuPlat{
         else if (o == null || o.getClass() != Menu.class)
             return false;
         Menu menu = (Menu) o;
-        return menu.nomMenu.equals(nomMenu);
+        return menu.nomMenu.equals(nomMenu) && typeMenu.equals(menu.typeMenu);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nomMenu);
+        return Objects.hash(nomMenu, typeMenu);
     }
 }

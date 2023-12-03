@@ -28,7 +28,7 @@ public class AjouterPlatALaCommande {
     SavedPosition savedPosition;
     CompteUtilisateur compteUtilisateur =  new CompteUtilisateur("Dupont", "Antoine", statistique, savedPosition, "ETUDIANT");
 
-    @Etantdonnéque("une commande en cours de création avec un montant qui s'élève à {double}€")
+    @Etantdonnéqu("une commande en cours de création avec un montant qui s'élève à {double}€")
     public void createCommande(double prix){
         List<String> aliments = new ArrayList<>(Arrays.asList("Tagliatelles", "Saumon", "Crème Fraiche"));
         List<String> alergenes =  new ArrayList<>();

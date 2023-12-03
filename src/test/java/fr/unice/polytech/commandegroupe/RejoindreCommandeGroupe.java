@@ -7,7 +7,6 @@ import fr.unice.polytech.commande.CommandeSimpleAjoutable;
 import fr.unice.polytech.commande.SystemeCommande;
 import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutable;
 import fr.unice.polytech.globalSystem.GlobalSystem;
-import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Etantdonnéque;
 import io.cucumber.java.fr.Etque;
