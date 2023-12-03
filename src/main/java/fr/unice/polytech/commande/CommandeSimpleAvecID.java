@@ -58,26 +58,12 @@ public abstract class CommandeSimpleAvecID extends CommandeAvecID implements ICo
         if (restaurant == null)
             restaurant = menuPlat.getRestaurant();
 
-        else if (!restaurant.equals(menuPlat.getRestaurant()))
-            throw new RestaurantNonValideException();
-        int nombre = menuPlats.getOrDefault(menuPlat, 0);
-        menuPlats.put(menuPlat, nombre + 1);
+        GestionCommande.ajoutMenuPlat(menuPlats, menuPlat, restaurant);
     }
 
     @Override
     public boolean supprimerMenuPlat(MenuPlat menuPlat) {
-        Integer nombre = menuPlats.get(menuPlat);
-
-        if (nombre != null) {
-            if (nombre > 1)
-                menuPlats.put(menuPlat, nombre - 1);
-            else
-                menuPlats.remove(menuPlat);
-
-            return true;
-        }
-
-        return false;
+        return GestionCommande.supprimerMenuPlat(menuPlats, menuPlat);
     }
 
     public abstract void payerCommande(Token token) throws TokenException;

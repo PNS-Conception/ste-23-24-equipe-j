@@ -3,10 +3,6 @@ package fr.unice.polytech.commande;
 import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utils.temps.Date;
-import fr.unice.polytech.utils.temps.Horaire;
-import fr.unice.polytech.utils.temps.HoraireDate;
-import java.time.LocalDateTime;
 
 import java.util.Objects;
 
@@ -30,8 +26,6 @@ public abstract class CommandeAvecID  implements ICommande {
         this.idCommande = idCommande;
         createur = createurCommande;
         etatCommande = EtatCommande.EN_ATTENTE;
-
-
     }
 
 

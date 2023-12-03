@@ -1,6 +1,6 @@
 package fr.unice.polytech.commande;
 
-import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutable;
+import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutablePayable;
 import fr.unice.polytech.livraison.InformationLivraison;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
@@ -8,7 +8,7 @@ import fr.unice.polytech.utilisateur.CompteUtilisateur;
  * Classe d'une commande simple ajoutable dans une commande groupe
  * @author Equipe J
  */
-public class CommandeSimpleAjoutable extends CommandeSimplePayable implements ICommandeAjoutable {
+public class CommandeSimpleAjoutable extends CommandeSimplePayable implements ICommandeAjoutablePayable {
     private final ACommandeGroupe commandeGroupe;
 
     /**
@@ -34,6 +34,11 @@ public class CommandeSimpleAjoutable extends CommandeSimplePayable implements IC
     }
 
     @Override
+    public boolean estPayable() {
+        return true;
+    }
+
+    @Override
     public boolean equals(Object o) {
         return super.equals(o);
     }
@@ -42,4 +47,5 @@ public class CommandeSimpleAjoutable extends CommandeSimplePayable implements IC
     public int hashCode() {
         return super.hashCode();
     }
+
 }

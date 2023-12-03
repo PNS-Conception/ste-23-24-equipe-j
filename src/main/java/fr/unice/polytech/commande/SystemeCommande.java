@@ -58,7 +58,12 @@ public class SystemeCommande {
             return null;
         BuilderCommandeSimpleMultiplePourGroupe builder = new BuilderCommandeSimpleMultiplePourGroupe(idCommande++,
                 utilisateur, (ACommandeGroupe) commande);
-        return builder.setTypeCommandeSimple(typeCommandeAjoutable).build();
+
+        ICommandeAjoutable commande2 = builder.setTypeCommandeSimple(typeCommandeAjoutable).build();
+        CommandeAvecID commande3 = (CommandeAvecID) commande2;
+        commandes.put((int) commande3.getIdCommande(), commande3);
+
+        return commande2;
     }
 
     /**
