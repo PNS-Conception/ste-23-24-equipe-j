@@ -206,6 +206,14 @@ public class Restaurant {
     }
 
     /**
+     * Retourne la liste des notes du restaurants
+     * @return la liste des notes
+     */
+    public List<Integer> getNotes(){
+        return notes;
+    }
+
+    /**
      * Ajoute une note à la liste des notes du restaurant
      * @param note la note à ajouter
      */

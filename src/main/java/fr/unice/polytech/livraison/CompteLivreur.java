@@ -78,6 +78,14 @@ public class CompteLivreur implements EventListener {
     }
 
     /**
+     * Retourne la liste des notes du livreur
+     * @return la liste des notes
+     */
+    public List<Integer> getNotes(){
+        return notes;
+    }
+
+    /**
      * Ajoute une note à la liste des notes du Livreur
      * @param note la note à ajouter
      */

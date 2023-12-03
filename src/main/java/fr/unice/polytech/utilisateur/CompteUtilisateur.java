@@ -132,6 +132,14 @@ public class CompteUtilisateur implements EventListener {
     }
 
     /**
+     * Retourne la liste des notes de retard de l'utilisateur
+     * @return la liste des notes de retard
+     */
+    public List<Integer> getNotesRetard(){
+        return notesRetard;
+    }
+
+    /**
      * Return la moyenne des notes d'amabilité de l'utilisateur
      * @return la moyenne des notes d'amabilité de l'utilisateur
      */
@@ -141,6 +149,14 @@ public class CompteUtilisateur implements EventListener {
             noteTotal += note;
         }
         return noteTotal/ notesAmabilite.size();
+    }
+
+    /**
+     * Retourne la liste des notes d'amabilité de l'utilisateur
+     * @return la liste des notes d'amabilité
+     */
+    public List<Integer> getNotesAmabilite(){
+        return notesAmabilite;
     }
 
     /**
