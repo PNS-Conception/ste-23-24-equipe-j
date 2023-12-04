@@ -1,41 +1,45 @@
 package fr.unice.polytech.commande;
 
+
 import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutablePayable;
 import fr.unice.polytech.livraison.InformationLivraison;
+import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
 /**
- * Classe d'une commande simple ajoutable dans une commande groupe
+ * Commande multiple ajoutable dans une commande groupe
  * @author Equipe J
  */
-public class CommandeSimpleAjoutable extends CommandeSimplePayable implements ICommandeAjoutablePayable {
+public class CommandeMultipleAjoutable extends AbstractCommandeMultiple implements ICommandeAjoutablePayable {
+
     private final ACommandeGroupe commandeGroupe;
 
     /**
      * Constructeur par défaut
      * @param idCommande l'identifiant de la commande
      * @param createurCommande le créateur de la commande
+     * @param commandeGroupe la commande groupe qui lui est associé
      */
-    public CommandeSimpleAjoutable(long idCommande, CompteUtilisateur createurCommande, ACommandeGroupe commandeGroupe) {
+    public CommandeMultipleAjoutable(long idCommande, CompteUtilisateur createurCommande, ACommandeGroupe commandeGroupe) {
         super(idCommande, createurCommande);
-        commandeGroupe.ajouterCommande(this);
         this.commandeGroupe = commandeGroupe;
     }
 
     @Override
-    public InformationLivraison getInformationLivraison() {
-        return this.commandeGroupe.getInformationLivraison();
-    }
-
-    @Override
     public void setEtatCommande(EtatCommande etatCommande) {
-        super.setEtatCommande(etatCommande);
+        this.etatCommande = etatCommande;
         commandeGroupe.updateStatusCommande();
+        EventManager.notify(this, etatCommande.name());
     }
 
     @Override
     public boolean estPayable() {
         return true;
+    }
+
+    @Override
+    public InformationLivraison getInformationLivraison() {
+        return null;
     }
 
     @Override
@@ -47,5 +51,4 @@ public class CommandeSimpleAjoutable extends CommandeSimplePayable implements IC
     public int hashCode() {
         return super.hashCode();
     }
-
 }

@@ -3,6 +3,7 @@ package fr.unice.polytech.commande;
 import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.nourriture.*;
 import fr.unice.polytech.exceptions.RestaurantNonValideException;
+import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import io.cucumber.java.fr.*;
 
@@ -27,6 +28,7 @@ public class AjoutMenuAfterworksCommandeAfterworks {
     @Quand("il ajoute le menu afterworks {string} à {int}€")
     public void ilAjouteLeMenuAfterworksÀ€(String nomMenu, int prix) throws RestaurantNonValideException, CapaciteDepasseException {
         menuPlat = new Menu(nomMenu, prix, TypeMenu.AFTERWORKS);
+        menuPlat.setRestaurant(new Restaurant("Restaurant"));
         commandeAfterworks.ajoutMenuPlat(menuPlat, TypeMenuPlat.MENU);
     }
 

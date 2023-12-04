@@ -1,15 +1,11 @@
 package fr.unice.polytech.commande;
 
 import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutable;
-import fr.unice.polytech.commande.interfacecommande.ILivrable;
-import fr.unice.polytech.livraison.InformationLivraison;
+import fr.unice.polytech.commande.interfacecommande.ICommandeSimple;
 import fr.unice.polytech.observer.EventManager;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.*;
-import fr.unice.polytech.utils.adress.Position;
-import fr.unice.polytech.utils.temps.Date;
-import fr.unice.polytech.utils.temps.Horaire;
 
 import java.util.*;
 
@@ -17,14 +13,10 @@ import java.util.*;
  * Classe abstraite d'une commande groupe contenant toutes les commandes
  * @author Equipe J
  */
-public abstract class ACommandeGroupe extends CommandeAvecID implements ILivrable {
-    Set<ICommandeAjoutable> commandes;
-    InformationLivraison informationLivraison;
+public abstract class ACommandeGroupe extends CommandeAvecID {
 
     protected ACommandeGroupe(long idCommande, CompteUtilisateur createurCommande) {
         super(idCommande, createurCommande);
-        commandes = new HashSet<>();
-        informationLivraison = new InformationLivraison(this);
     }
 
     /**
@@ -43,9 +35,7 @@ public abstract class ACommandeGroupe extends CommandeAvecID implements ILivrabl
      * Récupérer la liste de commandes de la commandes groupe
      * @return les commandes groupes
      */
-    public List<ICommandeAjoutable> getCommandes() {
-        return commandes.stream().toList();
-    }
+    public abstract List<ICommandeAjoutable> getCommandes();
 
     /**
      * Récupérer la liste des commandes en préparation de la commande groupe
@@ -54,12 +44,17 @@ public abstract class ACommandeGroupe extends CommandeAvecID implements ILivrabl
     public List<ICommandeAjoutable> getCommandesEnPreparationRestaurant(Restaurant restaurant) {
         List<ICommandeAjoutable> commandesPreparation = new ArrayList<>();
 
-        for (ICommandeAjoutable commande : this.commandes) {
+        for (ICommandeAjoutable commande : getCommandes()) {
             if (commande.getEtatCommande() == EtatCommande.EN_PREPARATION) {
-                Optional<Restaurant> restaurantCommande = ((CommandeSimpleAvecID) commande).getRestaurant();
+                if (!commande.estCommandeSimple()) {
+                    commandesPreparation.addAll(((CommandeMultipleAjoutable) commande).getCommandes());
+                }
+                else {
+                    Optional<Restaurant> restaurantCommande = ((ICommandeSimple) commande).getRestaurant();
 
-                if (restaurantCommande.isPresent() && restaurantCommande.get().equals(restaurant))
-                    commandes.add(commande);
+                    if (restaurantCommande.isPresent() && restaurantCommande.get().equals(restaurant))
+                        commandesPreparation.add(commande);
+                }
             }
         }
 
@@ -70,7 +65,7 @@ public abstract class ACommandeGroupe extends CommandeAvecID implements ILivrabl
      * Met à jour l'état de la commande groupe quand une commande est ajoutée ou supprimée
      */
     protected void updateStatusCommande() {
-        EtatCommande newEtatCommande = CalculEtatCommande.calculEtatCommande(commandes);
+        EtatCommande newEtatCommande = CalculEtatCommande.calculEtatCommande(getCommandes());
 
         if (this.etatCommande != newEtatCommande)
             super.setEtatCommande(newEtatCommande);
@@ -78,7 +73,7 @@ public abstract class ACommandeGroupe extends CommandeAvecID implements ILivrabl
 
     @Override
     public EtatCommande getEtatCommande() {
-        return CalculEtatCommande.calculEtatCommande(commandes);
+        return CalculEtatCommande.calculEtatCommande(getCommandes());
     }
 
     @Override
@@ -99,21 +94,6 @@ public abstract class ACommandeGroupe extends CommandeAvecID implements ILivrabl
     @Override
     public boolean estLivrable() {
         return true;
-    }
-
-    @Override
-    public void setInformationLivraison(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
-        informationLivraison.setInformationLivraison(dateLivraison, heureLivraison, lieuxLivraison);
-    }
-
-    @Override
-    public void setInformationLivraisonForced(Date dateLivraison, Horaire heureLivraison, Position lieuxLivraison) {
-        informationLivraison.setInformationLivraisonForced(dateLivraison, heureLivraison, lieuxLivraison);
-    }
-
-    @Override
-    public InformationLivraison getInformationLivraison() {
-        return informationLivraison;
     }
 
     @Override

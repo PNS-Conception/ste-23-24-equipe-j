@@ -4,6 +4,7 @@ import fr.unice.polytech.builder.TypeCommandeAjoutable;
 import fr.unice.polytech.builder.TypeCommandeSimple;
 import fr.unice.polytech.commande.*;
 import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutable;
+import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutablePayable;
 import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.exceptions.PasswordException;
 import fr.unice.polytech.exceptions.RestaurantNonValideException;
@@ -20,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 public class ChangerStatusCommandeGroupe {
     SystemeCommande systemeCommande;
     CommandeGroupe commandeGroupe;
-    ICommandeAjoutable commande;
+    ICommandeAjoutablePayable commande;
     String erreurMessage;
     CompteUtilisateur compteUtilisateur;
     GlobalSystem globalSystem = new GlobalSystem();
@@ -48,7 +49,7 @@ public class ChangerStatusCommandeGroupe {
             commandeGroupe.ajouterCommande((ICommandeAjoutable) commandeSimple);
         }
 
-        commande = commandeGroupe.getCommandes().get(0);
+        commande = (ICommandeAjoutablePayable) commandeGroupe.getCommandes().get(0);
         assertEquals(nombreCommande, commandeGroupe.getCommandes().size());
 
 
