@@ -108,11 +108,11 @@ public class CompteLivreur implements EventListener {
      * Note l'utilisateur par rapport au retard et à l'amabilité
      * @param compteUtilisateur l'utilisateur à noter
      * @param noteRetard la note pour le retard
-     * @param noteAimabilite la note pour l'amabilte
+     * @param noteAmabilite la note pour l'amabilite
      */
-    public void noteUtilisateur(CompteUtilisateur compteUtilisateur, Integer noteRetard, Integer noteAimabilite) {
+    public void noteUtilisateur(CompteUtilisateur compteUtilisateur, Integer noteRetard, Integer noteAmabilite) {
         compteUtilisateur.addNoteRetard(noteRetard);
-        compteUtilisateur.addNoteAmabilite(noteAimabilite);
+        compteUtilisateur.addNoteAmabilite(noteAmabilite);
     }
 
     @Override
