@@ -12,13 +12,13 @@ public class Menu implements MenuPlat{
     private final String nomMenu;
     private final double prix;
     private Restaurant restaurant;
-    private TypeMenu typeMenu;
+    private final TypeMenu typeMenu;
 
     // Constructeur
 
     /**
-     * Constructeur par défaut
-     * @param nomMenu le nom du Menu
+     * Constructeur pour les menus standard
+     * @param nomMenu le nom du menu
      * @param prix le prix du menu
      */
     public Menu(String nomMenu, double prix) {
@@ -26,18 +26,23 @@ public class Menu implements MenuPlat{
     }
 
     /**
-     * Constructeur d'un menu avec son type
+     * Constructeur par défaut incluant le type de menu
      * @param nomMenu le nom du menu
-     * @param prix le prix du menu
-     * @param typeMenu le type du menu
+     * @param prix le prix de la commande
+     * @param typeDuMenu le type du menu de la commande
+     * @throws IllegalArgumentException le nom de menu n'existe pas où est null
+     * @throws IllegalArgumentException le type de menu est <code>null</code>
      */
-    public Menu(String nomMenu, double prix, TypeMenu typeMenu) {
+    public Menu(String nomMenu, double prix, TypeMenu typeDuMenu) {
         if (nomMenu == null || nomMenu.isEmpty())
             throw new IllegalArgumentException("Nom vide");
+        else if (typeDuMenu == null)
+            throw new IllegalArgumentException("Le type du menu est null");
+
         this.nomMenu = nomMenu;
         this.prix = prix;
         restaurant = null;
-        this.typeMenu = typeMenu;
+        typeMenu = typeDuMenu;
     }
 
     // Accesseurs et setters

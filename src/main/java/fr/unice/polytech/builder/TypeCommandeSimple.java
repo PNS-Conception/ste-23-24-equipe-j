@@ -7,5 +7,6 @@ public enum TypeCommandeSimple {
     SIMPLE,
     GROUPEE,
     MULTIPLE,
+    AFTERWORKS,
     BUFFET
 }
