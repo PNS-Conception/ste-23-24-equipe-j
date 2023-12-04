@@ -1,5 +1,6 @@
 package fr.unice.polytech.builder;
 
+import fr.unice.polytech.commande.CommandeAfterworks;
 import fr.unice.polytech.commande.CommandeAvecID;
 import fr.unice.polytech.commande.CommandeBuffet;
 import fr.unice.polytech.commande.CommandeGroupe;
@@ -12,6 +13,7 @@ import fr.unice.polytech.utilisateur.CompteUtilisateur;
  */
 public class BuilderCommandeSimpleMultipleGroupe extends BuilderCommande{
     private TypeCommandeSimple typeCommandeSimple;
+    private Integer nombrePersonne = null;
     private CompteUtilisateur destinataire;
 
     // Constructeur
@@ -45,6 +47,11 @@ public class BuilderCommandeSimpleMultipleGroupe extends BuilderCommande{
         return this;
     }
 
+    public BuilderCommandeSimpleMultipleGroupe buildNombrePersonneCommandeAfterworks(int nombrePersonne) {
+        this.nombrePersonne = nombrePersonne;
+        return this;
+    }
+
     /**
      * Méthode pour avoir une commande
      * @return la commande
@@ -53,6 +60,7 @@ public class BuilderCommandeSimpleMultipleGroupe extends BuilderCommande{
         return switch (typeCommandeSimple) {
             case SIMPLE -> new CommandeSimple(id, createur);
             case GROUPEE -> new CommandeGroupe(id, createur);
+            case AFTERWORKS -> new CommandeAfterworks(id, createur, nombrePersonne);
             case BUFFET -> new CommandeBuffet(id, createur, destinataire);
         };
     }
