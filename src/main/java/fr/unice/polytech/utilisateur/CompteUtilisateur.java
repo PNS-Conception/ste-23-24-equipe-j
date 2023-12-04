@@ -184,6 +184,10 @@ public class CompteUtilisateur implements EventListener {
         compteLivreur.addNote(note);
     }
 
+    public void noteRestaurant(Restaurant restaurant, Integer note){
+        restaurant.addNote(note);
+    }
+
     public void ajouterCommande(CommandeAvecID commande, Token token) throws TokenException {
         tokens.remove(token);
         this.historique.addCommande(commande);
