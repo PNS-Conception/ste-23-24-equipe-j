@@ -16,6 +16,10 @@ import java.util.Objects;
 import static fr.unice.polytech.offre.DayEnum.getDayOfTheWeek;
 
 public class OffreUtils {
+
+    private OffreUtils() {
+        throw new IllegalStateException("Utility class");
+    }
     
     public static LocalDate convertStringToLocaleDate(String input) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -37,29 +41,23 @@ public class OffreUtils {
     }
     public static List<ICreneau> createCreneaus(String typeCreneau, List<List<String>>iCreneauList, CreneauDirector creneauDirector){
         List<ICreneau>creneaus=new ArrayList<>();
-        switch (typeCreneau) {
-            case "quotidien" -> {
-                QuotidienBuilder quotidienBuilder = new QuotidienBuilder();
-                creneauDirector.change(quotidienBuilder);
-                for (List<String> creneau : iCreneauList
-                ) {
-                    creneauDirector.make(creneau);
-                    creneaus.add(quotidienBuilder.getResult());
 
-
-                }
+        if (typeCreneau.equals("quotidien")) {
+            QuotidienBuilder quotidienBuilder = new QuotidienBuilder();
+            creneauDirector.change(quotidienBuilder);
+            for (List<String> creneau : iCreneauList
+            ) {
+                creneauDirector.make(creneau);
+                creneaus.add(quotidienBuilder.getResult());
             }
-            case "exceptionnel" -> {
-                ExceptionelBuilder exceptionelBuilder = new ExceptionelBuilder();
-                creneauDirector.change(exceptionelBuilder);
-                for (List<String> creneau : iCreneauList
-                ) {
-                    creneauDirector.make(creneau);
-                    creneaus.add(exceptionelBuilder.getResult());
-                    //
-
-                }
-
+        }
+        else if (typeCreneau.equals("exceptionnel")) {
+            ExceptionelBuilder exceptionelBuilder = new ExceptionelBuilder();
+            creneauDirector.change(exceptionelBuilder);
+            for (List<String> creneau : iCreneauList
+            ) {
+                creneauDirector.make(creneau);
+                creneaus.add(exceptionelBuilder.getResult());
             }
         }
         return creneaus;

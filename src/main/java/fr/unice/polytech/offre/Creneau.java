@@ -8,12 +8,12 @@ public class Creneau implements ICreneau {
     Horaire fin;
     int duree;
 
-    int capacite_par_slot;
+    int capaciteParSlot;
 
-    public Creneau(Horaire debut, Horaire fin, int capacite_par_slot) {
+    public Creneau(Horaire debut, Horaire fin, int capaciteParSlot) {
         this.debut = debut;
         this.fin = fin;
-        this.capacite_par_slot = capacite_par_slot;
+        this.capaciteParSlot = capaciteParSlot;
         this.duree=Horaire.calculerDuree(debut, fin);
 
     }
@@ -35,8 +35,8 @@ public class Creneau implements ICreneau {
 
 
 
-    public void setCapacite_par_slot(int capacite_par_slot) {
-        this.capacite_par_slot = capacite_par_slot;
+    public void setCapaciteParSlot(int capaciteParSlot) {
+        this.capaciteParSlot = capaciteParSlot;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class Creneau implements ICreneau {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Creneau creneau = (Creneau) o;
-        if (capacite_par_slot != creneau.getCapaciteParSlot()) return false;
+        if (capaciteParSlot != creneau.getCapaciteParSlot()) return false;
         if (!debut.equals(creneau.getDebut())) return false;
         return fin.equals(creneau.getFin());
     }
@@ -54,7 +54,7 @@ public class Creneau implements ICreneau {
         int result = debut.hashCode();
         result = 31 * result + fin.hashCode();
         result = 31 * result + duree;
-        result = 31 * result + capacite_par_slot;
+        result = 31 * result + capaciteParSlot;
         return result;
     }
 
@@ -75,7 +75,7 @@ public class Creneau implements ICreneau {
 
     @Override
     public int getCapaciteParSlot() {
-        return capacite_par_slot;
+        return capaciteParSlot;
     }
 
 

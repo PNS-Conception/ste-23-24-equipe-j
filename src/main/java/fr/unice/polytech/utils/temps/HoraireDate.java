@@ -12,8 +12,8 @@ public class HoraireDate implements Comparable<HoraireDate>{
         horaire = new Horaire(hourInput);
     }
 
-    public HoraireDate(boolean isDefault) {
-        this(new Date(true), new Horaire(true));
+    public HoraireDate() {
+        this(new Date(), new Horaire());
     }
 
     public HoraireDate(Date date, Horaire horaire) {

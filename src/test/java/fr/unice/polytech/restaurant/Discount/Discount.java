@@ -4,7 +4,7 @@ import fr.unice.polytech.builder.TypeCommandeSimple;
 import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.commande.SystemeCommande;
 import fr.unice.polytech.exceptions.*;
-import fr.unice.polytech.globalSystem.GlobalSystem;
+import fr.unice.polytech.globalsystem.GlobalSystem;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.*;
@@ -132,7 +132,7 @@ public class Discount {
     @Alors("le prix total de la commande doit être de {double} \\(passDiscount)")
     public void lePrixTotalDeLaCommandeDoitÊtreDePassDiscount(double priceExpected) {
         int specialRate = this.currentRestaurant.getSpecialRate().getSpecialRate(this.c.getStatut());
-        int goodClientReduction = this.currentRestaurant.getGoodClientReduction().getReductionRate(this.c, new HoraireDate(true));
+        int goodClientReduction = this.currentRestaurant.getGoodClientReduction().getReductionRate(this.c, new HoraireDate());
         int rate = specialRate + goodClientReduction;
 
         assertEquals(Math.round(priceExpected*100), Math.round(currentCommande.getPrix()*100));
@@ -160,7 +160,7 @@ public class Discount {
 
     @Etque("l'utilisateur {string} {string} choisit les menus : \\(passDiscount)")
     public void lUtilisateurChoisitLesMenusPassDiscount(String prenom, String nom, List<String> menus) throws STEException {
-        currentCommande.setInformationLivraison(new Date(true), new Horaire(true), new Position(""));
+        currentCommande.setInformationLivraison(new Date(), new Horaire(), new Position(""));
         for (String menu : menus) {
             List<MenuPlat> listMenus = this.currentRestaurant.getMenus();
             if (listMenus.size()!=0) {
@@ -212,7 +212,7 @@ public class Discount {
     }
 
     private void passXCommande(Restaurant restaurant, CompteUtilisateur compteUtilisateur) throws STEException {
-        this.passXCommande(restaurant, compteUtilisateur, new Date(true), new Horaire(true));
+        this.passXCommande(restaurant, compteUtilisateur, new Date(), new Horaire());
     }
 
     private void passXCommande(Restaurant restaurant, CompteUtilisateur compteUtilisateur, Date date, Horaire horaire) throws STEException {

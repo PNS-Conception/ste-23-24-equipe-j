@@ -4,7 +4,7 @@ import fr.unice.polytech.builder.TypeCommandeSimple;
 import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.commande.SystemeCommande;
 import fr.unice.polytech.exceptions.*;
-import fr.unice.polytech.globalSystem.GlobalSystem;
+import fr.unice.polytech.globalsystem.GlobalSystem;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
@@ -26,7 +26,6 @@ public class StatistiqueUtilisateur {
 
     private CompteUtilisateur compteUtilisateur;
     private final RestaurantManager restaurantManager = new RestaurantManager();
-    private final SystemeCommande commandeManager = new SystemeCommande();
     GlobalSystem globalSystem = new GlobalSystem();
 
 
@@ -64,8 +63,7 @@ public class StatistiqueUtilisateur {
         if (Objects.equals(compteUtilisateur.getNom(), name) && Objects.equals(compteUtilisateur.getPrenom(), prenom)) {
             try {
                 assertEquals(0, compteUtilisateur.getAllHistorique().size());
-                HashMap<CompteUtilisateur, Integer> statUser = null;
-                statUser = compteUtilisateur.getStatUser();
+                Map<CompteUtilisateur, Integer> statUser = compteUtilisateur.getStatUser();
                 if (statUser.containsKey(compteUtilisateur)) {
                     assertEquals(0, (int) statUser.get(compteUtilisateur));
                 } else {
@@ -83,7 +81,7 @@ public class StatistiqueUtilisateur {
     public void accèdeÀSaPageDeStatistiqueIlObtientUneValeur(String prenom, String name, int tailleStatistique) {
         if (Objects.equals(compteUtilisateur.getNom(), name) && Objects.equals(compteUtilisateur.getPrenom(), prenom)) {
             try {
-                HashMap<CompteUtilisateur, Integer> statUser = compteUtilisateur.getStatUser();
+                Map<CompteUtilisateur, Integer> statUser = compteUtilisateur.getStatUser();
                 if (statUser.containsKey(compteUtilisateur)) {
                     assertEquals(tailleStatistique, (int) statUser.get(compteUtilisateur));
                 } else {
@@ -103,10 +101,10 @@ public class StatistiqueUtilisateur {
             Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
             SystemeCommande systemeCommande = new SystemeCommande();
             CommandeSimple commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(compteUtilisateur, TypeCommandeSimple.SIMPLE);
-            commande.setInformationLivraison(new Date(true), new Horaire(true), new Position(""));
+            commande.setInformationLivraison(new Date(), new Horaire(), new Position(""));
 
             List<MenuPlat> listMenus = restaurant.getMenus();
-            if (listMenus.size()!=0) {
+            if (!listMenus.isEmpty()) {
                 try {
                     commande.ajoutMenuPlat(listMenus.get(0), TypeMenuPlat.MENU);
                     assertEquals(1, commande.getMenuPlats().size());
