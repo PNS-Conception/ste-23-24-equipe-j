@@ -29,7 +29,7 @@ public class Date implements Comparable<Date>{
         jour = date.getDayOfMonth();
     }
 
-    public Date(boolean isDefault) {
+    public Date() {
         this(1,1,2000);
     }
 

@@ -5,7 +5,6 @@ import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutable;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Classe qui permet de calculer l'état d'une commande groupe en fonction des commandes qui la compose

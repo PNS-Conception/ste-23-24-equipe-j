@@ -18,9 +18,9 @@ public class CreneauQuotidien extends Creneau {
     }
 
     private  DayOfWeek jourDeLaSemaine;
-    public CreneauQuotidien(Horaire debut, Horaire fin, int capacite_par_slot,String jourDeLaSemaine) {
+    public CreneauQuotidien(Horaire debut, Horaire fin, int capaciteParSlot,String jourDeLaSemaine) {
 
-        super(debut, fin, capacite_par_slot);
+        super(debut, fin, capaciteParSlot);
         this.jourDeLaSemaine= getDayOfTheWeek(jourDeLaSemaine);
     }
     public CreneauQuotidien(){

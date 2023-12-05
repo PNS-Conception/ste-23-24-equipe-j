@@ -1,7 +1,7 @@
 package fr.unice.polytech.commande;
 
 import fr.unice.polytech.exceptions.*;
-import fr.unice.polytech.globalSystem.GlobalSystem;
+import fr.unice.polytech.globalsystem.GlobalSystem;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.restaurant.*;
@@ -92,7 +92,7 @@ public class AjouterUneCommande {
     @Etque("l'utilisateur choisit le menu {string} à {int} € \\(pass)")
     public void ilChoisitLeMenuÀ€AjouterUneCommande(String nomMenu, int prix) throws AucunMenuException, RestaurantNonValideException {
         /* Line to pass cucumber duplication : AjouterCommande */
-        commande.setInformationLivraison(new Date(true), new Horaire(true), new Position(""));
+        commande.setInformationLivraison(new Date(), new Horaire(), new Position(""));
         for (MenuPlat menu : restaurant.getMenus()) {
             if (menu.getNom().equals(nomMenu)) {
                 try {

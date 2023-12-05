@@ -1,6 +1,6 @@
-package fr.unice.polytech.globalSystem;
+package fr.unice.polytech.globalsystem;
 
-import fr.unice.polytech.traçabilite.Statistique;
+import fr.unice.polytech.tracabilite.Statistique;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utilisateur.UserStatut;
 import fr.unice.polytech.utils.adress.SavedPosition;

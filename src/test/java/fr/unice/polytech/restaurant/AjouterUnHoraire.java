@@ -59,7 +59,7 @@ public class AjouterUnHoraire {
     @Etantdonné("un restaurant {string}")
     public void unRestaurant(String arg0) {
         restaurant=new Restaurant(arg0);
-        restaurant.setDuree_slot(10);
+        restaurant.setDureeSlot(10);
 
     }
 

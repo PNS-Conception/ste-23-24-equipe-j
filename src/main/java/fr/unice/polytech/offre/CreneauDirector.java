@@ -1,7 +1,5 @@
 package fr.unice.polytech.offre;
 
-import fr.unice.polytech.utils.Horaire;
-
 import java.util.List;
 
 public class CreneauDirector {

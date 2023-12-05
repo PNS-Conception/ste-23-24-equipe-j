@@ -1,7 +1,7 @@
 package fr.unice.polytech.restaurant.ListMenu;
 
 
-import fr.unice.polytech.globalSystem.GlobalSystem;
+import fr.unice.polytech.globalsystem.GlobalSystem;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.exceptions.AucunMenuException;

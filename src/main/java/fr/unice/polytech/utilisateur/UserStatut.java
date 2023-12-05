@@ -1,7 +1,5 @@
 package fr.unice.polytech.utilisateur;
 
-import fr.unice.polytech.commande.EtatCommande;
-
 public enum UserStatut {
 
     ETUDIANT,

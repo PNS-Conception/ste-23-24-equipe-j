@@ -9,7 +9,7 @@ import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.exceptions.PasswordException;
 import fr.unice.polytech.exceptions.RestaurantNonValideException;
 import fr.unice.polytech.exceptions.TokenException;
-import fr.unice.polytech.globalSystem.GlobalSystem;
+import fr.unice.polytech.globalsystem.GlobalSystem;
 import fr.unice.polytech.nourriture.Plat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.*;

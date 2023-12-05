@@ -5,7 +5,7 @@ import fr.unice.polytech.commande.CommandeAvecID;
 import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.commande.SystemeCommande;
 import fr.unice.polytech.exceptions.*;
-import fr.unice.polytech.globalSystem.GlobalSystem;
+import fr.unice.polytech.globalsystem.GlobalSystem;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
@@ -67,7 +67,7 @@ public class StatistiqueRestaurant {
     public void leRestaurantNAJamaisEffectuéDeCommande(String nomRestaurant) {
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         try {
-            HashMap<Restaurant, Integer> statResto = compteUtilisateur.getStatResto();
+            Map<Restaurant, Integer> statResto = compteUtilisateur.getStatResto();
             if (statResto.containsKey(restaurant)) {
                 assertEquals(0, (int) statResto.get(restaurant));
             } else {
@@ -83,7 +83,7 @@ public class StatistiqueRestaurant {
         if (Objects.equals(compteUtilisateur.getNom(), nom) && Objects.equals(compteUtilisateur.getPrenom(), prenom)) {
             Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
             try {
-                HashMap<Restaurant, Integer> statResto = compteUtilisateur.getStatResto();
+                Map<Restaurant, Integer> statResto = compteUtilisateur.getStatResto();
                 if (statResto.containsKey(restaurant)) {
                     assertEquals(tailleStatistique, (int) statResto.get(restaurant));
                 } else {
@@ -103,9 +103,9 @@ public class StatistiqueRestaurant {
             Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
             SystemeCommande systemeCommande = new SystemeCommande();
             CommandeSimple commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(compteUtilisateur, TypeCommandeSimple.SIMPLE);
-            commande.setInformationLivraison(new Date(true), new Horaire(true), new Position(""));
+            commande.setInformationLivraison(new Date(), new Horaire(), new Position(""));
             List<MenuPlat> listMenus = restaurant.getMenus();
-            if (listMenus.size()!=0) {
+            if (!listMenus.isEmpty()) {
                 try {
                     commande.ajoutMenuPlat(listMenus.get(0), TypeMenuPlat.MENU);
                     assertEquals(1, commande.getMenuPlats().size());

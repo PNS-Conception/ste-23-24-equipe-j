@@ -7,6 +7,7 @@ import fr.unice.polytech.utils.temps.HoraireDate;
 import java.util.HashMap;
 
 public class Reservation {
+    private static final String HORAIRE_NON_EXISTANT = "Horaire null";
 
     /**
      * Class used to represent a reservation : the capacity of the restaurant at a given time
@@ -35,12 +36,8 @@ public class Reservation {
 
     public int getCapacity(HoraireDate horaire) {
         if (horaire == null)
-            throw new IllegalArgumentException("Horaire null");
-        if (capacityPerHour.containsKey(horaire)) {
-            return capacityPerHour.get(horaire);
-        } else {
-            return 0;
-        }
+            throw new IllegalArgumentException(HORAIRE_NON_EXISTANT);
+        return capacityPerHour.getOrDefault(horaire, 0);
     }
 
     public void setCapacityMax(int capacityMax) {
@@ -51,7 +48,7 @@ public class Reservation {
     //METHODS
     public void increaseReservation(HoraireDate horaire, int capacity) throws CapaciteDepasseException {
         if (horaire == null)
-            throw new IllegalArgumentException("Horaire null");
+            throw new IllegalArgumentException(HORAIRE_NON_EXISTANT);
         if (capacity > capacityMax || capacity < 0)
             throw new CapaciteDepasseException();
         if (capacityPerHour.containsKey(horaire)) {
@@ -68,7 +65,7 @@ public class Reservation {
 
     public void reduceReservation(HoraireDate horaire, int capacity) throws CapaciteDepasseException, ImpossibleAugmenterCapaciterException {
         if (horaire == null)
-            throw new IllegalArgumentException("Horaire null");
+            throw new IllegalArgumentException(HORAIRE_NON_EXISTANT);
         if (capacity <= 0 || capacity >= capacityMax)
             throw new CapaciteDepasseException();
         if (capacityPerHour.containsKey(horaire)) {

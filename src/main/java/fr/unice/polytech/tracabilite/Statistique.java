@@ -1,4 +1,4 @@
-package fr.unice.polytech.traçabilite;
+package fr.unice.polytech.tracabilite;
 
 import fr.unice.polytech.commande.CommandeAvecID;
 import fr.unice.polytech.commande.CommandeSimpleAvecID;
@@ -9,6 +9,7 @@ import fr.unice.polytech.utils.adress.Position;
 import fr.unice.polytech.utils.temps.HoraireDate;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Statistique {
 
@@ -17,12 +18,11 @@ public class Statistique {
      */
 
     //ATTRIBUTS
-    private final String UserPassword = "0000";
-    private final String RestaurantPassword = "1111";
-    HashMap<CompteUtilisateur,Integer> nbCommandeUtilisateur;
-    HashMap<Restaurant,Integer> nbCommandeRestaurant;
-    HashMap<HoraireDate,Integer> nbCommandeHoraire;
-    HashMap<Position,Integer> nbCommandePosition;
+    private static final String USER_PASSWORD = "0000";
+    Map<CompteUtilisateur,Integer> nbCommandeUtilisateur;
+    Map<Restaurant,Integer> nbCommandeRestaurant;
+    Map<HoraireDate,Integer> nbCommandeHoraire;
+    Map<Position,Integer> nbCommandePosition;
 
 
     //CONSTRUCTEUR
@@ -35,32 +35,32 @@ public class Statistique {
 
 
     //GETTERS ET SETTERS
-    public HashMap<CompteUtilisateur,Integer> getUserStat(String password) throws PasswordException {
-        if (password.equals(UserPassword)) {
+    public Map<CompteUtilisateur,Integer> getUserStat(String password) throws PasswordException {
+        if (password.equals(USER_PASSWORD)) {
             return nbCommandeUtilisateur;
         }
         throw new PasswordException();
     }
 
-    public HashMap<Restaurant,Integer> getRestaurantStat(String password) throws PasswordException {
-        if (password.equals(UserPassword)) {
+    public Map<Restaurant,Integer> getRestaurantStat(String password) throws PasswordException {
+        if (password.equals(USER_PASSWORD)) {
             return nbCommandeRestaurant;
         }
         throw new PasswordException();
     }
 
-    public HashMap<HoraireDate,Integer> getHoraireStat() {
+    public Map<HoraireDate,Integer> getHoraireStat() {
         return nbCommandeHoraire;
     }
 
-    public HashMap<Position,Integer> getPositionStat() {
+    public Map<Position,Integer> getPositionStat() {
         return nbCommandePosition;
     }
 
 
     //METHODES
     public boolean updateUserStat(CommandeAvecID commande, String password) {
-        if (password.equals(UserPassword)) {
+        if (password.equals(USER_PASSWORD)) {
 
             Restaurant restaurant = ((CommandeSimpleAvecID) commande).getRestaurant().orElse(null);
             CompteUtilisateur compteUtilisateur = commande.getCreateur();

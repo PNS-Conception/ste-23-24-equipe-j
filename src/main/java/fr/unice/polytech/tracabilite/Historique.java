@@ -1,11 +1,9 @@
-package fr.unice.polytech.traçabilite;
+package fr.unice.polytech.tracabilite;
 
 import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.utils.temps.HoraireDate;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 public class Historique {
 
@@ -17,31 +15,31 @@ public class Historique {
     /**
      * HashMap witch contains the history of the commands for a selected restaurant
      */
-    private HashMap<HoraireDate, ArrayList<ICommande>> historique;
+    private Map<HoraireDate, List<ICommande>> historiqueCommmande;
 
 
     //CONSTRUCTEUR
     public Historique() {
-        this.historique = new HashMap<>();
+        this.historiqueCommmande = new HashMap<>();
     }
 
 
     //GETTER AND SETTER
-    public HashMap<HoraireDate,ArrayList<ICommande>> getCommandeUser() {
-        return historique;
+    public Map<HoraireDate, List<ICommande>> getCommandeUser() {
+        return historiqueCommmande;
     }
 
-    public ArrayList<ICommande> getCommandeHoraire(HoraireDate horaireDate) {
-        return historique.get(horaireDate);
+    public List<ICommande> getCommandeHoraire(HoraireDate horaireDate) {
+        return historiqueCommmande.get(horaireDate);
     }
 
-    public ArrayList<ICommande> getArrayListCommande() {
-        Collection<ArrayList<ICommande>> collection = historique.values();
+    public List<ICommande> getArrayListCommande() {
+        Collection<List<ICommande>> collection = historiqueCommmande.values();
 
         ArrayList<ICommande> toutesLesCommandes = new ArrayList<>();
 
         // Parcourir chaque ArrayList dans la Collection et ajouter ses éléments à la nouvelle liste
-        for (ArrayList<ICommande> listeCommandes : collection) {
+        for (List<ICommande> listeCommandes : collection) {
             toutesLesCommandes.addAll(listeCommandes);
         }
         return toutesLesCommandes;
@@ -51,14 +49,14 @@ public class Historique {
     //METHODS
     public void addCommande(ICommande commande) {
         HoraireDate horaireDate = commande.getInformationLivraison().getHoraireDate();
-        if (historique.containsKey(horaireDate)) {
-            ArrayList<ICommande> commandes = historique.get(horaireDate);
+        if (historiqueCommmande.containsKey(horaireDate)) {
+            List<ICommande> commandes = historiqueCommmande.get(horaireDate);
             commandes.add(commande);
-            historique.put(commande.getInformationLivraison().getHoraireDate(), commandes);
+            historiqueCommmande.put(commande.getInformationLivraison().getHoraireDate(), commandes);
         } else {
             ArrayList<ICommande> commandes = new ArrayList<>();
             commandes.add(commande);
-            historique.put(horaireDate, commandes);
+            historiqueCommmande.put(horaireDate, commandes);
         }
     }
 }

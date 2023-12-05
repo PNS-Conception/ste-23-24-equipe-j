@@ -3,7 +3,7 @@ package fr.unice.polytech.commandegroupe;
 import fr.unice.polytech.builder.TypeCommandeSimple;
 import fr.unice.polytech.commande.CommandeGroupe;
 import fr.unice.polytech.commande.SystemeCommande;
-import fr.unice.polytech.globalSystem.GlobalSystem;
+import fr.unice.polytech.globalsystem.GlobalSystem;
 import fr.unice.polytech.utils.adress.Position;
 import fr.unice.polytech.utils.temps.Date;
 import fr.unice.polytech.utils.temps.Horaire;
