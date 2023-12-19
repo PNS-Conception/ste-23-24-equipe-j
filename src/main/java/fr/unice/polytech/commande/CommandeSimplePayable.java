@@ -55,8 +55,9 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
 
     @Override
     public void checkDiscount() {
+        int specialRate = restaurant.getSpecialRate().getSpecialRate(createur.getStatusUtilisateur());
         int goodClientReduction = super.restaurant.getGoodClientReduction().getReductionRate(super.createur, this.getInformationLivraison().getHoraireDate());
-        int rate = goodClientReduction;
+        int rate = specialRate + goodClientReduction;
         paiementCommande.setDiscount(rate);
     }
 
