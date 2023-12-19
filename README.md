@@ -1,10 +1,10 @@
 # SopiaTech Eats-Team-23-24-J
 
 ## TEAM
-Software Architect (SA) : Adote Adjo Emmanuelle
-Quality Assurance Engineer (QA) : Chloé Vandenbrulle
-Continuous Integration and Repository Manager (OPS) : Nicolas Zanin
-Business Analyst and Product Owner (PO) : Arrigoni Guillaume
+Software Architect (SA) : Adote Adjo Emmanuelle  
+Quality Assurance Engineer (QA) : Chloé Vandenbrulle  
+Continuous Integration and Repository Manager (OPS) : Nicolas Zanin  
+Business Analyst and Product Owner (PO) : Arrigoni Guillaume  
 
 ## doc
 Contient vos rapports et les documents qui présentent votre projet.
