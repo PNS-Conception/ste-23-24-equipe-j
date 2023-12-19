@@ -31,32 +31,43 @@ Nous les laissons cependant pour votre permettre de vérifier que vous n'avez pa
 Les User Case :
 - "Parcourir les divers menus et restaurants" :  
 User story #8 : "Obtenir la liste des menus"   
-    En tant que utilisateur du campus, Je veux obtenir la liste de menu disponible dans un restaurant, afin de choisir mon menu dans un restaurant précis.
+**En tant que** utilisateur du campus, **je veux** obtenir la liste de menu disponible dans un restaurant, **afin de** choisir mon menu dans un restaurant précis.
 
 - "Accéder à l'historique de ses anciennes commandes" :  
 User story #9 : "Accéder à un historique quand on est un utilisateur enregistré"  
-En tant que utilisateur enregistré, Je veux accéder à mon historique afin de voir mes commandes précédentes.
+**En tant que** utilisateur enregistré, **je veux** accéder à mon historique **afin de** voir mes commandes précédentes.
 
 - "Organiser sa commande" :  
 User Story #12 "Seul les utilisateurs enregistrés peuvent effectuer une commande"  
-En tant que utilisateur enregistré, Je veux créer une commande afin de me faire livrer.
+**En tant que** utilisateur enregistré, **je veux** créer une commande **afin de** me faire livrer.
 
 - "Choisir son menu" :  
 User Story #10 : "Ajouter un plat à ma commande"  
-En tant que utilisateur du campus, Je veux ajouter un plat à ma commande afin de le commander.
+**En tant que** utilisateur du campus, **je veux** ajouter un plat à ma commande **afin de** le commander.
 
 - "Donner le lieu de livraison" / "Donner la date de livraison" :  
 User Story "#16" : "Sélectionner un lieu de livraison pré-enregistré et une date de livraison possible"  
-En tant que utilisateur enregistré, Je veux sélectionner un lieu de livraison ainsi qu'une date afin d' être livré au bon endroit et au bon moment.
+**En tant que** utilisateur enregistré, **je veux** sélectionner un lieu de livraison ainsi qu'une date **afin d'** être livré au bon endroit et au bon moment.
 
 - "Ajout/Suppression Restaurants" :  
 User Story #13 : "Ajouter un restaurant"  
-En tant que Administrateur du campus, Je veux ajouter un restaurant afin de permettre aux utilisateurs de SophiaTech Eats d'avoir plus de choix de repas pour leurs commandes.
+**En tant que** Administrateur du campus, **je veux** ajouter un restaurant **afin de** permettre aux utilisateurs de SophiaTech Eats d'avoir plus de choix de repas pour leurs commandes.
 
 - "Consulter la commande" / "Accepter la commande" :  
 User Story #14 : "Consulter les commandes en préparation et les valider"  
-En tant que restaurateur, Je veux valider une commande afin que un livreur puisse la prendre.
+**En tant que** restaurateur, **je veux** valider une commande **afin que** un livreur puisse la prendre.
 
+- "Modifier horaires du restaurant" :  
+User Story #20 : "Mettre à jour les horaires du restaurant"  
+**En tant que** restaurateur, **je veux** pouvoir mettre à jour les horaires de mon restaurant **afin de** permettre aux utilisateurs de commander pendant toutes les plages horaires possibles.
+
+- "Créer un groupe" :  
+User Story #31 : "Ajout d'une commande groupé simple"  
+**En tant que** utilisateur, **je veux** créer une commande groupé **afin de** pouvoir la partager avec d'autres utilisateurs.
+
+- "Payer sa commande" :  
+User Story #40 : "Finaliser une commande"  
+**En tant qu'** utilisateur enregistré, **je veux** confirmer et payer ma commande **afin de** la valider.
 
 
 ### Principales User stories
