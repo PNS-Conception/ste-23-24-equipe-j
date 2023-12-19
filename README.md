@@ -112,6 +112,10 @@ Fichier Cucumber: notification/NotificationUtilisateur.java*
    - User Story #56 : "NotificationLivreur"  
 **En tant que** livreur, **je veux** obtenir les commandes prête **afin de** pouvoir livrer la commande.  
 *Fichier Feature: notification/NotificationLivreur.feature  
-Fichier Cucumber: notification/NotificationLivreur.java*  
+Fichier Cucumber: notification/NotificationLivreur.java*
 
-   
+
+## Comment lancer le projet et l'installer
+
+## Structuration du projet
+
