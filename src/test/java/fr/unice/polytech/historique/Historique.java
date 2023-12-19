@@ -4,7 +4,7 @@ import fr.unice.polytech.builder.TypeCommandeSimple;
 import fr.unice.polytech.commande.*;
 import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.exceptions.*;
-import fr.unice.polytech.globalSystem.GlobalSystem;
+import fr.unice.polytech.globalsystem.GlobalSystem;
 import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
@@ -18,7 +18,6 @@ import io.cucumber.java.fr.Etantdonnéque;
 import io.cucumber.java.fr.Etque;
 import io.cucumber.java.fr.Quand;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -28,7 +27,7 @@ import static org.junit.Assert.*;
 public class Historique {
 
     private CompteUtilisateur compteUtilisateur;
-    private ArrayList<ICommande> historiqueCommandes;
+    private List<ICommande> historiqueCommandes;
     private final RestaurantManager restaurantManager = new RestaurantManager();
     GlobalSystem globalSystem = new GlobalSystem();
 
@@ -75,9 +74,9 @@ public class Historique {
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         SystemeCommande systemeCommande = new SystemeCommande();
         CommandeSimple commande = (CommandeSimple) systemeCommande.creerCommandeSimpleMultipleGroupe(compteUtilisateur, TypeCommandeSimple.SIMPLE);
-        commande.setInformationLivraison(new Date(true), new Horaire(true), new Position(""));
+        commande.setInformationLivraison(new Date(), new Horaire(), new Position(""));
         List<MenuPlat> listMenus = restaurant.getMenus();
-        if (listMenus.size()!=0) {
+        if (!listMenus.isEmpty()) {
             try {
                 commande.ajoutMenuPlat(listMenus.get(0), TypeMenuPlat.MENU);
                 assertEquals(1, commande.getMenuPlats().size());

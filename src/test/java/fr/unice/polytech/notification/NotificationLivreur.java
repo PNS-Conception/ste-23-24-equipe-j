@@ -4,9 +4,8 @@ import fr.unice.polytech.builder.TypeCommandeSimple;
 import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.commande.EtatCommande;
 import fr.unice.polytech.commande.SystemeCommande;
-import fr.unice.polytech.globalSystem.GlobalSystem;
+import fr.unice.polytech.globalsystem.GlobalSystem;
 import fr.unice.polytech.livraison.*;
-import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.adress.Position;
 import io.cucumber.java.fr.*;
 

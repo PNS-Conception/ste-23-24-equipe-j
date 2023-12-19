@@ -30,13 +30,13 @@ public class SystemeCommande {
     /**
      * Créer une commande simple
      * @param createurCommande le createur de la commande
-     * @param typeCommande le type de la commande
+     * @param typeCommandeSimple le type de la commande
      * @return la commande créée
      */
     public CommandeAvecID creerCommandeSimpleMultipleGroupe(CompteUtilisateur createurCommande,
-                                                            TypeCommandeSimple typeCommande) {
+                                                            TypeCommandeSimple typeCommandeSimple) {
         BuilderCommandeSimpleMultipleGroupe builder = new BuilderCommandeSimpleMultipleGroupe(idCommande++, createurCommande);
-        CommandeAvecID commande = builder.buildTypeCommandeSimple(typeCommande).build();
+        CommandeAvecID commande = builder.buildTypeCommandeSimple(typeCommandeSimple).build();
         commandes.put((int) commande.getIdCommande(), commande);
         return commande;
     }
@@ -58,7 +58,42 @@ public class SystemeCommande {
             return null;
         BuilderCommandeSimpleMultiplePourGroupe builder = new BuilderCommandeSimpleMultiplePourGroupe(idCommande++,
                 utilisateur, (ACommandeGroupe) commande);
-        return builder.setTypeCommandeSimple(typeCommandeAjoutable).build();
+
+        ICommandeAjoutable commande2 = builder.setTypeCommandeSimple(typeCommandeAjoutable).build();
+        CommandeAvecID commande3 = (CommandeAvecID) commande2;
+        commandes.put((int) commande3.getIdCommande(), commande3);
+
+        return commande2;
+    }
+
+    /**
+     * Crée une commande Afterwork
+     * @param utilisateur l'utilisateur de la commande
+     * @param nombrePersonne le nombre de personne pour la commande Afterwork
+     * @return la commande crée
+     */
+    public CommandeAfterworks creerCommandeAfterwork(CompteUtilisateur utilisateur, int nombrePersonne) {
+        BuilderCommandeSimpleMultipleGroupe builder = new BuilderCommandeSimpleMultipleGroupe(idCommande++, utilisateur);
+
+        CommandeAfterworks commande = (CommandeAfterworks) builder.buildTypeCommandeSimple(TypeCommandeSimple.AFTERWORKS)
+                .buildNombrePersonneCommandeAfterworks(nombrePersonne).build();
+
+        commandes.put((int) commande.getIdCommande(), commande);
+        return commande;
+    }
+    /**
+     * Créer une commande buffet
+     * @param createur le créateur de la commande
+     * @param destinataire le destinataire de la commande
+     * @return la commande buffet
+     */
+    public CommandeBuffet creerCommandeBuffet(CompteUtilisateur createur, CompteUtilisateur destinataire) {
+        BuilderCommandeSimpleMultipleGroupe builder = new BuilderCommandeSimpleMultipleGroupe(idCommande++, createur);
+        CommandeBuffet commandeBuffet = (CommandeBuffet) builder.buildTypeCommandeSimple(TypeCommandeSimple.BUFFET)
+                .buildDestinataire(destinataire).build();
+
+        commandes.put((int) commandeBuffet.getIdCommande(), commandeBuffet);
+        return commandeBuffet;
     }
 
     /**

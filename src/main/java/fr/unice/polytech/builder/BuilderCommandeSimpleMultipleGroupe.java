@@ -1,16 +1,21 @@
 package fr.unice.polytech.builder;
 
+import fr.unice.polytech.commande.CommandeAfterworks;
 import fr.unice.polytech.commande.CommandeAvecID;
+import fr.unice.polytech.commande.CommandeBuffet;
 import fr.unice.polytech.commande.CommandeGroupe;
+import fr.unice.polytech.commande.CommandeMultiple;
 import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 
 /**
- * Classe Builder d'une commande simple, multiple ou groupe
+ * Classe Builder d'une commande
  * @author Equipe J
  */
 public class BuilderCommandeSimpleMultipleGroupe extends BuilderCommande{
     private TypeCommandeSimple typeCommandeSimple;
+    private Integer nombrePersonne = null;
+    private CompteUtilisateur destinataire;
 
     // Constructeur
     /**
@@ -25,10 +30,26 @@ public class BuilderCommandeSimpleMultipleGroupe extends BuilderCommande{
 
     /**
      * Méthode pour choisir le type de commande
-     * @param typeCommande le type de commande
+     * @param typeCommandeSimple le type de commande
+     * @return le builder <code>this</code>
      */
-    public BuilderCommandeSimpleMultipleGroupe buildTypeCommandeSimple(TypeCommandeSimple typeCommande) {
-        this.typeCommandeSimple = typeCommande;
+    public BuilderCommandeSimpleMultipleGroupe buildTypeCommandeSimple(TypeCommandeSimple typeCommandeSimple) {
+        this.typeCommandeSimple = typeCommandeSimple;
+        return this;
+    }
+
+    /**
+     * Ajoute un destinataire à la commande
+     * @param destinataire le destinataire à ajouter à la commande
+     * @return le builder <code>this</code>
+     */
+    public BuilderCommandeSimpleMultipleGroupe buildDestinataire(CompteUtilisateur destinataire) {
+        this.destinataire = destinataire;
+        return this;
+    }
+
+    public BuilderCommandeSimpleMultipleGroupe buildNombrePersonneCommandeAfterworks(int nombrePersonne) {
+        this.nombrePersonne = nombrePersonne;
         return this;
     }
 
@@ -40,6 +61,9 @@ public class BuilderCommandeSimpleMultipleGroupe extends BuilderCommande{
         return switch (typeCommandeSimple) {
             case SIMPLE -> new CommandeSimple(id, createur);
             case GROUPEE -> new CommandeGroupe(id, createur);
+            case MULTIPLE -> new CommandeMultiple(id, createur);
+            case AFTERWORKS -> new CommandeAfterworks(id, createur, nombrePersonne);
+            case BUFFET -> new CommandeBuffet(id, createur, destinataire);
         };
     }
 }

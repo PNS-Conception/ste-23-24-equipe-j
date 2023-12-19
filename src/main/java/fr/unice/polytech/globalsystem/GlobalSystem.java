@@ -1,8 +1,8 @@
-package fr.unice.polytech.globalSystem;
+package fr.unice.polytech.globalsystem;
 
-import fr.unice.polytech.traçabilite.Statistique;
+import fr.unice.polytech.tracabilite.Statistique;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utilisateur.UserStatut;
+import fr.unice.polytech.utilisateur.StatusUtilisateur;
 import fr.unice.polytech.utils.adress.SavedPosition;
 
 public class GlobalSystem {
@@ -35,11 +35,11 @@ public class GlobalSystem {
         return new CompteUtilisateur(nom, prenom, statistique, savedPosition, password);
     }
 
-    public CompteUtilisateur createAccount(String nom, String prenom, UserStatut userStatut) {
-        return new CompteUtilisateur(nom,prenom,statistique,savedPosition,userStatut);
+    public CompteUtilisateur createAccount(String nom, String prenom, StatusUtilisateur statusUtilisateur) {
+        return new CompteUtilisateur(nom,prenom,statistique,savedPosition,statusUtilisateur);
     }
 
-    public CompteUtilisateur createAccount(String nom, String prenom, UserStatut userStatut, String password) {
-        return new CompteUtilisateur(nom,prenom,password, statistique,userStatut, savedPosition);
+    public CompteUtilisateur createAccount(String nom, String prenom, StatusUtilisateur statusUtilisateur, String password) {
+        return new CompteUtilisateur(nom,prenom,password, statistique,statusUtilisateur, savedPosition);
     }
 }

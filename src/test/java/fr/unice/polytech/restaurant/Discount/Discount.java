@@ -1,20 +1,15 @@
 package fr.unice.polytech.restaurant.Discount;
 
 import fr.unice.polytech.builder.TypeCommandeSimple;
-import fr.unice.polytech.commande.CommandeAvecID;
 import fr.unice.polytech.commande.CommandeSimple;
 import fr.unice.polytech.commande.SystemeCommande;
 import fr.unice.polytech.exceptions.*;
-import fr.unice.polytech.globalSystem.GlobalSystem;
-import fr.unice.polytech.livraison.CompteLivreur;
-import fr.unice.polytech.livraison.EtatLivraisonCommande;
-import fr.unice.polytech.livraison.InformationLivraison;
-import fr.unice.polytech.livraison.SystemeLivraison;
+import fr.unice.polytech.globalsystem.GlobalSystem;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utilisateur.UserStatut;
+import fr.unice.polytech.utilisateur.StatusUtilisateur;
 import fr.unice.polytech.utils.temps.Date;
 import fr.unice.polytech.utils.temps.Horaire;
 import fr.unice.polytech.utils.adress.Position;
@@ -22,7 +17,6 @@ import fr.unice.polytech.nourriture.Menu;
 import fr.unice.polytech.utils.temps.HoraireDate;
 import io.cucumber.java.fr.*;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -47,12 +41,12 @@ public class Discount {
 
     @Etque("l'utilisateur {string} {string} est un {string} \\(passDiscount)")
     public void lUtilisateurEstUnPassDiscount(String prenom, String nom, String statut) {
-        UserStatut userStatut = UserStatut.getEtatUtilisateur(statut);
+        StatusUtilisateur userStatut = StatusUtilisateur.getStatusUtilisateur(statut);
         for (int i = 0; i< utilisateurs.size(); i++) {
             CompteUtilisateur compteUtilisateur = utilisateurs.get(i);
             if (compteUtilisateur.getNom().equals(nom) && compteUtilisateur.getPrenom().equals(prenom)) {
-                compteUtilisateur.setStatut(userStatut);
-                assertEquals(userStatut, utilisateurs.get(i).getStatut());
+                compteUtilisateur.setStatusUtilisateur(userStatut);
+                assertEquals(userStatut, utilisateurs.get(i).getStatusUtilisateur());
                 return;
             }
         }
@@ -85,11 +79,11 @@ public class Discount {
     public void leRestaurantProposeLesRéductionsSuivantPassDiscount(String nomRestaurant, Map<String, Integer> discounts) {
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         for (String statut : discounts.keySet()) {
-            UserStatut userStatut = UserStatut.getEtatUtilisateur(statut);
+            StatusUtilisateur userStatut = StatusUtilisateur.getStatusUtilisateur(statut);
             restaurant.getSpecialRate().addSpecialRate(userStatut, discounts.get(statut));
         }
         for (String statut : discounts.keySet()) {
-            UserStatut userStatut = UserStatut.getEtatUtilisateur(statut);
+            StatusUtilisateur userStatut = StatusUtilisateur.getStatusUtilisateur(statut);
             assertEquals((int) discounts.get(statut), (int) restaurant.getSpecialRate().getSpecialRate(userStatut));
         }
     }
@@ -137,8 +131,8 @@ public class Discount {
 
     @Alors("le prix total de la commande doit être de {double} \\(passDiscount)")
     public void lePrixTotalDeLaCommandeDoitÊtreDePassDiscount(double priceExpected) {
-        int specialRate = this.currentRestaurant.getSpecialRate().getSpecialRate(this.c.getStatut());
-        int goodClientReduction = this.currentRestaurant.getGoodClientReduction().getReductionRate(this.c, new HoraireDate(true));
+        int specialRate = this.currentRestaurant.getSpecialRate().getSpecialRate(this.c.getStatusUtilisateur());
+        int goodClientReduction = this.currentRestaurant.getGoodClientReduction().getReductionRate(this.c, new HoraireDate());
         int rate = specialRate + goodClientReduction;
 
         assertEquals(Math.round(priceExpected*100), Math.round(currentCommande.getPrix()*100));
@@ -166,7 +160,7 @@ public class Discount {
 
     @Etque("l'utilisateur {string} {string} choisit les menus : \\(passDiscount)")
     public void lUtilisateurChoisitLesMenusPassDiscount(String prenom, String nom, List<String> menus) throws STEException {
-        currentCommande.setInformationLivraison(new Date(true), new Horaire(true), new Position(""));
+        currentCommande.setInformationLivraison(new Date(), new Horaire(), new Position(""));
         for (String menu : menus) {
             List<MenuPlat> listMenus = this.currentRestaurant.getMenus();
             if (listMenus.size()!=0) {
@@ -218,7 +212,7 @@ public class Discount {
     }
 
     private void passXCommande(Restaurant restaurant, CompteUtilisateur compteUtilisateur) throws STEException {
-        this.passXCommande(restaurant, compteUtilisateur, new Date(true), new Horaire(true));
+        this.passXCommande(restaurant, compteUtilisateur, new Date(), new Horaire());
     }
 
     private void passXCommande(Restaurant restaurant, CompteUtilisateur compteUtilisateur, Date date, Horaire horaire) throws STEException {

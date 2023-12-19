@@ -1,6 +1,6 @@
 package fr.unice.polytech.commande;
 
-import fr.unice.polytech.globalSystem.GlobalSystem;
+import fr.unice.polytech.globalsystem.GlobalSystem;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.Plat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;

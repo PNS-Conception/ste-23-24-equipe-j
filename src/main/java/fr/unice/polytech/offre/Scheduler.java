@@ -7,7 +7,6 @@ import fr.unice.polytech.utils.OffreUtils;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Scheduler implements IScheduler{
     public Map<Restaurant, CommandesDate> getCommandesPlannifiees() {
@@ -50,13 +49,12 @@ public void ajouterRestaurant(Restaurant restaurant){
 
        Restaurant restaurant1= getRestaurant(restaurant);
        if(restaurant1!=null) return restaurant1.getCreneaus();
-       return null;
+       return new ArrayList<>();
     }
 
     @Override
     public Map<Restaurant, List<ICreneau>> getCreneauxDisponbles(LocalDate date) {
-        return null;
-
+        return new HashMap<>();
     }
 
     @Override
@@ -64,7 +62,7 @@ public void ajouterRestaurant(Restaurant restaurant){
     ) {
         Restaurant restaurant1=getRestaurant(restaurant);
         if(restaurant1!=null)
-          return   restaurant1.getCreneaus().stream().filter(c->c.estDisponible(date)).collect(Collectors.toList());
+          return   restaurant1.getCreneaus().stream().filter(c->c.estDisponible(date)).toList();
         return new ArrayList<>();
 
     }
@@ -87,8 +85,11 @@ public void ajouterRestaurant(Restaurant restaurant){
     }
 
     public ICreneau getCreneau(Restaurant restaurant, String date, Horaire debut, Horaire fin) {
-       if(restaurantContientCreneau(restaurant, date, debut, fin))
-           return getRestaurant(restaurant).getCreneaus().stream().filter(c->c.estDisponible(OffreUtils.convertStringToDate(date),debut,fin)).findFirst().get();
+       if(restaurantContientCreneau(restaurant, date, debut, fin)) {
+           Restaurant restaurant1 = getRestaurant(restaurant);
+           if (restaurant1 != null)
+               return restaurant1.getCreneaus().stream().filter(c -> c.estDisponible(OffreUtils.convertStringToDate(date), debut, fin)).findFirst().orElse(null);
+       }
        return null;
     }
 }

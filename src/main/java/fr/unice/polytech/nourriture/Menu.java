@@ -1,7 +1,10 @@
 package fr.unice.polytech.nourriture;
 
 import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.utilisateur.StatusUtilisateur;
 
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -10,21 +13,51 @@ import java.util.Objects;
  */
 public class Menu implements MenuPlat{
     private final String nomMenu;
-    private final double prix;
+    private double prix;
+    private final Map<StatusUtilisateur, Double> prixStatus;
     private Restaurant restaurant;
+    private final TypeMenu typeMenu;
 
     // Constructeur
 
     /**
-     * Constructeur par défaut
-     * @param nomMenu le nom du Menu
+     * Constructeur pour les menus standard
+     * @param nomMenu le nom du menu
+     * @param prix le prix du menu
      */
     public Menu(String nomMenu, double prix) {
+        this(nomMenu, prix, TypeMenu.NORMAL);
+    }
+
+    /**
+     * Constructeur par défaut incluant le type de menu
+     * @param nomMenu le nom du menu
+     * @param prix le prix de la commande
+     * @param typeDuMenu le type du menu de la commande
+     * @throws IllegalArgumentException le nom de menu n'existe pas où est null
+     * @throws IllegalArgumentException le type de menu est <code>null</code>
+     */
+    public Menu(String nomMenu, double prix, TypeMenu typeDuMenu) {
+        if (nomMenu == null || nomMenu.isEmpty())
+            throw new IllegalArgumentException("Nom vide");
+        else if (typeDuMenu == null)
+            throw new IllegalArgumentException("Le type du menu est null");
+
+        this.nomMenu = nomMenu;
+        this.prix = prix;
+        restaurant = null;
+        prixStatus = new EnumMap<>(StatusUtilisateur.class);
+        this.typeMenu = typeDuMenu;
+    }
+
+    public Menu(String nomMenu, double prix, Map<StatusUtilisateur, Double> prixStatus, TypeMenu typeMenu){
         if (nomMenu == null || nomMenu.isEmpty())
             throw new IllegalArgumentException("Nom vide");
         this.nomMenu = nomMenu;
         this.prix = prix;
+        this.prixStatus = prixStatus;
         restaurant = null;
+        this.typeMenu = typeMenu;
     }
 
     // Accesseurs et setters
@@ -43,9 +76,31 @@ public class Menu implements MenuPlat{
      * @return le prix du menu
      */
     @Override
-    public double getPrix() {
+    public double getPrix(StatusUtilisateur statusUtilisateur) {
+        if (prixStatus.containsKey(statusUtilisateur)){
+            return prixStatus.get(statusUtilisateur);
+        }
         return prix;
     }
+
+    /**
+     * Retourne le type du menu
+     * @return le type du menu
+     */
+    public TypeMenu getTypeMenu() {
+        return typeMenu;
+    }
+
+    @Override
+    public void setPrix(double newPrix){
+        this.prix = newPrix;
+    }
+
+    @Override
+    public void setPrixStatus(StatusUtilisateur statusUtilisateur, double newPrixStatus){
+        prixStatus.put(statusUtilisateur, newPrixStatus);
+    }
+
 
     @Override
     public void setRestaurant(Restaurant restaurant) {
@@ -66,11 +121,11 @@ public class Menu implements MenuPlat{
         else if (o == null || o.getClass() != Menu.class)
             return false;
         Menu menu = (Menu) o;
-        return menu.nomMenu.equals(nomMenu);
+        return menu.nomMenu.equals(nomMenu) && typeMenu.equals(menu.typeMenu);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nomMenu);
+        return Objects.hash(nomMenu, typeMenu);
     }
 }

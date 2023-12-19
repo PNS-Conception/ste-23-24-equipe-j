@@ -9,7 +9,6 @@ import fr.unice.polytech.exceptions.TokenException;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.paiement.PaiementCommande;
 import fr.unice.polytech.utils.Token;
-import fr.unice.polytech.utils.temps.HoraireDate;
 
 /**
  * Classe abstraite d'une commande seule payable avec un ID
@@ -40,7 +39,7 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
     public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException, CapaciteDepasseException {
         super.ajoutMenuPlat(menuPlat, typeMenuPlat);
         this.checkDiscount();
-        paiementCommande.ajoutPrix(menuPlat.getPrix());
+        paiementCommande.ajoutPrix(menuPlat.getPrix(createur.getStatusUtilisateur()));
         this.restaurant.increaseReservation(this.getInformationLivraison().getHoraireDate(), 1);
     }
 
@@ -49,14 +48,14 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
         boolean estSupprimer = super.supprimerMenuPlat(menuPlat);
 
         if (estSupprimer)
-            paiementCommande.retraitPrix(menuPlat.getPrix());
+            paiementCommande.retraitPrix(menuPlat.getPrix(createur.getStatusUtilisateur()));
 
         return estSupprimer;
     }
 
     @Override
     public void checkDiscount() {
-        int specialRate = super.restaurant.getSpecialRate().getSpecialRate(super.createur.getStatut());
+        int specialRate = restaurant.getSpecialRate().getSpecialRate(createur.getStatusUtilisateur());
         int goodClientReduction = super.restaurant.getGoodClientReduction().getReductionRate(super.createur, this.getInformationLivraison().getHoraireDate());
         int rate = specialRate + goodClientReduction;
         paiementCommande.setDiscount(rate);

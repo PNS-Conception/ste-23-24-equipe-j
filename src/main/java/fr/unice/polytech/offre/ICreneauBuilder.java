@@ -1,7 +1,5 @@
 package fr.unice.polytech.offre;
 
-import java.util.List;
-
 public interface  ICreneauBuilder {
     public  void reset();
 

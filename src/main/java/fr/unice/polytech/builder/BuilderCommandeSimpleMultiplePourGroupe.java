@@ -1,6 +1,7 @@
 package fr.unice.polytech.builder;
 
 import fr.unice.polytech.commande.ACommandeGroupe;
+import fr.unice.polytech.commande.CommandeMultipleAjoutable;
 import fr.unice.polytech.commande.CommandeSimpleAjoutable;
 import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutable;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
@@ -41,6 +42,7 @@ public class BuilderCommandeSimpleMultiplePourGroupe extends BuilderCommande {
     public ICommandeAjoutable build() {
         return switch (typeCommande) {
             case SIMPLE -> new CommandeSimpleAjoutable(id, createur, commandeGroupe);
+            case MULTIPLE -> new CommandeMultipleAjoutable(id, createur, commandeGroupe);
         };
     }
 }
