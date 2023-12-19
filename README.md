@@ -96,11 +96,23 @@ Fichier Cucumber: commande/AjouterUneCommande.java*
 *Fichier Feature: restaurant/Discount/Discount.feature  
 Fichier Cucumber: restaurant/Discount/Discount.java*  
 
-- "Noter un utilisateur" :  
-   - User Story #45 : "Evaluation d'un utilisateur"  
-**En tant qu'** utilisateur (n'importe lequel), **je veux** pouvoir attribué une note à un autre utilisateur **afin de** l'évaluer.  
-*Fichier Feature: restaurant/Discount/Discount.feature  
-Fichier Cucumber: restaurant/Discount/Discount.java*  
+- "Noter un restaturant" :  
+   - User Story #167 : "Evaluation Restaurant"  
+**En tant qu'** utilisateur, **je veux** évaluer le ou les restaurants m'ayant servi **afin de** permettre aux autres utilisateurs d'être renseigné sur la qualité des plats.  
+*Fichier Feature: recommendation/notationRestaurant.feature  
+Fichier Cucumber: recommendation/NotationRestaurant.java*  
+
+- "Noter un livreur" :
+     - User Story #168 : "Evaluation Livreur"
+**En tant qu'** utilisateur, **je veux** évaluer le livreur m'ayant servi **afin de** permettre aux autres utilisateurs d'être renseigné sur la qualité de la livraison.  
+*Fichier Feature: recommendation/notationLivreur.feature  
+Fichier Cucumber: recommendation/NotationLivreur.java*  
+
+- "Noter un utilisateur du campus" :
+     - User Story #169 : "Evaluation Utilisateur"
+**En tant que** livreur, **je veux** évaluer le ou les utilisateurs que j’ai servi **afin de** permettre aux autres utilisateurs d'être renseigné sur le type d'utilisateur auxquels ils doivent faire face.  
+*Fichier Feature: recommendation/notationUtilisateur.feature   
+Fichier Cucumber: recommendation/NotationUtilisateur.java*   
 
 - "Envoi une notification à l'utilisateur" :  
    - User Story #46 : "Notifier l'utilisateur du changement de status de commande"  
