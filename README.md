@@ -20,11 +20,31 @@ Fichier Cucumber: restaurant/ListMenu/ObtenirMenuStepdefs.java*
 *Fichier Feature: historique/Historique.feature  
 Fichier Cucumber: historique/Historique.java*  
 
-- "Organiser sa commande" :  
-   - User Story #12 "Seul les utilisateurs enregistrés peuvent effectuer une commande"  
-**En tant que** utilisateur enregistré, **je veux** créer une commande **afin de** me faire livrer.  
+- "Créer une commande" :  
+   - User Story #23 "Ajout d'une commande"  
+**En tant qu'** utilisateur enregistré, **je veux** pouvoir créer et ajouter une commande simple **afin d'** être livré.  
 *Fichier Feature: commande/Ajouter_une_commande.feature  
 Fichier Cucumber: commande/AjouterUneCommande.java*  
+   - User Story #150 : "Création et ajout Menu Commande Multiple"  
+**En tant que** utilisateur, **je veux** créer une commande Multiple **afin de** prendre une commande dans plusieurs restaurant.  
+*Fichier Feature: commande/commandemultiple/ajout_commande_multiple_dans_une_commande.feature    
+Fichier Cucumber: commande/commandemultiple/AjoutCommandeMultipleDansCommande.java*
+   - User Story #88 : "Crée une commande groupe"  
+**En tant que** utilisateur, **je veux** créer une commande groupe **afin de** faire des commandes avec d'autres personnes.  
+*Fichier Feature: commandegroupe/Creer_commande_groupe.feature  
+Fichier Cucumber: commandegroupe/CreerCommandeGroupe.java  
+   - User Story #89 : "Rejoindre une commande groupe"  
+**En tant que** utilisateur, **je veux** rejoindre une commande groupe **afin d'** ajouter une commande à l'intérieur.  
+*Fichier Feature: commandegroupe/Rejoindre_commande_groupe.feature  
+Fichier Cucumber: commandegroupe/RejoindreCommandeGroupe.java*  
+   - User Story #144 : "Création commande Buffet"  
+**En tant que** utilisateur, **je veux** créer une commande buffet **afin de** faire des commandes plus diversifiés.  
+*Fichier Feature: commande/commandeBuffet/creation_d_une_commande_buffet.feature  
+Fichier Cucumber: commande/commandeBuffet/CreationCommandeBuffet.java*
+   - User Story #126 : "Création de commande Afterwork"  
+**En tant que** usager commandeur, **je veux** faire une commande afterwork **afin d'** avoir un choix plus variées.  
+*Fichier Feature: commande/Creation_de_la_commande_afterworks.feature  
+Fichier Cucumber: commande/CreationCommandeAfterworks.java*
 
 - "Choisir son menu" :  
    - User Story #10 : "Ajouter un plat à ma commande"  
@@ -59,17 +79,6 @@ Fichier Cucumber: commande/ConsulterEtValiderUneCommande.java*
 **En tant que** restaurateur, **je veux** pouvoir mettre à jour les horaires de mon restaurant **afin de** permettre aux utilisateurs de commander pendant toutes les plages horaires possibles.  
 *Fichier Feature: restaurant/Ajouter_Un_Horaire.feature  
 Fichier Cucumber: restaurant/AjouterUnHoraire.java*  
-
-- "Créer un groupe" :  
-   - User Story #88 : "Crée une commande groupe"  
-**En tant que** utilisateur, **je veux** créer une commande groupe **afin de** faire des commandes avec d'autres personnes.  
-*Fichier Feature: commandegroupe/Creer_commande_groupe.feature  
-Fichier Cucumber: commandegroupe/CreerCommandeGroupe.java  
-Nom Scénarios: Création commande groupe, Suppression commande groupe*  
-   - User Story #89 : "Rejoindre une commande groupe"  
-**En tant que** utilisateur, **je veux** rejoindre une commande groupe **afin d'** ajouter une commande à l'intérieur.  
-*Fichier Feature: commandegroupe/Rejoindre_commande_groupe.feature  
-Fichier Cucumber: commandegroupe/RejoindreCommandeGroupe.java*  
 
 - "Payer sa commande" :  
    - User Story #40 : "Finaliser une commande"  
