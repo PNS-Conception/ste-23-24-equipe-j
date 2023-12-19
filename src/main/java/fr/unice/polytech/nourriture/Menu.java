@@ -3,8 +3,7 @@ package fr.unice.polytech.nourriture;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.StatusUtilisateur;
 
-import java.io.ObjectInputFilter;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -15,7 +14,7 @@ import java.util.Objects;
 public class Menu implements MenuPlat{
     private final String nomMenu;
     private double prix;
-    private Map<StatusUtilisateur, Double> prixStatus;
+    private final Map<StatusUtilisateur, Double> prixStatus;
     private Restaurant restaurant;
     private final TypeMenu typeMenu;
 
@@ -47,7 +46,7 @@ public class Menu implements MenuPlat{
         this.nomMenu = nomMenu;
         this.prix = prix;
         restaurant = null;
-        prixStatus = new HashMap<>();
+        prixStatus = new EnumMap<>(StatusUtilisateur.class);
         this.typeMenu = typeDuMenu;
     }
 
