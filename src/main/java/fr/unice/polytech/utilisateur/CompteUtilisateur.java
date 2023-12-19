@@ -59,7 +59,6 @@ public class CompteUtilisateur implements EventListener {
         this.notesAmabilite = new ArrayList<>();
     }
 
-    //TODO : to delete, keep for test
     public CompteUtilisateur(String nom, String prenom) {
         this(nom, prenom, DEFAULT_PASSWORD, new Statistique(),StatusUtilisateur.NORMAL , new SavedPosition());
     }

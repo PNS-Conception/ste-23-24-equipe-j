@@ -3,10 +3,7 @@ package fr.unice.polytech.nourriture;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.StatusUtilisateur;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Classe Plat
@@ -15,7 +12,7 @@ import java.util.Objects;
 public class Plat implements MenuPlat {
     private final String nom;
     private double prix;
-    private Map<StatusUtilisateur, Double> prixStatus;
+    private final Map<StatusUtilisateur, Double> prixStatus;
     private final List<String> aliments;
     private final List<String> alergenes;
     private Restaurant restaurant;
@@ -32,7 +29,7 @@ public class Plat implements MenuPlat {
         this.prix = prix;
         this.aliments = aliments;
         this.alergenes = alergenes;
-        this.prixStatus = new HashMap<>();
+        this.prixStatus = new EnumMap<>(StatusUtilisateur.class);
         restaurant = null;
     }
 
