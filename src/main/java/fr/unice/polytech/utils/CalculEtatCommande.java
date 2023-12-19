@@ -4,7 +4,7 @@ import fr.unice.polytech.commande.EtatCommande;
 import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.commande.interfacecommande.ICommandeAjoutable;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * Classe qui permet de calculer l'état d'une commande groupe en fonction des commandes qui la compose
@@ -22,7 +22,7 @@ public class CalculEtatCommande {
      * Récupère l'état global d'une commande et supprime les commandes annule
      * @return l'état global de la commande
      */
-    public static EtatCommande calculEtatCommande(Set<ICommandeAjoutable> commandes) {
+    public static EtatCommande calculEtatCommande(List<ICommandeAjoutable> commandes) {
         EtatCommande etatCommandeGlobal = EtatCommande.PRETE;
 
         for (ICommande commande : commandes) {

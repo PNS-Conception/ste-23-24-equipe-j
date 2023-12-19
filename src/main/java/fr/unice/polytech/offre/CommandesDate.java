@@ -6,7 +6,7 @@ import fr.unice.polytech.utils.Horaire;
 import java.util.*;
 
 public class CommandesDate {
-    private Map<Date, List<CommandeCreneau>>commandesDate;
+    private final Map<Date, List<CommandeCreneau>> commandesDate;
 
     public CommandesDate() {
         this.commandesDate = new HashMap<>();

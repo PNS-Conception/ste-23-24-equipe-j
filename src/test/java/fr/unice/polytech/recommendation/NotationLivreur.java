@@ -1,6 +1,6 @@
 package fr.unice.polytech.recommendation;
 
-import fr.unice.polytech.globalSystem.GlobalSystem;
+import fr.unice.polytech.globalsystem.GlobalSystem;
 import fr.unice.polytech.livraison.CompteLivreur;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import io.cucumber.java.fr.*;

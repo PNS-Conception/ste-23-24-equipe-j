@@ -27,7 +27,7 @@ public class Horaire implements Comparable<Horaire> {
         }
     }
 
-    public Horaire(boolean isDefault) {
+    public Horaire() {
         this(0,0);
     }
 

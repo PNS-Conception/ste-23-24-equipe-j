@@ -5,19 +5,16 @@ import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.exceptions.PasswordException;
 import fr.unice.polytech.livraison.CompteLivreur;
 import fr.unice.polytech.restaurant.Restaurant;
-import fr.unice.polytech.traçabilite.Historique;
-import fr.unice.polytech.traçabilite.Statistique;
+import fr.unice.polytech.tracabilite.Historique;
+import fr.unice.polytech.tracabilite.Statistique;
 import fr.unice.polytech.exceptions.TokenException;
 import fr.unice.polytech.utils.adress.Position;
 import fr.unice.polytech.utils.Token;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
+
 import fr.unice.polytech.observer.EventListener;
 import fr.unice.polytech.utils.adress.SavedPosition;
-
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Classe représentant un compte utilisateur
@@ -25,7 +22,7 @@ import java.util.Objects;
  */
 public class CompteUtilisateur implements EventListener {
     public static final String DEFAULT_PASSWORD = "0000";
-    private final String statisticUserPassword = "0000";
+    private static final String STATISTIC_USER_PASSWORD = "0000";
 
     private final Historique historique;
     private final Statistique statistique;
@@ -115,7 +112,7 @@ public class CompteUtilisateur implements EventListener {
         return this.solde;
     }
 
-    public ArrayList<ICommande> getAllHistorique() {
+    public List<ICommande> getAllHistorique() {
         return this.historique.getArrayListCommande();
     }
 
@@ -191,7 +188,7 @@ public class CompteUtilisateur implements EventListener {
     public void ajouterCommande(CommandeAvecID commande, Token token) throws TokenException {
         tokens.remove(token);
         this.historique.addCommande(commande);
-        this.statistique.updateUserStat(commande, this.statisticUserPassword);
+        this.statistique.updateUserStat(commande, STATISTIC_USER_PASSWORD);
     }
 
     public boolean checkToken(Token token) {
@@ -208,12 +205,12 @@ public class CompteUtilisateur implements EventListener {
         }
     }
 
-    public HashMap<CompteUtilisateur,Integer> getStatUser() throws PasswordException {
-        return this.statistique.getUserStat(this.statisticUserPassword);
+    public Map<CompteUtilisateur,Integer> getStatUser() throws PasswordException {
+        return this.statistique.getUserStat(STATISTIC_USER_PASSWORD);
     }
 
-    public HashMap<Restaurant,Integer> getStatResto() throws PasswordException {
-        return this.statistique.getRestaurantStat(this.statisticUserPassword);
+    public Map<Restaurant,Integer> getStatResto() throws PasswordException {
+        return this.statistique.getRestaurantStat(STATISTIC_USER_PASSWORD);
     }
 
     public List<Position> getAdresseEnregistrees() {

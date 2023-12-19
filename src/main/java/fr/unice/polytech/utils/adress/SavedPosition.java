@@ -1,31 +1,32 @@
 package fr.unice.polytech.utils.adress;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SavedPosition {
 
 
-    ArrayList<Position> savedPosition ;
+    List<Position> savePosition ;
 
 
     public SavedPosition() {
-        savedPosition = new ArrayList<>();
+        savePosition = new ArrayList<>();
     }
 
     public void addPosition(Position position){
-        savedPosition.add(position);
+        savePosition.add(position);
     }
 
     public void removePosition(Position position){
-        savedPosition.remove(position);
+        savePosition.remove(position);
     }
 
-    public ArrayList<Position> getSavedPosition() {
-        return savedPosition;
+    public List<Position> getSavedPosition() {
+        return savePosition;
     }
 
     public Position getPosition(String position){
-        for (Position p : savedPosition){
+        for (Position p : savePosition){
             if (p.getNomPosition().equals(position)){
                 return p;
             }

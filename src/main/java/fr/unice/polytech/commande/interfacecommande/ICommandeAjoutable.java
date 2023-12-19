@@ -5,6 +5,6 @@ package fr.unice.polytech.commande.interfacecommande;
  * @see ICommande
  * @author Equipe J
  */
-public interface ICommandeAjoutable extends IPayable, ICommande {
-    
+public interface ICommandeAjoutable extends ICommande {
+    boolean estPayable();
 }

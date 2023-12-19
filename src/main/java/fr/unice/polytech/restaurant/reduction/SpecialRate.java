@@ -1,8 +1,9 @@
-package fr.unice.polytech.restaurant.Reduction;
+package fr.unice.polytech.restaurant.reduction;
 
 import fr.unice.polytech.utilisateur.StatusUtilisateur;
 
-import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Map;
 
 public class SpecialRate {
 
@@ -15,29 +16,29 @@ public class SpecialRate {
     /**
      * HashMap containing the special rates for each user status
      */
-    private HashMap<StatusUtilisateur,Integer> specialRate;
+    private final Map<StatusUtilisateur,Integer> rates;
 
 
     // CONSTRUCTOR
     public SpecialRate() {
-        this.specialRate = new HashMap<>();
+        this.rates = new EnumMap<>(StatusUtilisateur.class);
     }
 
 
     // METHODS
     public void addSpecialRate(StatusUtilisateur status, int rate) {
-        this.specialRate.put(status, rate);
+        this.rates.put(status, rate);
     }
 
     public void addSpecialRate(StatusUtilisateur status, double rate) {
         int rateFormatted = (int) Math.round(rate * 100);
-        this.specialRate.put(status, rateFormatted);
+        this.rates.put(status, rateFormatted);
     }
 
     public int getSpecialRate(StatusUtilisateur status) {
-        if (this.specialRate.containsKey(status)) {
-            return this.specialRate.get(status);
+        if (this.rates.containsKey(status)) {
+            return this.rates.get(status);
         }
-        return 0;
+        return  0;
     }
 }

@@ -1,17 +1,19 @@
 package fr.unice.polytech.commande;
 
+import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.Plat;
 import fr.unice.polytech.exceptions.AucunMenuException;
+import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.restaurant.RestaurantManager;
-import fr.unice.polytech.traçabilite.Statistique;
+import fr.unice.polytech.tracabilite.Statistique;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utilisateur.StatusUtilisateur;
 import fr.unice.polytech.utils.adress.SavedPosition;
-import io.cucumber.java.BeforeAll;
+import fr.unice.polytech.exceptions.RestaurantNonValideException;
+import fr.unice.polytech.utils.temps.Date;
+import fr.unice.polytech.utils.temps.Horaire;
 import io.cucumber.java.fr.*;
-import org.junit.Before;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +24,7 @@ import static org.junit.Assert.*;
 public class AjouterPlatALaCommande {
     private final RestaurantManager restaurantManager = new RestaurantManager();
     private Restaurant restaurant;
-    Commande commande;
+    CommandeSimple commande;
     Plat plat;
     Statistique statistique;
     SavedPosition savedPosition;
@@ -37,24 +39,36 @@ public class AjouterPlatALaCommande {
         restaurant = new Restaurant("Italien");
         restaurant.addMenu(newPlat);
 
-        commande = new Commande(compteUtilisateur);
+        commande = new CommandeSimple(0, compteUtilisateur);
         assertEquals(prix, commande.getPrix(), 0);
     }
 
     @Quand("l'utilisateur séléctionne le plat {string}")
     public void selectionPlat(String nomPlat) {
         try {
-            for (MenuPlat menuPlat : restaurant.getMenus()){
-                if (menuPlat.getNom().equals(nomPlat) && menuPlat.getClass().equals(Plat.class)){
+            for (MenuPlat menuPlat : restaurant.getMenus()) {
+                if (menuPlat.getNom().equals(nomPlat) && menuPlat.getClass().equals(Plat.class)) {
                     plat = (Plat) menuPlat;
                     break;
                 }
             }
             assertNotNull(plat);
-        }
-        catch (AucunMenuException e){
+        } catch (AucunMenuException e) {
             System.err.println(e);
         }
+    }
+
+    @Quand("l'utilisateur ajoute {int} quantité de plat de {string} à {double}€")
+    public void ajoutPlatDansCommande(int quantite, String nomPlat, double prix) throws RestaurantNonValideException, CapaciteDepasseException {
+        List<String> aliments = new ArrayList<>(Arrays.asList("Tagliatelles", "Saumon", "Crème Fraiche"));
+        List<String> alergene =  new ArrayList<>();
+        plat = new Plat(nomPlat, prix, aliments, alergene);
+        commande.setInformationLivraison(new Date(), new Horaire(),null);
+        Restaurant restaurant =
+            new Restaurant("Restaurant");
+        restaurant.addMenu(plat);
+        for (int i = 0; i < quantite; i++)
+            commande.ajoutMenuPlat(plat, TypeMenuPlat.PLAT);
 
     }
 
@@ -68,25 +82,6 @@ public class AjouterPlatALaCommande {
     public void recupereAlergenes(){
         List<String> alergenes = plat.getAlergenes();
         assertNotNull(alergenes);
-    }
-
-    @Quand("l'utilisateur ajoute {int} quantité de plat de {string} à {double}€")
-    public void ajoutPlatDansCommande(int quantite, String nomPlat, double prix) {
-        try {
-            for (MenuPlat menuPlat : restaurant.getMenus()){
-                if (menuPlat.getNom().equals(nomPlat)){
-                    plat = (Plat) menuPlat;
-                    break;
-                }
-            }
-
-            commande.ajoutMenuPlat(plat, quantite);
-            int nombrePlatAjouter = commande.getMenuPlats().get(plat);
-            assertEquals(quantite, nombrePlatAjouter);
-        }
-        catch (AucunMenuException e){
-            System.err.println(e);
-        }
     }
 
     @Alors("{int} quantité de ce plat sera dans ma commande")

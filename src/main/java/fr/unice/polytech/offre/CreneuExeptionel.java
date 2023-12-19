@@ -2,7 +2,6 @@ package fr.unice.polytech.offre;
 
 import fr.unice.polytech.utils.Date;
 import fr.unice.polytech.utils.Horaire;
-import net.bytebuddy.asm.Advice;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -17,8 +16,8 @@ public class CreneuExeptionel extends Creneau {
     }
 
     private LocalDate dateCreneau;
-    public CreneuExeptionel(Horaire debut, Horaire fin, int capacite_par_slot,LocalDate dateCreneau) {
-        super(debut, fin, capacite_par_slot);
+    public CreneuExeptionel(Horaire debut, Horaire fin, int capaciteParSlot,LocalDate dateCreneau) {
+        super(debut, fin, capaciteParSlot);
         this.dateCreneau=dateCreneau;
     }
 

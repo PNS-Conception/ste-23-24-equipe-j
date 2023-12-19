@@ -1,14 +1,12 @@
 package fr.unice.polytech.recommendation;
 
-import fr.unice.polytech.globalSystem.GlobalSystem;
-import fr.unice.polytech.livraison.CompteLivreur;
+import fr.unice.polytech.globalsystem.GlobalSystem;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
 import io.cucumber.java.fr.Etque;
 import io.cucumber.java.fr.Quand;
-import io.cucumber.java.sl.In;
 
 import java.util.List;
 

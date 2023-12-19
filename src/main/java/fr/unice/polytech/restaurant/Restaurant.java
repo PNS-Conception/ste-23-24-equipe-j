@@ -3,12 +3,11 @@ package fr.unice.polytech.restaurant;
 import fr.unice.polytech.exceptions.AucunMenuException;
 import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.nourriture.MenuPlat;
-import fr.unice.polytech.restaurant.Reduction.GoodClientReduction;
-import fr.unice.polytech.restaurant.Reduction.SpecialRate;
+import fr.unice.polytech.restaurant.reduction.GoodClientReduction;
+import fr.unice.polytech.restaurant.reduction.SpecialRate;
 import fr.unice.polytech.restaurant.reservation.Reservation;
 import fr.unice.polytech.utils.temps.HoraireDate;
 import fr.unice.polytech.utils.adress.Position;
-import fr.unice.polytech.offre.Creneau;
 import fr.unice.polytech.offre.ICreneau;
 
 
@@ -24,27 +23,27 @@ public class Restaurant {
     private final Set<MenuPlat> menus;
     private final Position position;
 
-    private Reservation reservation;
+    private final Reservation reservation;
     private GoodClientReduction goodClientReduction;
     private SpecialRate specialRate;
 
-    private List<ICreneau> creneaus = new ArrayList<>();
+    private final List<ICreneau> creneaus;
     private int capacite;
-    private int duree_slot;
+    private int dureeSlot;
     private  static  final int DEFAULT_DUREE_SLOT=10;
 
-    private List<Integer> notes;
+    private final List<Integer> notes;
 
     public List<ICreneau> getCreneaus() {
         return creneaus;
     }
 
-    public int getDuree_slot() {
-        return duree_slot;
+    public int getDureeSlot() {
+        return dureeSlot;
     }
 
-    public void setDuree_slot(int duree_slot) {
-        this.duree_slot = duree_slot;
+    public void setDureeSlot(int dureeSlot) {
+        this.dureeSlot = dureeSlot;
     }
 
 
@@ -80,7 +79,7 @@ public class Restaurant {
         this.capacite = 0;
         this.creneaus = new ArrayList<>();
         this.notes = new ArrayList<>();
-        duree_slot=DEFAULT_DUREE_SLOT;
+        dureeSlot = DEFAULT_DUREE_SLOT;
     }
 
     public void ajoutCapacite(int capacite) {

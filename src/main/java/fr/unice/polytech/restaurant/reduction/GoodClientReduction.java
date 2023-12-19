@@ -1,4 +1,4 @@
-package fr.unice.polytech.restaurant.Reduction;
+package fr.unice.polytech.restaurant.reduction;
 
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
 import fr.unice.polytech.utils.temps.Date;
@@ -201,8 +201,7 @@ public class GoodClientReduction {
         int minute = now.getMinute();
         Date date = new Date(day, month, year);
         Horaire horaire = new Horaire(hour, minute);
-        HoraireDate horaireDate = new HoraireDate(date, horaire);
-        return horaireDate;
+        return new HoraireDate(date, horaire);
     }
 
     /**
@@ -217,7 +216,7 @@ public class GoodClientReduction {
         int day = now.getDayOfMonth() + this.nbDateReductionLast;
 
         boolean modif = true;
-        while (modif==true) {
+        while (modif) {
             modif = false;
             if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
                 if (day > 31) {
@@ -256,7 +255,6 @@ public class GoodClientReduction {
         int minute = now.getMinute();
         Date date = new Date(day, month, year);
         Horaire horaire = new Horaire(hour, minute);
-        HoraireDate horaireDate = new HoraireDate(date, horaire);
-        return horaireDate;
+        return new HoraireDate(date, horaire);
     }
 }
