@@ -7,7 +7,6 @@ Continuous Integration and Repository Manager (OPS) : Nicolas Zanin
 Business Analyst and Product Owner (PO) : Arrigoni Guillaume  
 
 
-
 ## NOS USER CASES :
 - "Parcourir les divers menus et restaurants" :  
    - User story #8 : "Obtenir la liste des menus"   
@@ -17,7 +16,7 @@ Fichier Cucumber: restaurant/ListMenu/ObtenirMenuStepdefs.java*
 
 - "Accéder à l'historique de ses anciennes commandes" :  
    - User story #9 : "Accéder à un historique quand on est un utilisateur enregistré"  
-**En tant que** utilisateur enregistré, **je veux** accéder à mon historique **afin de** voir mes commandes précédentes.
+**En tant que** utilisateur enregistré, **je veux** accéder à mon historique **afin de** voir mes commandes précédentes.  
 *Fichier Feature: historique/Historique.feature  
 Fichier Cucumber: historique/Historique.java*  
 
@@ -31,17 +30,17 @@ Fichier Cucumber: commande/AjouterUneCommande.java*
    - User Story #10 : "Ajouter un plat à ma commande"  
 **En tant que** utilisateur du campus, **je veux** ajouter un plat à ma commande **afin de** le commander.  
 *Fichier Feature: commande/Ajouter_un_plat_à_la_commande.feature  
-Fichier Cucumber: commande/AjouterPlatALaCommande.java*    
+Fichier Cucumber: commande/AjouterPlatALaCommande.java*  
    - User Story #76 : "Suppression d'un plat dans une commande"  
-**En tant que** utilisateur, **je veux** supprimer un plat dans une commande **afin de** ne plus l'avoir dans la commande.  
+**En tant que** utilisateur, **je veux** supprimer un plat dans une commande **afin de** ne plus l'avoir dans la commande.    
 *Fichier Feature: commande/suppression_plat_commande.feature  
-Fichier Cucumber: commande/SupprimerPlatCommande.java*   
+Fichier Cucumber: commande/SupprimerPlatCommande.java*  
 
 - "Donner le lieu de livraison" / "Donner la date de livraison" :  
    - User Story "#16" : "Sélectionner un lieu de livraison pré-enregistré et une date de livraison possible"  
 **En tant que** utilisateur enregistré, **je veux** sélectionner un lieu de livraison ainsi qu'une date **afin d'** être livré au bon endroit et au bon moment.  
-*Fichier Feature: commande/Ajouter_une_commande.feature &nbsp;&nbsp;&nbsp;&nbsp;commande/CommanderPourUnHoraire.feature  
-Fichier Cucumber: commande/AjouterUneCommande.java   &nbsp;&nbsp;&nbsp;&nbsp;commande/CommanderPourUnCreneau.java*  
+*Fichier Feature: commande/CommanderPourUnHoraire.feature  
+Fichier Cucumber: commande/CommanderPourUnCreneau.java*  
 
 - "Ajout Restaurants" :  
    - User Story #13 : "Ajouter un restaurant"  
@@ -65,7 +64,8 @@ Fichier Cucumber: restaurant/AjouterUnHoraire.java*
    - User Story #88 : "Crée une commande groupe"  
 **En tant que** utilisateur, **je veux** créer une commande groupe **afin de** faire des commandes avec d'autres personnes.  
 *Fichier Feature: commandegroupe/Creer_commande_groupe.feature  
-Fichier Cucumber: commandegroupe/CreerCommandeGroupe.java*  
+Fichier Cucumber: commandegroupe/CreerCommandeGroupe.java  
+Nom Scénarios: Création commande groupe, Suppression commande groupe*  
    - User Story #89 : "Rejoindre une commande groupe"  
 **En tant que** utilisateur, **je veux** rejoindre une commande groupe **afin d'** ajouter une commande à l'intérieur.  
 *Fichier Feature: commandegroupe/Rejoindre_commande_groupe.feature  
@@ -76,8 +76,7 @@ Fichier Cucumber: commandegroupe/RejoindreCommandeGroupe.java*
 **En tant qu'** utilisateur enregistré, **je veux** confirmer et payer ma commande **afin de** la valider.  
 *Fichier Feature: paiement/verification_paiement_service.feature  
 Fichier Cucumber: paiement/VerificationPaiementService.java*  
-
-- "Visionner les statistiques sur les restaurants et livraisons"
+- "Visionner les statistiques sur les restaurants et livraisons"  
    - User Story #41 : "Statistique commande par restaurant"  
 **En tant qu'** administrateur de l'application, **je veux** pouvoir consulter le nombre de commande par restaurant **afin de** faire une étude sur les possibles bénéfices de l'application.  
 *Fichier Feature: statistique/restaurant/Statistique_restaurant.feature  
@@ -114,15 +113,5 @@ Fichier Cucumber: notification/NotificationUtilisateur.java*
 **En tant que** livreur, **je veux** obtenir les commandes prête **afin de** pouvoir livrer la commande.  
 *Fichier Feature: notification/NotificationLivreur.feature  
 Fichier Cucumber: notification/NotificationLivreur.java*  
-
-### Principales User stories
-
-Vous mettez en évidence les principales user stories de votre projet.
-Chaque user story doit être décrite par 
-   - son identifiant en tant que issue github (#), 
-   - sa forme classique (As a… I want to… In order to…) (pour faciliter la lecture)
-   - Le nom du fichier feature Cucumber et le nom des scénarios qui servent de tests d’acceptation pour la story.
-   Les contenus détaillés sont dans l'issue elle-même.
-   
 
    
