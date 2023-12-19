@@ -2,7 +2,8 @@ package fr.unice.polytech.commande.commandeBuffet;
 
 import fr.unice.polytech.commande.SystemeCommande;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utilisateur.UserStatut;
+import fr.unice.polytech.utilisateur.StatusUtilisateur;
+import fr.unice.polytech.utilisateur.StatusUtilisateur;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
 import io.cucumber.java.fr.Etantdonnéque;
@@ -20,7 +21,7 @@ public class CreationCommandeBuffet {
 
     @Etantdonnéque("un {string} se nommant {string} {string}")
     public void unSeNommant(String statusUtilisateur, String prenom, String nom) {
-        UserStatut statutUtilisateur = UserStatut.getEtatUtilisateur(statusUtilisateur);
+        StatusUtilisateur statutUtilisateur = StatusUtilisateur.getStatusUtilisateur(statusUtilisateur);
         CompteUtilisateur compteUtilisateur = new CompteUtilisateur(nom, prenom, null, null, statutUtilisateur);
 
         utilisateurs.put(nom + prenom, compteUtilisateur);

@@ -23,15 +23,17 @@ public class Restaurant {
     private final Set<MenuPlat> menus;
     private final Position position;
 
-
-    private Reservation reservation;
+    private final Reservation reservation;
     private GoodClientReduction goodClientReduction;
     private SpecialRate specialRate;
 
-    private List<ICreneau> creneaus = new ArrayList<>();
+    private final List<ICreneau> creneaus;
     private int capacite;
     private int dureeSlot;
     private  static  final int DEFAULT_DUREE_SLOT=10;
+
+    private final List<Integer> notes;
+
     public List<ICreneau> getCreneaus() {
         return creneaus;
     }
@@ -43,7 +45,6 @@ public class Restaurant {
     public void setDureeSlot(int dureeSlot) {
         this.dureeSlot = dureeSlot;
     }
-
 
 
     // Constructeur
@@ -77,7 +78,8 @@ public class Restaurant {
         this.specialRate = new SpecialRate();
         this.capacite = 0;
         this.creneaus = new ArrayList<>();
-        dureeSlot =DEFAULT_DUREE_SLOT;
+        this.notes = new ArrayList<>();
+        dureeSlot = DEFAULT_DUREE_SLOT;
     }
 
     public void ajoutCapacite(int capacite) {
@@ -98,8 +100,6 @@ public class Restaurant {
 
     public boolean estUnCreneauValide(ICreneau creneau) {
         return creneaus.stream().allMatch(c -> (c.getDebut().compareTo(creneau.getDebut()) < 0 && c.getFin().compareTo(creneau.getFin()) < 0) || (c.getDebut().compareTo(creneau.getDebut()) > 0 && c.getFin().compareTo(creneau.getFin()) > 0));
-
-
     }
 
 
@@ -114,7 +114,6 @@ public class Restaurant {
     public void setSpecialRate(SpecialRate specialRate) {
         this.specialRate = specialRate;
     }
-
     public void setGoodClientReduction(GoodClientReduction goodClientReduction) {
         this.goodClientReduction = goodClientReduction;
     }
@@ -178,6 +177,47 @@ public class Restaurant {
     public boolean addMenu(MenuPlat m) {
         m.setRestaurant(this);
         return menus.add(m);
+    }
+
+    /**
+     * Récupère le Menu du restaurant qui correspond au nom de menu voulu
+     * @param menuPlatName
+     * @return le menu voulu si il existe, null sinon
+     * @throws AucunMenuException
+     */
+    public MenuPlat getMenuPlatByName(String menuPlatName) throws AucunMenuException {
+        for (MenuPlat menuPlat : getMenus()){
+            if (menuPlat.getNom().equals(menuPlatName)) return menuPlat;
+        }
+        return null;
+    }
+
+    /**
+     * Retourne la moyenne des notes du restaurant
+     * @return la moyenne des notes du restaurant
+     */
+    public double getNote(){
+        double noteTotal = 0;
+        for (Integer note: notes){
+            noteTotal += note;
+        }
+        return noteTotal/notes.size();
+    }
+
+    /**
+     * Retourne la liste des notes du restaurants
+     * @return la liste des notes
+     */
+    public List<Integer> getNotes(){
+        return notes;
+    }
+
+    /**
+     * Ajoute une note à la liste des notes du restaurant
+     * @param note la note à ajouter
+     */
+    public void addNote(Integer note){
+        notes.add(note);
     }
 
 

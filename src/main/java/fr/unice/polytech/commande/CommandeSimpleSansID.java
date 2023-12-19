@@ -98,7 +98,7 @@ public class CommandeSimpleSansID implements ICommandeAjoutable, ICommandeSimple
         double prix = 0.0;
 
         for (Map.Entry<MenuPlat, Integer> menusPlats : menuPlats.entrySet())
-            prix += menusPlats.getKey().getPrix() * menusPlats.getValue();
+            prix += menusPlats.getKey().getPrix(createur.getStatusUtilisateur()) * menusPlats.getValue();
 
         return prix;
     }

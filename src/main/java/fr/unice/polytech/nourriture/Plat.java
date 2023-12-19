@@ -1,9 +1,9 @@
 package fr.unice.polytech.nourriture;
 
 import fr.unice.polytech.restaurant.Restaurant;
+import fr.unice.polytech.utilisateur.StatusUtilisateur;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Classe Plat
@@ -11,7 +11,8 @@ import java.util.Objects;
  */
 public class Plat implements MenuPlat {
     private final String nom;
-    private final double prix;
+    private double prix;
+    private final Map<StatusUtilisateur, Double> prixStatus;
     private final List<String> aliments;
     private final List<String> alergenes;
     private Restaurant restaurant;
@@ -28,6 +29,16 @@ public class Plat implements MenuPlat {
         this.prix = prix;
         this.aliments = aliments;
         this.alergenes = alergenes;
+        this.prixStatus = new EnumMap<>(StatusUtilisateur.class);
+        restaurant = null;
+    }
+
+    public Plat(String nom, double prix, List<String> aliments, List<String> alergenes, Map<StatusUtilisateur, Double> prixStatus){
+        this.nom = nom;
+        this.prix = prix;
+        this.aliments = aliments;
+        this.alergenes = alergenes;
+        this.prixStatus = prixStatus;
         restaurant = null;
     }
 
@@ -40,8 +51,21 @@ public class Plat implements MenuPlat {
 
 
     @Override
-    public double getPrix() {
+    public double getPrix(StatusUtilisateur statusUtilisateur) {
+        if (prixStatus.containsKey(statusUtilisateur)){
+            return prixStatus.get(statusUtilisateur);
+        }
         return prix;
+    }
+
+    @Override
+    public void setPrix(double newPrix){
+        this.prix = newPrix;
+    }
+
+    @Override
+    public void setPrixStatus(StatusUtilisateur statusUtilisateur, double newPrixStatus){
+        prixStatus.put(statusUtilisateur, newPrixStatus);
     }
 
     @Override

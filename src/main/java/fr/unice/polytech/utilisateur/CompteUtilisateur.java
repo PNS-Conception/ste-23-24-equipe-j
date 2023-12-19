@@ -3,6 +3,7 @@ package fr.unice.polytech.utilisateur;
 import fr.unice.polytech.commande.CommandeAvecID;
 import fr.unice.polytech.commande.interfacecommande.ICommande;
 import fr.unice.polytech.exceptions.PasswordException;
+import fr.unice.polytech.livraison.CompteLivreur;
 import fr.unice.polytech.restaurant.Restaurant;
 import fr.unice.polytech.tracabilite.Historique;
 import fr.unice.polytech.tracabilite.Statistique;
@@ -33,14 +34,17 @@ public class CompteUtilisateur implements EventListener {
     private final String nom;
     private final String prenom;
     private String password = DEFAULT_PASSWORD;
-    private UserStatut statut;
+    private StatusUtilisateur status;
     private int solde; // en centimes pour éviter les erreurs d'arrondi
+    private List<Integer> notesRetard;
+    private List<Integer> notesAmabilite;
+
 
     public CompteUtilisateur(String nom,
                              String prenom,
                              String password,
                              Statistique statistique,
-                             UserStatut statut,
+                             StatusUtilisateur status,
                              SavedPosition savedPosition) {
         this.nom = nom;
         this.prenom = prenom;
@@ -49,34 +53,35 @@ public class CompteUtilisateur implements EventListener {
         this.historique = new Historique();
         this.tokens = new ArrayList<>();
         this.solde = 0;
-        this.statut = statut;
+        this.status = status;
         this.adresseEnregistrees = savedPosition;
+        this.notesRetard = new ArrayList<>();
+        this.notesAmabilite = new ArrayList<>();
     }
 
-    //TODO : to delete, keep for test
     public CompteUtilisateur(String nom, String prenom) {
-        this(nom, prenom, DEFAULT_PASSWORD, new Statistique(), UserStatut.NORMAL, new SavedPosition());
+        this(nom, prenom, DEFAULT_PASSWORD, new Statistique(),StatusUtilisateur.NORMAL , new SavedPosition());
     }
 
-    public CompteUtilisateur(String nom, String prenom, Statistique statistique, SavedPosition savedPosition, UserStatut statut) {
-        this(nom, prenom, DEFAULT_PASSWORD, statistique, statut, savedPosition);
+    public CompteUtilisateur(String nom, String prenom, Statistique statistique, SavedPosition savedPosition, StatusUtilisateur status) {
+        this(nom, prenom, DEFAULT_PASSWORD, statistique, status, savedPosition);
     }
 
     public CompteUtilisateur(String nom, String prenom, Statistique statistique, SavedPosition savedPosition) {
-        this(nom, prenom, DEFAULT_PASSWORD, statistique, UserStatut.NORMAL, savedPosition);
+        this(nom, prenom, DEFAULT_PASSWORD, statistique, StatusUtilisateur.NORMAL, savedPosition);
     }
 
     public CompteUtilisateur(String nom, String prenom, Statistique statistique, SavedPosition savedPosition, String password) {
-        this(nom, prenom, password, statistique, UserStatut.NORMAL, savedPosition);
+        this(nom, prenom, password, statistique, StatusUtilisateur.NORMAL, savedPosition);
     }
 
 
-    public void setStatut(UserStatut statut) {
-        this.statut = statut;
+    public void setStatusUtilisateur(StatusUtilisateur status) {
+        this.status = status;
     }
 
-    public UserStatut getStatut() {
-        return this.statut;
+    public StatusUtilisateur getStatusUtilisateur() {
+        return status;
     }
 
 
@@ -108,6 +113,75 @@ public class CompteUtilisateur implements EventListener {
 
     public List<ICommande> getAllHistorique() {
         return this.historique.getArrayListCommande();
+    }
+
+    /**
+     * Return la moyenne des notes de retard de l'utilisateur
+     * @return la moyenne des notes de retard de l'utilisateur
+     */
+    public double getNoteRetard(){
+        double noteTotal = 0;
+        for (Integer note: notesRetard){
+            noteTotal += note;
+        }
+        return noteTotal/notesRetard.size();
+    }
+
+    /**
+     * Retourne la liste des notes de retard de l'utilisateur
+     * @return la liste des notes de retard
+     */
+    public List<Integer> getNotesRetard(){
+        return notesRetard;
+    }
+
+    /**
+     * Return la moyenne des notes d'amabilité de l'utilisateur
+     * @return la moyenne des notes d'amabilité de l'utilisateur
+     */
+    public double getNoteAmabilite(){
+        double noteTotal = 0;
+        for (Integer note: notesAmabilite){
+            noteTotal += note;
+        }
+        return noteTotal/ notesAmabilite.size();
+    }
+
+    /**
+     * Retourne la liste des notes d'amabilité de l'utilisateur
+     * @return la liste des notes d'amabilité
+     */
+    public List<Integer> getNotesAmabilite(){
+        return notesAmabilite;
+    }
+
+    /**
+     * Ajoute une note de retard à la liste de notes de retard de l'utilisateur
+     * @param noteRetard la note à ajouter
+     */
+    public void addNoteRetard(Integer noteRetard){
+        notesRetard.add(noteRetard);
+    }
+
+    /**
+     * Ajoute une note d'amabilité à la liste de notes d'amabilité de l'utilisateur
+     * @param noteAmabilite la note à ajouter
+     */
+    public void addNoteAmabilite(Integer noteAmabilite){
+        notesAmabilite.add(noteAmabilite);
+    }
+
+    /**
+     * Note le livreur
+     * @param compteLivreur le livreur à noter
+     * @param note la note
+     */
+    public void noteLivreur(CompteLivreur compteLivreur, Integer note){
+        compteLivreur.addNote(note);
+    }
+
+    public void noteRestaurant(Restaurant restaurant, Integer note){
+        restaurant.addNote(note);
     }
 
     public void ajouterCommande(CommandeAvecID commande, Token token) throws TokenException {

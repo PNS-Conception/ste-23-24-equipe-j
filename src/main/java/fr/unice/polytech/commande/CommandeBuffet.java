@@ -7,7 +7,7 @@ import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenu;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utilisateur.UserStatut;
+import fr.unice.polytech.utilisateur.StatusUtilisateur;
 
 /**
  * Classe d'une commande buffet qui hérite de tous les attributs d'une commande classique
@@ -30,8 +30,8 @@ public class CommandeBuffet extends CommandeSimple{
 
         if (destinataireCommande == null)
             throw new IllegalArgumentException("l'usager destinataire n'existe pas");
-        else if (!createurCommande.getStatut().equals(UserStatut.PROFESSEUR) &&
-                !createurCommande.getStatut().equals(UserStatut.PERSONNEL))
+        else if (!createurCommande.getStatusUtilisateur().equals(StatusUtilisateur.PROFESSEUR) &&
+                !createurCommande.getStatusUtilisateur().equals(StatusUtilisateur.PERSONNEL))
             throw new IllegalArgumentException("le créateur de cette commande n'est pas un staff de l'université");
 
         destinataire = destinataireCommande;

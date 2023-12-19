@@ -9,7 +9,7 @@ import fr.unice.polytech.nourriture.MenuPlat;
 import fr.unice.polytech.nourriture.TypeMenuPlat;
 import fr.unice.polytech.restaurant.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utilisateur.UserStatut;
+import fr.unice.polytech.utilisateur.StatusUtilisateur;
 import fr.unice.polytech.utils.temps.Date;
 import fr.unice.polytech.utils.temps.Horaire;
 import fr.unice.polytech.utils.adress.Position;
@@ -41,12 +41,12 @@ public class Discount {
 
     @Etque("l'utilisateur {string} {string} est un {string} \\(passDiscount)")
     public void lUtilisateurEstUnPassDiscount(String prenom, String nom, String statut) {
-        UserStatut userStatut = UserStatut.getEtatUtilisateur(statut);
+        StatusUtilisateur userStatut = StatusUtilisateur.getStatusUtilisateur(statut);
         for (int i = 0; i< utilisateurs.size(); i++) {
             CompteUtilisateur compteUtilisateur = utilisateurs.get(i);
             if (compteUtilisateur.getNom().equals(nom) && compteUtilisateur.getPrenom().equals(prenom)) {
-                compteUtilisateur.setStatut(userStatut);
-                assertEquals(userStatut, utilisateurs.get(i).getStatut());
+                compteUtilisateur.setStatusUtilisateur(userStatut);
+                assertEquals(userStatut, utilisateurs.get(i).getStatusUtilisateur());
                 return;
             }
         }
@@ -79,11 +79,11 @@ public class Discount {
     public void leRestaurantProposeLesRéductionsSuivantPassDiscount(String nomRestaurant, Map<String, Integer> discounts) {
         Restaurant restaurant = restaurantManager.getRestaurantParNom(nomRestaurant);
         for (String statut : discounts.keySet()) {
-            UserStatut userStatut = UserStatut.getEtatUtilisateur(statut);
+            StatusUtilisateur userStatut = StatusUtilisateur.getStatusUtilisateur(statut);
             restaurant.getSpecialRate().addSpecialRate(userStatut, discounts.get(statut));
         }
         for (String statut : discounts.keySet()) {
-            UserStatut userStatut = UserStatut.getEtatUtilisateur(statut);
+            StatusUtilisateur userStatut = StatusUtilisateur.getStatusUtilisateur(statut);
             assertEquals((int) discounts.get(statut), (int) restaurant.getSpecialRate().getSpecialRate(userStatut));
         }
     }
@@ -131,7 +131,7 @@ public class Discount {
 
     @Alors("le prix total de la commande doit être de {double} \\(passDiscount)")
     public void lePrixTotalDeLaCommandeDoitÊtreDePassDiscount(double priceExpected) {
-        int specialRate = this.currentRestaurant.getSpecialRate().getSpecialRate(this.c.getStatut());
+        int specialRate = this.currentRestaurant.getSpecialRate().getSpecialRate(this.c.getStatusUtilisateur());
         int goodClientReduction = this.currentRestaurant.getGoodClientReduction().getReductionRate(this.c, new HoraireDate());
         int rate = specialRate + goodClientReduction;
 

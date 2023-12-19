@@ -39,7 +39,7 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
     public void ajoutMenuPlat(MenuPlat menuPlat, TypeMenuPlat typeMenuPlat) throws RestaurantNonValideException, CapaciteDepasseException {
         super.ajoutMenuPlat(menuPlat, typeMenuPlat);
         this.checkDiscount();
-        paiementCommande.ajoutPrix(menuPlat.getPrix());
+        paiementCommande.ajoutPrix(menuPlat.getPrix(createur.getStatusUtilisateur()));
         this.restaurant.increaseReservation(this.getInformationLivraison().getHoraireDate(), 1);
     }
 
@@ -48,14 +48,14 @@ public abstract class CommandeSimplePayable extends CommandeSimpleAvecID impleme
         boolean estSupprimer = super.supprimerMenuPlat(menuPlat);
 
         if (estSupprimer)
-            paiementCommande.retraitPrix(menuPlat.getPrix());
+            paiementCommande.retraitPrix(menuPlat.getPrix(createur.getStatusUtilisateur()));
 
         return estSupprimer;
     }
 
     @Override
     public void checkDiscount() {
-        int specialRate = super.restaurant.getSpecialRate().getSpecialRate(super.createur.getStatut());
+        int specialRate = restaurant.getSpecialRate().getSpecialRate(createur.getStatusUtilisateur());
         int goodClientReduction = super.restaurant.getGoodClientReduction().getReductionRate(super.createur, this.getInformationLivraison().getHoraireDate());
         int rate = specialRate + goodClientReduction;
         paiementCommande.setDiscount(rate);

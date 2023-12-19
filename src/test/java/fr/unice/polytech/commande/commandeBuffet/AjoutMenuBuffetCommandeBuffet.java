@@ -5,7 +5,7 @@ import fr.unice.polytech.exceptions.CapaciteDepasseException;
 import fr.unice.polytech.exceptions.RestaurantNonValideException;
 import fr.unice.polytech.nourriture.*;
 import fr.unice.polytech.utilisateur.CompteUtilisateur;
-import fr.unice.polytech.utilisateur.UserStatut;
+import fr.unice.polytech.utilisateur.StatusUtilisateur;
 import io.cucumber.java.fr.*;
 
 import static org.junit.Assert.*;
@@ -19,9 +19,9 @@ public class AjoutMenuBuffetCommandeBuffet {
     public void lePossèdeUneCommandeBuffetAvecCommeDestinataire(String typeUtilisateur, String prenom1, String nom1,
                                                                 String prenom2, String nom2) {
 
-        UserStatut statutUtilisateur = UserStatut.getEtatUtilisateur(typeUtilisateur);
+        StatusUtilisateur statutUtilisateur = StatusUtilisateur.getStatusUtilisateur(typeUtilisateur);
         CompteUtilisateur createur = new CompteUtilisateur(nom1, prenom1, null, null, statutUtilisateur);
-        CompteUtilisateur destinataire = new CompteUtilisateur(nom2, prenom2, null, null, UserStatut.ETUDIANT);
+        CompteUtilisateur destinataire = new CompteUtilisateur(nom2, prenom2, null, null, StatusUtilisateur.ETUDIANT);
 
         commandeBuffet = new CommandeBuffet(0, createur, destinataire);
     }
