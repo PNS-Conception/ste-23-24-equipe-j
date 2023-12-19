@@ -137,6 +137,11 @@ Fichier Cucumber: notification/NotificationLivreur.java*
 
 
 ## Comment lancer le projet et l'installer
-
-## Structuration du projet
-
+Pour installer le projet, il suffit d'aller dans le dossier du dépot
+Puis clone dans un dossier de l'ordinateur.
+Ensuite aller sur ce dossier-ci.
+Exécuter la commande suivante:
+```sh
+mvn clean install
+```
+Puis via intellij par exemple, appuyer avec clique droit sur le répertoire test et exécuter tous les fichiers de tests.
